@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://dbu78ld1ivwy"]
+
+[ext_resource type="PackedScene" uid="uid://btpe5cb6skwb0" path="res://scenes/map_creator.tscn" id="1_1o0yi"]
+[ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/main_ui.tscn" id="2_g73xg"]
+[ext_resource type="Script" path="res://Scripts/main.gd" id="3_blwm3"]
+[ext_resource type="PackedScene" uid="uid://d0e1ietq5fgdg" path="res://scenes/blank_rune.tscn" id="4_ghvey"]
+[ext_resource type="PackedScene" uid="uid://knklcl5ypfqd" path="res://runes/enemy.tscn" id="5_785iw"]
+
+[node name="bean" type="Node2D"]
+
+[node name="TileMap" parent="." instance=ExtResource("1_1o0yi")]
+layer_0/tile_data = PackedInt32Array(393229, 2, 0, 393228, 2, 0, 393227, 2, 0, 393226, 2, 0, 393225, 2, 0, 393224, 2, 0, 393223, 2, 0, 327691, 2, 0, 327690, 2, 0, 327689, 2, 0, 262152, 2, 0, 262153, 2, 0, 262154, 2, 0, 327692, 2, 0, 327693, 2, 0, 327688, 2, 0, 393222, 2, 0, 393221, 2, 0, 458762, 2, 0, 458763, 2, 0, 524298, 2, 0, 524297, 2, 0, 589832, 2, 0, 589833, 2, 0, 589834, 2, 0, 589835, 2, 0, 655372, 2, 0, 655373, 2, 0, 655374, 2, 0, 655371, 2, 0, 655370, 2, 0, 655369, 2, 0, 589831, 2, 0, 524296, 2, 0, 458764, 2, 0, 458765, 2, 0, 458766, 2, 0, 458767, 2, 0, 393231, 2, 0, 393230, 2, 0, 589842, 2, 0, 655377, 2, 0, 655376, 2, 0, 655375, 2, 0, 720910, 2, 0, 720909, 2, 0, 786444, 2, 0, 786443, 2, 0, 786445, 2, 0, 786446, 2, 0, 786447, 2, 0, 851983, 2, 0, 851984, 2, 0, 786449, 2, 0, 786448, 2, 0, 851985, 2, 0, 851986, 2, 0, 851987, 2, 0, 851988, 2, 0, 851989, 2, 0, 786454, 2, 0, 786455, 2, 0, 720920, 2, 0, 655385, 2, 0, 589849, 2, 0, 524313, 2, 0, 524312, 2, 0, 458776, 2, 0, 393240, 2, 0, 393239, 2, 0, 327703, 2, 0, 393238, 2, 0, 458773, 2, 0, 524308, 2, 0, 589843, 2, 0, 655379, 2, 0, 655380, 2, 0, 655378, 2, 0, 524307, 2, 0, 458770, 2, 0, 458769, 2, 0, 524305, 2, 0, 524304, 2, 0, 589840, 2, 0, 589839, 2, 0, 393234, 2, 0, 393233, 2, 0, 524303, 2, 0, 589838, 2, 0, 589837, 2, 0, 589836, 2, 0, 524300, 2, 0, 524301, 2, 0, 524302, 2, 0, 524299, 2, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Main_Ui" parent="CanvasLayer" instance=ExtResource("2_g73xg")]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 90.0
+offset_top = 250.0
+offset_right = 90.0
+offset_bottom = 250.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="AlertDialogue" type="ConfirmationDialog" parent="CanvasLayer"]
+unique_name_in_owner = true
+dialog_text = "Blank runes will be discarded when game starts, are you sure you want to proceed?"
+
+[node name="test" type="Node2D" parent="."]
+script = ExtResource("3_blwm3")
+
+[node name="runes" type="Node2D" parent="test"]
+unique_name_in_owner = true
+
+[node name="Blank_rune2" parent="test/runes" instance=ExtResource("4_ghvey")]
+position = Vector2(190, 110)
+
+[node name="Blank_rune3" parent="test/runes" instance=ExtResource("4_ghvey")]
+position = Vector2(190, 130)
+
+[node name="Blank_rune4" parent="test/runes" instance=ExtResource("4_ghvey")]
+position = Vector2(230, 130)
+
+[node name="Entities" type="Node2D" parent="test"]
+
+[node name="Enemy" parent="test/Entities" instance=ExtResource("5_785iw")]
+position = Vector2(330, 270)

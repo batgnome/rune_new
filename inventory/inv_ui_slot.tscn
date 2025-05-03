@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://qux01r6dbeij"]
+
+[ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="1_1idx4"]
+[ext_resource type="Script" path="res://inventory/inv_ui_slot.gd" id="1_wck3e"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tbtow"]
+font_size = 21
+font_color = Color(0, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0.54902, 0.54902, 0.54902, 1)
+
+[node name="inv_UI_slot" type="Panel"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(16, 16)
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_wck3e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(8, 8)
+scale = Vector2(0.695652, 0.727273)
+texture = ExtResource("1_1idx4")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="Panel" type="Panel" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="item_display" type="Sprite2D" parent="CenterContainer/Panel"]
+texture_filter = 1
+scale = Vector2(0.5, 0.5)
+
+[node name="Label" type="Label" parent="CenterContainer/Panel"]
+custom_minimum_size = Vector2(20, 23)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 1.0
+offset_right = 26.0
+offset_bottom = 31.0
+scale = Vector2(0.2, 0.2)
+text = "24"
+label_settings = SubResource("LabelSettings_tbtow")
+horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="CenterContainer/Panel"]
+layout_mode = 0
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 7.0
+offset_bottom = 7.0
+flat = true
+
+[connection signal="mouse_entered" from="CenterContainer/Panel" to="." method="_on_panel_mouse_entered"]
+[connection signal="mouse_exited" from="CenterContainer/Panel" to="." method="_on_panel_mouse_exited"]
+[connection signal="button_down" from="CenterContainer/Panel/Button" to="." method="_on_button_button_down"]

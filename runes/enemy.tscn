@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://knklcl5ypfqd"]
+
+[ext_resource type="Script" path="res://runes/enemy.gd" id="1_am0vy"]
+[ext_resource type="Texture2D" uid="uid://bq7cubkfqbhmp" path="res://assets/runes/eye.png" id="1_rq6hg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_foru4"]
+
+[node name="Enemy" type="Node2D" groups=["enemy_runes"]]
+position = Vector2(10, 10)
+script = ExtResource("1_am0vy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.49, 0.49)
+texture = ExtResource("1_rq6hg")
+metadata/_edit_group_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_foru4")
+metadata/_edit_group_ = true
+
+[node name="Line2D" type="Line2D" parent="."]

@@ -1,0 +1,52 @@
+[gd_scene load_steps=11 format=3 uid="uid://d0e1ietq5fgdg"]
+
+[ext_resource type="Script" path="res://Scripts/blank_rune.gd" id="1_jsdeh"]
+[ext_resource type="Texture2D" uid="uid://d0qvmbjy1de3r" path="res://assets/runes/blank.png" id="2_hurgw"]
+[ext_resource type="Resource" uid="uid://dyld06sk0hfem" path="res://runes/runeInventory.tres" id="2_rjcnk"]
+[ext_resource type="PackedScene" uid="uid://sro0000q02w4" path="res://inventory/inv_ui.tscn" id="3_esb4x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3seih"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lklqx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g2eb1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lejsr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cjn14"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_il45c"]
+
+[node name="Blank_rune" type="Node2D"]
+script = ExtResource("1_jsdeh")
+inv = ExtResource("2_rjcnk")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_3seih")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_hurgw")
+
+[node name="Inv_ui" parent="." instance=ExtResource("3_esb4x")]
+unique_name_in_owner = true
+
+[node name="Button" type="Button" parent="."]
+offset_left = -9.0
+offset_top = -9.0
+offset_right = 9.0
+offset_bottom = 9.0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_lklqx")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_g2eb1")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_lejsr")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_cjn14")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_il45c")
+toggle_mode = true
+action_mode = 0
+flat = true
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="toggled" from="Button" to="." method="_on_button_toggled"]

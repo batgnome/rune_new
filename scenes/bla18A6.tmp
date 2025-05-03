@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://d0e1ietq5fgdg"]
+
+[ext_resource type="Script" path="res://Scripts/blank_rune.gd" id="1_jsdeh"]
+[ext_resource type="Texture2D" uid="uid://d0qvmbjy1de3r" path="res://assets/runes/blank.png" id="2_hurgw"]
+[ext_resource type="Resource" uid="uid://dyld06sk0hfem" path="res://runes/runeInventory.tres" id="2_rjcnk"]
+[ext_resource type="PackedScene" uid="uid://sro0000q02w4" path="res://inventory/inv_ui.tscn" id="3_esb4x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3seih"]
+
+[node name="Blank_rune" type="Node2D"]
+script = ExtResource("1_jsdeh")
+inv = ExtResource("2_rjcnk")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_3seih")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_hurgw")
+
+[node name="Inv_ui" parent="." instance=ExtResource("3_esb4x")]
+unique_name_in_owner = true
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

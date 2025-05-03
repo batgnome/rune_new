@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://btpe5cb6skwb0"]
+
+[ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="1_1e10i"]
+[ext_resource type="Script" path="res://Scripts/map_creator.gd" id="2_kc2mk"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iqesi"]
+texture = ExtResource("1_1e10i")
+texture_region_size = Vector2i(20, 20)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/custom_data_0 = true
+
+[sub_resource type="TileSet" id="TileSet_sedx6"]
+tile_size = Vector2i(20, 20)
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 2
+custom_data_layer_0/name = "walkable"
+custom_data_layer_0/type = 1
+sources/2 = SubResource("TileSetAtlasSource_iqesi")
+
+[node name="TileMap" type="TileMap"]
+tile_set = SubResource("TileSet_sedx6")
+rendering_quadrant_size = 20
+format = 2
+script = ExtResource("2_kc2mk")
+
+[node name="Line2D" type="Line2D" parent="."]

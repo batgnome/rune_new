@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="Inv" load_steps=16 format=3 uid="uid://dylcqpjce1q3b"]
+
+[ext_resource type="Resource" uid="uid://bbb64dgd56y7t" path="res://inventory/items/apple.tres" id="2_1t07w"]
+[ext_resource type="Script" path="res://inventory/inventory.gd" id="2_37b6k"]
+[ext_resource type="Script" path="res://inventory/inv_slot.gd" id="2_63txh"]
+
+[sub_resource type="Resource" id="Resource_fmu0p"]
+script = ExtResource("2_63txh")
+item = ExtResource("2_1t07w")
+amount = 4
+
+[sub_resource type="Resource" id="Resource_miou2"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_g2fvd"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_fom0c"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_7ps07"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_b0xmp"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_ta4hr"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_d6pra"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_sexf1"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_isj1p"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_nvsag"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_gssjx"]
+script = ExtResource("2_63txh")
+amount = 0
+
+[resource]
+script = ExtResource("2_37b6k")
+slots = Array[ExtResource("2_63txh")]([SubResource("Resource_fmu0p"), SubResource("Resource_miou2"), SubResource("Resource_g2fvd"), SubResource("Resource_fom0c"), SubResource("Resource_7ps07"), SubResource("Resource_b0xmp"), SubResource("Resource_ta4hr"), SubResource("Resource_d6pra"), SubResource("Resource_sexf1"), SubResource("Resource_isj1p"), SubResource("Resource_nvsag"), SubResource("Resource_gssjx")])
