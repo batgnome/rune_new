@@ -32,13 +32,13 @@ func init_grid():
 	
 	
 func _draw():
-	draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
-	draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
-	#draw_rect(get_viewport_rect(),Color.RED)
-	draw_grid()
+	#draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
+	#draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
+	##draw_rect(get_viewport_rect(),Color.RED)
+	#draw_grid()
 	#update_path()
 	#draw_rect(get_viewport_rect(),Color.AQUA)
-
+	pass
 	
 func update_path():
 	$Line2D.points = PackedVector2Array(astargrid.get_point_path(start, end))

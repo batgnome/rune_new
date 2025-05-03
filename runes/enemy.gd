@@ -54,7 +54,8 @@ func get_nearest_rune():
 			queue_redraw()
 	
 func _draw():
-	update_path()
+	#update_path()
+	pass
 
 func pos_tran(pos):
 	return Vector2i(floor(pos.x/20),floor(pos.y/20))
