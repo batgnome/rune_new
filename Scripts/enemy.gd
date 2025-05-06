@@ -7,22 +7,28 @@ var moving = false
 var move_speed = 200  # Speed of step movement (pixels/sec)
 var step_target = Vector2.ZERO  # Current tile moving towards
 var manager
-enum STATE {PRE,MOVE,ATTACK}
+enum STATE {BUILD,PRE,MOVE,ATTACK}
+var CURRENT_STATE = STATE.BUILD
 var target
 var previous_position = global_position
+@export var type : runeItem
+func _process(delta):
+	if CURRENT_STATE == STATE.MOVE:
+		print("start")
 func _ready():
+	tilemap = $ROOT/TileMap
+	init()
 	add_to_group("enemy_runes")
-
-	tilemap = $"../../../TileMap"
-	$Line2D.global_position = Vector2(0,0)
-	var tile_pos = Vector2i(floor(position.x),floor(position.y))
-	print(tile_pos)
-	tilemap.start = tile_pos
-	get_nearest_rune()
-	await get_tree().create_timer(2.5).timeout  # Wait 1.5 seconds
-	walk_path()
-
-
+	if CURRENT_STATE == STATE.MOVE:
+		get_nearest_rune()	
+		await get_tree().create_timer(2.5).timeout  # Wait 1.5 seconds
+		walk_path()
+		
+func set_tilemap(tilemap_in):
+	tilemap = tilemap_in
+func init():
+	$Sprite2D.texture = type.texture
+	CURRENT_STATE = STATE.BUILD
 		
 func move(pos):
 	await get_tree().create_timer(0.4).timeout
@@ -46,13 +52,15 @@ func get_nearest_rune():
 	var shortest_path = 10000
 	var current_path = 0
 	manager = get_parent().get_parent()
-	for i in manager.get_child(0).get_children():
-		current_path = tilemap.get_rune_path(tilemap.local_to_map(position),tilemap.local_to_map(i.position)).size()
-		if current_path < shortest_path:
-			target = i
-			shortest_path = current_path
-			queue_redraw()
-	
+	for i in manager.get_child(1).get_children():
+		if i and tilemap:
+			current_path = tilemap.get_rune_path(tilemap.local_to_map(position)
+			,tilemap.local_to_map(i.position)).size()
+			if current_path < shortest_path:
+				target = i
+				shortest_path = current_path
+				queue_redraw()
+		
 func _draw():
 	#update_path()
 	pass

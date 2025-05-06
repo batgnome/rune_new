@@ -149,9 +149,7 @@ offset_left = 30.0
 offset_top = 348.0
 offset_right = 124.0
 offset_bottom = 364.0
-min_value = 1.0
 max_value = 10.0
-value = 1.0
 
 [node name="slider label" type="Label" parent="CanvasLayer/RunePalette"]
 layout_mode = 1
@@ -167,6 +165,5 @@ offset_bottom = 374.32
 text = "label"
 label_settings = SubResource("LabelSettings_rrmc0")
 
-[connection signal="rune_selected" from="CanvasLayer/RunePalette" to="." method="_on_rune_palette_rune_selected"]
 [connection signal="changed" from="CanvasLayer/RunePalette/HSlider" to="." method="_on_h_slider_changed"]
 [connection signal="value_changed" from="CanvasLayer/RunePalette/HSlider" to="." method="_on_h_slider_value_changed"]

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6v6imiq16uym"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_uwisw"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="TextureButton" type="TextureButton"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 29.0
+offset_top = -3.0
+offset_right = 69.0
+offset_bottom = 20.0
+text = "test"
+label_settings = SubResource("LabelSettings_uwisw")

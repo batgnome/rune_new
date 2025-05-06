@@ -14,6 +14,7 @@ shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/show_outline = false
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sudiy"]
+size = Vector2(18, 18)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lklqx"]
 
@@ -71,6 +72,7 @@ metadata/_edit_group_ = true
 script = ExtResource("6_0cotn")
 
 [node name="down" type="Area2D" parent="move_buttons"]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move_buttons/down"]
 position = Vector2(0, 20)
@@ -78,6 +80,7 @@ scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_ww3pc")
 
 [node name="up" type="Area2D" parent="move_buttons"]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move_buttons/up"]
 position = Vector2(0, -20)
@@ -85,6 +88,7 @@ scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_ww3pc")
 
 [node name="left" type="Area2D" parent="move_buttons"]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move_buttons/left"]
 position = Vector2(-20, 0)
@@ -92,6 +96,7 @@ scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_ww3pc")
 
 [node name="right" type="Area2D" parent="move_buttons"]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="move_buttons/right"]
 position = Vector2(20, 0)

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/main_ui.tscn" id="2_g73xg"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="3_blwm3"]
 [ext_resource type="PackedScene" uid="uid://d0e1ietq5fgdg" path="res://scenes/blank_rune.tscn" id="4_ghvey"]
-[ext_resource type="PackedScene" uid="uid://knklcl5ypfqd" path="res://runes/enemy.tscn" id="5_785iw"]
+[ext_resource type="PackedScene" uid="uid://knklcl5ypfqd" path="res://scenes/enemy.tscn" id="5_785iw"]
 
 [node name="bean" type="Node2D"]
 

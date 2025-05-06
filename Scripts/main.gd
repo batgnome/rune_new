@@ -8,14 +8,15 @@ enum STATES  {
 var current_state
 var tilemap
 var rune
-@onready var runes = %runes
+@onready var runes = $runes
+@onready var Entities = $Entities
 @onready var ui = %Main_Ui
 
 signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
 func _init():
 	current_state = STATES.PRE
-	tilemap = $"../TileMap"
+	tilemap = $TileMap
 	
 func get_tilemap():
 	return tilemap
@@ -29,11 +30,20 @@ func _ready():
 	_init()
 	
 func _on_main_ui_start():
-	for i in runes.get_children():
-		if i.Rname =="blank":
-			%AlertDialogue.popup_centered()
-			return
-	_start_game()
+	if current_state == STATES.PRE:
+		for i in runes.get_children():
+			if i.CURRENT_STATE == i.STATE.BUILD:
+				i.CURRENT_STATE = i.STATE.PRE
+		for i in Entities.get_children():
+			if i.CURRENT_STATE == i.STATE.BUILD:
+				i.CURRENT_STATE = i.STATE.PRE
+		current_state = STATES.GAME
+	else:
+		for i in runes.get_children():
+			if i.Rname =="blank":
+				%AlertDialogue.popup_centered()
+				return
+		_start_game()
 
 func _on_alert_dialogue_confirmed():
 	_start_game()

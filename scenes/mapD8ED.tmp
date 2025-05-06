@@ -1,11 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://btpe5cb6skwb0"]
+[gd_scene load_steps=12 format=3 uid="uid://btpe5cb6skwb0"]
 
 [ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="1_1e10i"]
 [ext_resource type="Script" path="res://rune_item.gd" id="1_qd653"]
 [ext_resource type="Script" path="res://Scripts/map_creator.gd" id="2_kc2mk"]
-[ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="4_jslsm"]
-[ext_resource type="Script" path="res://Scripts/RunePalette.gd" id="5_4sgvk"]
-[ext_resource type="PackedScene" uid="uid://b6v6imiq16uym" path="res://scenes/rune_button.tscn" id="6_6hpme"]
 
 [sub_resource type="Resource" id="Resource_g1w1j"]
 script = ExtResource("1_qd653")
@@ -103,9 +100,6 @@ custom_data_layer_1/name = "rune_type"
 custom_data_layer_1/type = 24
 sources/2 = SubResource("TileSetAtlasSource_iqesi")
 
-[sub_resource type="LabelSettings" id="LabelSettings_rrmc0"]
-font_color = Color(0, 0, 0, 1)
-
 [node name="TileMap" type="TileMap"]
 tile_set = SubResource("TileSet_sedx6")
 rendering_quadrant_size = 20
@@ -113,60 +107,3 @@ format = 2
 script = ExtResource("2_kc2mk")
 
 [node name="Line2D" type="Line2D" parent="."]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="MenuBar" type="MenuBar" parent="CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/MenuBar"]
-layout_mode = 0
-offset_right = 170.0
-offset_bottom = 449.0
-texture = ExtResource("4_jslsm")
-region_rect = Rect2(6, 6, 6, 6)
-
-[node name="RunePalette" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("5_4sgvk")
-button_scene = ExtResource("6_6hpme")
-
-[node name="RuneGrid" type="GridContainer" parent="CanvasLayer/RunePalette"]
-layout_mode = 0
-offset_left = 64.0
-offset_top = 41.0
-offset_right = 104.0
-offset_bottom = 81.0
-
-[node name="HSlider" type="HSlider" parent="CanvasLayer/RunePalette"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 30.0
-offset_top = 348.0
-offset_right = 124.0
-offset_bottom = 364.0
-min_value = 1.0
-max_value = 10.0
-value = 1.0
-
-[node name="slider label" type="Label" parent="CanvasLayer/RunePalette"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.106
-anchor_top = -0.708
-anchor_right = 0.106
-anchor_bottom = -0.708
-offset_left = 40.76
-offset_top = 351.32
-offset_right = 80.76
-offset_bottom = 374.32
-text = "label"
-label_settings = SubResource("LabelSettings_rrmc0")
-
-[connection signal="rune_selected" from="CanvasLayer/RunePalette" to="." method="_on_rune_palette_rune_selected"]
-[connection signal="changed" from="CanvasLayer/RunePalette/HSlider" to="." method="_on_h_slider_changed"]
-[connection signal="value_changed" from="CanvasLayer/RunePalette/HSlider" to="." method="_on_h_slider_value_changed"]
