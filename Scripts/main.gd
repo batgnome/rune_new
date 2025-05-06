@@ -38,6 +38,7 @@ func _on_main_ui_start():
 			if i.CURRENT_STATE == i.STATE.BUILD:
 				i.CURRENT_STATE = i.STATE.PRE
 		current_state = STATES.GAME
+		tilemap.queue_redraw()
 	else:
 		for i in runes.get_children():
 			if i.Rname =="blank":

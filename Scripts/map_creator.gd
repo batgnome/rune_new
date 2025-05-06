@@ -63,6 +63,7 @@ func init_runes(pos):
 	%runes.add_child(p)
 	set_cell(0,pos)
 	pass
+	
 func init_enem(pos,type):
 	enem.instantiate()
 	enem.position = pos
@@ -70,10 +71,10 @@ func _draw():
 	#draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
 	#draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
 	##draw_rect(get_viewport_rect(),Color.RED)
-	draw_grid()
+	if parent.current_state == parent.STATES.PRE:
+		draw_grid()
 	#update_path()
 	#draw_rect(get_viewport_rect(),Color.AQUA)
-	pass
 	
 func update_path():
 	$Line2D.points = PackedVector2Array(astargrid.get_point_path(start, end))
