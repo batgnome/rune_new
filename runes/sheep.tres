@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="runeItem" load_steps=5 format=3 uid="uid://chl1gpxev6r52"]
+
+[ext_resource type="Script" path="res://rune_item.gd" id="1_v5e51"]
+[ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="2_k8wpy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4bls"]
+atlas = ExtResource("2_k8wpy")
+region = Rect2(100, 40, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ndb1d"]
+atlas = ExtResource("2_k8wpy")
+region = Rect2(80, 40, 20, 20)
+
+[resource]
+script = ExtResource("1_v5e51")
+name = "sheep"
+speed = 4
+attack_range = 1
+attack_power = 1
+max_size = 8
+texture = SubResource("AtlasTexture_ndb1d")
+tail_texture = SubResource("AtlasTexture_c4bls")

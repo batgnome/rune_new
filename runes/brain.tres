@@ -14,8 +14,8 @@ region = Rect2(80, 20, 20, 20)
 [resource]
 script = ExtResource("1_rmgkx")
 name = "brain"
-speed = 2
-attack_range = 2
+speed = 1
+attack_range = 5
 attack_power = 2
 max_size = 2
 texture = SubResource("AtlasTexture_ndb1d")

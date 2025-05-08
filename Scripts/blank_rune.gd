@@ -158,7 +158,7 @@ func move_in_direction(dir: Vector2):
 		print(no_move)
 		var target_pos = position + dir * 20
 		if can_move_to(target_pos) and current_moves > 0 and not no_move:
-			tail_position.append(position)
+			tail_position.append(global_position)
 			if tail_position.size() > max_size+1:
 				tail_position.pop_front()
 			else:

@@ -14,9 +14,9 @@ region = Rect2(40, 40, 20, 20)
 [resource]
 script = ExtResource("1_iovm4")
 name = "frog"
-speed = 5
+speed = 3
 attack_range = 1
 attack_power = 2
-max_size = 2
+max_size = 1
 texture = SubResource("AtlasTexture_ndb1d")
 tail_texture = SubResource("AtlasTexture_x42x7")

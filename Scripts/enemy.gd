@@ -27,8 +27,8 @@ func _ready():
 func set_tilemap(tilemap_in):
 	tilemap = tilemap_in
 func init():
-	$Sprite2D.texture = type.texture
-	CURRENT_STATE = STATE.BUILD
+	if type:
+		$Sprite2D.texture = type.texture
 		
 func move(pos):
 	await get_tree().create_timer(0.4).timeout
