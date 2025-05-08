@@ -103,6 +103,8 @@ position = Vector2(20, 0)
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_ww3pc")
 
+[node name="tails" type="Node2D" parent="."]
+
 [connection signal="input_event" from="select_rune" to="." method="_on_mouse_selected"]
 [connection signal="close_button" from="Inv_ui" to="." method="_on_inv_ui_close_button"]
 [connection signal="button_down" from="select_button" to="." method="_on_button_button_down"]

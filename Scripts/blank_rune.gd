@@ -17,8 +17,13 @@ var current_moves = 0
 var marker = preload("res://assets/runes/marker.png")
 var att_marker = preload("res://assets/runes/att_marker.png")
 var arrow_marker = preload("res://assets/runes/arrow_marker.png")
+
+var tail = preload("res://scenes/tail.tscn")
+var tail_position = []
+var tails = []
 enum STATE {BUILD,PRE,MOVE,ATTACK}
 const TILESIZE = 20
+
 @onready var  CURRENT_STATE = STATE.BUILD
 signal rune_set(rune)
 
@@ -40,6 +45,7 @@ func _ready():
 	
 
 func _process(delta):
+	update_tails()
 	if CURRENT_STATE != STATE.BUILD:
 		$Sprite2D.material.set_shader_parameter("show_outline", manager.rune == self)
 		if current_moves <= 0 and CURRENT_STATE == STATE.MOVE:
@@ -100,22 +106,29 @@ func _unhandled_input(event):
 		
 ##-------------------------Main Game-------------------------##
 func move_logic(event):
+	print(tail_position)
 	if CURRENT_STATE != STATE.BUILD:
+		var pre_position = position
 		if event.is_action_pressed('left') and can_move_to(position + (20*Vector2.LEFT)) and not $move_buttons/left.has_overlapping_areas():
 			position += Vector2.LEFT*20
 			current_moves -= 1
+			tail_position.append(pre_position)
 			emit_signal("rune_set",self)
 		if event.is_action_pressed('right') and can_move_to(position + (20*Vector2.RIGHT)) and not $move_buttons/right.has_overlapping_areas():
 			position += Vector2.RIGHT*20
 			current_moves -= 1
+			tail_position.append(pre_position)
 			emit_signal("rune_set",self)
 		if event.is_action_pressed('up') and can_move_to(position + (20*Vector2.UP)) and not $move_buttons/up.has_overlapping_areas():
 			position += Vector2.UP*20
 			current_moves -= 1
+			tail_position.append(pre_position)
 			emit_signal("rune_set",self)
 		if event.is_action_pressed('down') and can_move_to(position + (20*Vector2.DOWN)) and not $move_buttons/down.has_overlapping_areas():
 			position += Vector2.DOWN*20
 			current_moves -= 1
+			tail_position.append(pre_position)
+			
 			emit_signal("rune_set",self)
 		queue_redraw()
 
@@ -145,11 +158,25 @@ func move_in_direction(dir: Vector2):
 		print(no_move)
 		var target_pos = position + dir * 20
 		if can_move_to(target_pos) and current_moves > 0 and not no_move:
+			tail_position.append(position)
+			if tail_position.size() > max_size+1:
+				tail_position.pop_front()
+			else:
+				var t = tail.instantiate()
+				t.set_texture(current_rune.tail_texture)
+				t.top_level = true
+				tails.append(t)
+				add_child(t)
+				update_tails()
+			
 			position = target_pos
 			current_moves -= 1
 			emit_signal("rune_set",self)
 			queue_redraw()
-		
+			
+func update_tails():
+	for i in tail_position.size():
+		tails[i].position = tail_position[i] -Vector2(TILESIZE,TILESIZE)/2
 func can_move_to(world_position: Vector2) -> bool:
 	
 	var map_pos = manager.tilemap.local_to_map(world_position)

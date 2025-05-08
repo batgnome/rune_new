@@ -1,9 +1,12 @@
-[gd_resource type="Resource" script_class="RuneInv" load_steps=17 format=3 uid="uid://dyld06sk0hfem"]
+[gd_resource type="Resource" script_class="RuneInv" load_steps=20 format=3 uid="uid://dyld06sk0hfem"]
 
 [ext_resource type="Script" path="res://runeInv.gd" id="1_jh5s5"]
 [ext_resource type="Script" path="res://rune_slots.gd" id="2_2qfvr"]
 [ext_resource type="Resource" uid="uid://bkb5y5qlkh36l" path="res://runes/wizard.tres" id="2_nuxqp"]
 [ext_resource type="Resource" uid="uid://bue2rsrvksimq" path="res://runes/eye.tres" id="4_d2hij"]
+[ext_resource type="Resource" uid="uid://b606akji05or2" path="res://runes/frog.tres" id="5_thaxr"]
+[ext_resource type="Resource" uid="uid://dsbiv82sptgkv" path="res://runes/brain.tres" id="6_nh1g0"]
+[ext_resource type="Resource" uid="uid://cp6d687jq0df2" path="res://runes/wheel.tres" id="7_6cq63"]
 
 [sub_resource type="Resource" id="Resource_4uvfr"]
 script = ExtResource("2_2qfvr")
@@ -17,15 +20,18 @@ amount = 4
 
 [sub_resource type="Resource" id="Resource_krtd7"]
 script = ExtResource("2_2qfvr")
-amount = 0
+rune = ExtResource("5_thaxr")
+amount = 6
 
 [sub_resource type="Resource" id="Resource_0kocb"]
 script = ExtResource("2_2qfvr")
-amount = 0
+rune = ExtResource("6_nh1g0")
+amount = 5
 
-[sub_resource type="Resource" id="Resource_udyks"]
+[sub_resource type="Resource" id="Resource_3mss1"]
 script = ExtResource("2_2qfvr")
-amount = 0
+rune = ExtResource("7_6cq63")
+amount = 5
 
 [sub_resource type="Resource" id="Resource_d7cl3"]
 script = ExtResource("2_2qfvr")
@@ -57,4 +63,4 @@ amount = 0
 
 [resource]
 script = ExtResource("1_jh5s5")
-slots = Array[ExtResource("2_2qfvr")]([SubResource("Resource_4uvfr"), SubResource("Resource_ea75t"), SubResource("Resource_krtd7"), SubResource("Resource_0kocb"), SubResource("Resource_udyks"), SubResource("Resource_d7cl3"), SubResource("Resource_s26kb"), SubResource("Resource_nxaff"), SubResource("Resource_t2jgi"), SubResource("Resource_eothh"), SubResource("Resource_8b2su"), SubResource("Resource_7by0f")])
+slots = Array[ExtResource("2_2qfvr")]([SubResource("Resource_4uvfr"), SubResource("Resource_ea75t"), SubResource("Resource_krtd7"), SubResource("Resource_0kocb"), SubResource("Resource_3mss1"), SubResource("Resource_d7cl3"), SubResource("Resource_s26kb"), SubResource("Resource_nxaff"), SubResource("Resource_t2jgi"), SubResource("Resource_eothh"), SubResource("Resource_8b2su"), SubResource("Resource_7by0f")])

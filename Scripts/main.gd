@@ -20,7 +20,7 @@ func _init():
 	
 func get_tilemap():
 	return tilemap
-	
+
 func _ready():
 	#$Camera2D.zoom = Vector2(2,2)
 
@@ -56,8 +56,3 @@ func _start_game():
 		rune.set_rune(rune)
 		if i.Rname == "blank":
 			i.queue_free()
-
-
-
-
-
