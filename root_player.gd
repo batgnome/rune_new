@@ -15,7 +15,7 @@ var rune
 signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
 func _init():
-	current_state = STATES.PRE
+	current_state = STATES.GAME
 	tilemap = $TileMapPlayer
 	
 func get_tilemap():

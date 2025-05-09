@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxblmdvvlfow0"]
+
+[ext_resource type="Texture2D" uid="uid://dp6aat76e5xr2" path="res://assets/ui/guider.png" id="1_kqdk1"]
+
+[node name="game_ui" type="Control"]
+layout_mode = 3
+anchor_right = 0.278
+anchor_bottom = 0.705
+offset_right = -0.256042
+offset_bottom = 0.159973
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 1.0
+offset_right = 325.0
+offset_bottom = 468.0
+texture = ExtResource("1_kqdk1")

@@ -58,7 +58,7 @@ func _draw():
 			#print("state: ", CURRENT_STATE, " moves: ", current_moves)
 			if CURRENT_STATE == STATE.ATTACK:
 				#print("super")
-				render_markers(att_marker,attack_range)
+				render_markers_2(att_marker,attack_range)
 			if CURRENT_STATE == STATE.MOVE:
 				if current_moves >0:
 					var rect1 =Rect2(Vector2(-10,-30),Vector2(20,20))
@@ -77,10 +77,9 @@ func _draw():
 						draw_set_transform(Vector2(0, 0), deg_to_rad(180), Vector2.ONE)
 						draw_texture_rect(arrow_marker,rect1,false)
 					draw_set_transform(Vector2(0, 0), deg_to_rad(0), Vector2.ONE)
-				render_markers(marker,current_moves)
+				render_markers_2(marker,current_moves)
 		
 func render_markers(marker,size,rotate = false):
-	#print(marker)
 	var offset = Vector2(-10,-10)
 	for x in range(-size, size + 1):
 		for z in range(-size, size + 1):
@@ -88,6 +87,32 @@ func render_markers(marker,size,rotate = false):
 				if can_move_to(Vector2(position.x+20*x,position.y+20*z)):
 					var rect =Rect2(Vector2(offset.x+20*x,offset.y+20*z),Vector2(20,20))
 					draw_texture_rect(marker,rect,false)	
+		
+func render_markers_2(marker,size,rotate = false):
+	var offset = Vector2(-10,-10)
+	for x in range(size+1):
+			if  abs(x) <= size:
+				if can_move_to(Vector2(position.x+20*(-x),position.y+20*(-x))):
+					var rect =Rect2(Vector2(offset.x+20*(x),offset.y+20*(-x+size)),Vector2(20,20))
+					draw_texture_rect(marker,rect,false)	
+					rect =Rect2(Vector2(offset.x+20*(x),offset.y+20*(x-size)),Vector2(20,20))
+					draw_texture_rect(marker,rect,false)	
+					rect =Rect2(Vector2(offset.x+20*(x-size),offset.y+20*(-x)),Vector2(20,20))
+					draw_texture_rect(marker,rect,false)	
+					rect =Rect2(Vector2(offset.x+20*(x-size),offset.y+20*(x)),Vector2(20,20))
+					draw_texture_rect(marker,rect,false)	
+func create_attack(marker,size,rotate = false):
+	var collision = CollisionPolygon2D.new()
+	
+	var offset = Vector2(-10,-10)
+	for x in range(-size, size + 1):
+		for z in range(-size, size + 1):
+			if abs(z) + abs(x) <= size:
+				print(Vector2i(x,z))
+				#if can_move_to(Vector2(position.x+20*x,position.y+20*z)):
+					#var rect =Rect2(Vector2(offset.x+20*x,offset.y+20*z),Vector2(20,20))
+					#draw_texture_rect(marker,rect,false)	
+					
 #closes menu if selected outside the rune
 func _unhandled_input(event):
 	if CURRENT_STATE != STATE.BUILD:
@@ -106,7 +131,7 @@ func _unhandled_input(event):
 		
 ##-------------------------Main Game-------------------------##
 func move_logic(event):
-	print(tail_position)
+	#print(tail_position)
 	if CURRENT_STATE != STATE.BUILD:
 		var pre_position = position
 		if event.is_action_pressed('left') and can_move_to(position + (20*Vector2.LEFT)) and not $move_buttons/left.has_overlapping_areas():
@@ -155,7 +180,6 @@ func move_in_direction(dir: Vector2):
 			
 		if CURRENT_STATE != STATE.MOVE or manager.rune != self:
 			return
-		print(no_move)
 		var target_pos = position + dir * 20
 		if can_move_to(target_pos) and current_moves > 0 and not no_move:
 			tail_position.append(global_position)
