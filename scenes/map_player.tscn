@@ -56,6 +56,10 @@ position = Vector2(170, 230)
 position = Vector2(430, 90)
 type = ExtResource("5_qjrlp")
 
+[node name="Enemy4" parent="ROOT/Entities" instance=ExtResource("4_sqlqv")]
+position = Vector2(130, 230)
+type = ExtResource("5_qjrlp")
+
 [node name="Enemy2" parent="ROOT/Entities" instance=ExtResource("4_sqlqv")]
 position = Vector2(250, 110)
 
@@ -65,6 +69,6 @@ type = ExtResource("6_03jui")
 
 [node name="Camera2D" type="Camera2D" parent="ROOT"]
 position = Vector2(278, 166)
-zoom = Vector2(0.895, 0.895)
+zoom = Vector2(1.615, 1.615)
 
 [connection signal="start" from="CanvasLayer/Main_Ui" to="ROOT" method="_on_main_ui_start"]

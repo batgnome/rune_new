@@ -105,6 +105,13 @@ shape = SubResource("RectangleShape2D_ww3pc")
 
 [node name="tails" type="Node2D" parent="."]
 
+[node name="att_area" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+priority = 1
+
+[node name="att_shape" type="CollisionPolygon2D" parent="att_area"]
+
 [connection signal="input_event" from="select_rune" to="." method="_on_mouse_selected"]
 [connection signal="close_button" from="Inv_ui" to="." method="_on_inv_ui_close_button"]
 [connection signal="button_down" from="select_button" to="." method="_on_button_button_down"]
@@ -118,3 +125,5 @@ shape = SubResource("RectangleShape2D_ww3pc")
 [connection signal="input_event" from="move_buttons/up" to="move_buttons" method="_on_up_input_event"]
 [connection signal="input_event" from="move_buttons/left" to="move_buttons" method="_on_left_input_event"]
 [connection signal="input_event" from="move_buttons/right" to="move_buttons" method="_on_right_input_event"]
+[connection signal="area_entered" from="att_area" to="." method="_on_att_area_area_entered"]
+[connection signal="input_event" from="att_area" to="." method="_on_att_area_input_event"]

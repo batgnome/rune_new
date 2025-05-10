@@ -30,6 +30,7 @@ signal rune_set(rune)
 func get_current_state():
 	return CURRENT_STATE
 func _ready():
+	attack_collision(attack_range)
 	$Sprite2D.material = $Sprite2D.material.duplicate()
 	CURRENT_STATE = STATE.BUILD
 	set_rune(preload("res://runes/blank.tres"))
@@ -51,6 +52,8 @@ func _process(delta):
 		if current_moves <= 0 and CURRENT_STATE == STATE.MOVE:
 			CURRENT_STATE = STATE.ATTACK
 			queue_redraw()
+		if CURRENT_STATE == STATE.ATTACK:
+			pass
 func _draw():
 	#render moves
 	if CURRENT_STATE != STATE.BUILD:
@@ -58,8 +61,11 @@ func _draw():
 			#print("state: ", CURRENT_STATE, " moves: ", current_moves)
 			if CURRENT_STATE == STATE.ATTACK:
 				#print("super")
-				render_markers_2(att_marker,attack_range)
+				render_markers(att_marker,attack_range)
+				
 			if CURRENT_STATE == STATE.MOVE:
+				
+				
 				if current_moves >0:
 					var rect1 =Rect2(Vector2(-10,-30),Vector2(20,20))
 					if can_move_to(Vector2(position.x-20,position.y)):
@@ -77,7 +83,7 @@ func _draw():
 						draw_set_transform(Vector2(0, 0), deg_to_rad(180), Vector2.ONE)
 						draw_texture_rect(arrow_marker,rect1,false)
 					draw_set_transform(Vector2(0, 0), deg_to_rad(0), Vector2.ONE)
-				render_markers_2(marker,current_moves)
+				render_markers(marker,current_moves)
 		
 func render_markers(marker,size,rotate = false):
 	var offset = Vector2(-10,-10)
@@ -87,20 +93,26 @@ func render_markers(marker,size,rotate = false):
 				if can_move_to(Vector2(position.x+20*x,position.y+20*z)):
 					var rect =Rect2(Vector2(offset.x+20*x,offset.y+20*z),Vector2(20,20))
 					draw_texture_rect(marker,rect,false)	
-		
-func render_markers_2(marker,size,rotate = false):
-	var offset = Vector2(-10,-10)
-	for x in range(size+1):
-			if  abs(x) <= size:
-				if can_move_to(Vector2(position.x+20*(-x),position.y+20*(-x))):
-					var rect =Rect2(Vector2(offset.x+20*(x),offset.y+20*(-x+size)),Vector2(20,20))
-					draw_texture_rect(marker,rect,false)	
-					rect =Rect2(Vector2(offset.x+20*(x),offset.y+20*(x-size)),Vector2(20,20))
-					draw_texture_rect(marker,rect,false)	
-					rect =Rect2(Vector2(offset.x+20*(x-size),offset.y+20*(-x)),Vector2(20,20))
-					draw_texture_rect(marker,rect,false)	
-					rect =Rect2(Vector2(offset.x+20*(x-size),offset.y+20*(x)),Vector2(20,20))
-					draw_texture_rect(marker,rect,false)	
+
+func attack_collision(size):
+
+	var offset = Vector2(-10, -10)
+	var tile_points := []
+
+	for x in range(-size, size + 1):
+		for y in range(-size, size + 1):
+			if abs(x) + abs(y) <= size:  # same as your marker shape
+				var tile_center = Vector2(offset.x + 20 * x + 10, offset.y + 20 * y + 10)
+				tile_points.append(tile_center)
+
+	# Now build a polygon around those points using a convex hull
+	var hull_points = Geometry2D.convex_hull(tile_points)
+	var closed_loop = hull_points.duplicate()
+	
+	if hull_points.size() > 1:
+		closed_loop.append(hull_points[0])  # Close the loop
+	$att_area/att_shape.set_polygon(closed_loop)
+
 func create_attack(marker,size,rotate = false):
 	var collision = CollisionPolygon2D.new()
 	
@@ -255,7 +267,7 @@ func set_rune(rune):
 		max_size = 0
 		texture = blank
 		set_texture(texture)
-
+	attack_collision(attack_range)
 func set_texture(texture):
 	$Sprite2D.texture = texture	
 		
@@ -298,3 +310,12 @@ func _on_mouse_selected(viewport, event, shape_idx):
 				else:
 					myInv.open()
 					RuneSelectionManager.select(self)
+
+
+func _on_att_area_input_event(viewport, event, shape_idx):
+	#print("viewport: ",viewport, " event: ", event, " shape_idx: ", shape_idx)
+	pass # Replace with function body.
+
+
+func _on_att_area_area_entered(area):
+	print(area)
