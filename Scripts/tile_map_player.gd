@@ -28,6 +28,7 @@ func _on_rune_selected(rune):
 	print("Selected:", rune.name)
 	
 func init_grid():
+	print(global_position)
 	grid_size = Vector2i(get_viewport_rect().size) / cell_size
 
 	astargrid.size = grid_size
@@ -40,8 +41,10 @@ func init_grid():
 
 	queue_redraw()
 	var arr = get_used_cells(0)
+	print(arr)
 	var test = []
 	for a in arr:
+		
 		test.append(map_to_local(a))
 		var cell_data = get_cell_tile_data(0, a)
 		
@@ -57,5 +60,10 @@ func get_rune_path(rune_start,rune_end):
 	end = rune_end
 	return astargrid.get_point_path(start, end)
 
+func _unhandled_input(event):
+	if event is InputEventMouseButton:
+		var coords = local_to_map(get_global_mouse_position())
+		var t = get_cell_tile_data(0, coords)
+		set_cell(0,coords,0,Vector2i(3,0))
 
 

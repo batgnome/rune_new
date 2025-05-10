@@ -38,7 +38,6 @@ unique_name_in_owner = true
 dialog_text = "Blank runes will be discarded when game starts, are you sure you want to proceed?"
 
 [node name="ROOT" type="Node2D" parent="."]
-position = Vector2(320, 100)
 script = ExtResource("1_e5dos")
 
 [node name="TileMapPlayer" parent="ROOT" instance=ExtResource("2_pxtra")]

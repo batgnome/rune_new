@@ -16,6 +16,7 @@ func _process(delta):
 	if CURRENT_STATE == STATE.MOVE:
 		print("start")
 func _ready():
+	$Sprite2D.modulate = Color(1, 1, 0.7)    # yellowish
 	tilemap = $ROOT/TileMap
 	init()
 	add_to_group("enemy_runes")
@@ -29,6 +30,7 @@ func set_tilemap(tilemap_in):
 func init():
 	if type:
 		$Sprite2D.texture = type.texture
+		$Sprite2D.modulate = Color(1, 1, 0.7)    # yellowish
 		
 func move(pos):
 	await get_tree().create_timer(0.4).timeout

@@ -24,6 +24,8 @@ texture_region_size = Vector2i(20, 20)
 3:2/0 = 0
 4:2/0 = 0
 5:2/0 = 0
+3:0/0 = 0
+3:0/0/custom_data_0 = true
 
 [sub_resource type="TileSet" id="TileSet_brrv6"]
 tile_size = Vector2i(20, 20)

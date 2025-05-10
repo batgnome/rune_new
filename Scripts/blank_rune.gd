@@ -319,3 +319,4 @@ func _on_att_area_input_event(viewport, event, shape_idx):
 
 func _on_att_area_area_entered(area):
 	print(area)
+	print(area.get_parent())
