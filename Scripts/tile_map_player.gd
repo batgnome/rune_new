@@ -59,11 +59,16 @@ func get_rune_path(rune_start,rune_end):
 	start = rune_start
 	end = rune_end
 	return astargrid.get_point_path(start, end)
-
+var t
+var coords
 func _unhandled_input(event):
-	if event is InputEventMouseButton:
-		var coords = local_to_map(get_global_mouse_position())
-		var t = get_cell_tile_data(0, coords)
-		set_cell(0,coords,0,Vector2i(3,0))
+	if event is InputEventMouseMotion:
+		if t:
+			set_cell(0,coords,0,Vector2i(0,0))
+		coords = local_to_map(get_global_mouse_position())
+		
+		t = get_cell_tile_data(0, coords)
+		if t:
+			set_cell(0,coords,0,Vector2i(3,0))
 
 

@@ -5,6 +5,8 @@ enum STATES  {
 	GAME,
 	PAUSE
 }
+enum TURN {PLAYER,ENEMY}
+var turn_state
 var current_state
 var tilemap
 var rune
@@ -15,6 +17,7 @@ var rune
 signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
 func _init():
+	turn_state =TURN.PLAYER
 	current_state = STATES.PRE
 	tilemap = $TileMap
 	
