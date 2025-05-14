@@ -51,9 +51,9 @@ func move(pos):
 	tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),false)
 	if pos != global_position:
 		tail_position.append(global_position)
-		tilemap.astargrid.set_point_solid(tilemap.local_to_map(tail_position[tail_position.size()-1]),false)
+		tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
 		if tail_position.size() > maxsize+1:
-			tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
+			tilemap.astargrid.set_point_solid(tilemap.local_to_map(tail_position[0]),false)
 			tail_position.pop_front()
 		else:
 			create_tail()
@@ -102,7 +102,7 @@ func get_nearest_rune():
 				queue_redraw()
 
 func _draw():
-	#update_path()
+	update_path()
 	pass
 
 func pos_tran(pos):
