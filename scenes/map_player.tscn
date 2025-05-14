@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://c56xodqblrruk"]
 
-[ext_resource type="Script" path="res://root_player.gd" id="1_e5dos"]
-[ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/main_ui.tscn" id="1_u188x"]
+[ext_resource type="Script" path="res://Scripts/root_player.gd" id="1_e5dos"]
+[ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/ui/main_ui.tscn" id="1_u188x"]
 [ext_resource type="PackedScene" uid="uid://cbldbimjt3s8g" path="res://scenes/tile_map_player.tscn" id="2_pxtra"]
-[ext_resource type="PackedScene" uid="uid://cxblmdvvlfow0" path="res://scenes/game_ui_insinde.tscn" id="2_yhm65"]
+[ext_resource type="PackedScene" uid="uid://cxblmdvvlfow0" path="res://scenes/ui/game_ui_insinde.tscn" id="2_yhm65"]
 [ext_resource type="PackedScene" uid="uid://d0e1ietq5fgdg" path="res://scenes/blank_rune.tscn" id="3_2yia6"]
 [ext_resource type="PackedScene" uid="uid://knklcl5ypfqd" path="res://scenes/enemy.tscn" id="4_sqlqv"]
 [ext_resource type="Resource" uid="uid://b606akji05or2" path="res://runes/frog.tres" id="5_qjrlp"]
@@ -51,19 +51,23 @@ position = Vector2(170, 230)
 
 [node name="Entities" type="Node2D" parent="ROOT"]
 
-[node name="Enemy" parent="ROOT/Entities" instance=ExtResource("4_sqlqv")]
+[node name="Enemy" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
 position = Vector2(430, 90)
+tilemap = NodePath("../../TileMapPlayer")
 type = ExtResource("5_qjrlp")
 
-[node name="Enemy4" parent="ROOT/Entities" instance=ExtResource("4_sqlqv")]
+[node name="Enemy4" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
 position = Vector2(130, 230)
+tilemap = NodePath("../../TileMapPlayer")
 type = ExtResource("5_qjrlp")
 
-[node name="Enemy2" parent="ROOT/Entities" instance=ExtResource("4_sqlqv")]
+[node name="Enemy2" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
 position = Vector2(250, 110)
+tilemap = NodePath("../../TileMapPlayer")
 
-[node name="Enemy3" parent="ROOT/Entities" instance=ExtResource("4_sqlqv")]
+[node name="Enemy3" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
 position = Vector2(430, 190)
+tilemap = NodePath("../../TileMapPlayer")
 type = ExtResource("6_03jui")
 
 [node name="Camera2D" type="Camera2D" parent="ROOT"]

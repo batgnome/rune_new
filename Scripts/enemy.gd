@@ -1,6 +1,6 @@
 extends Node2D  # or CharacterBody2D if you're using physics later
 
-var tilemap
+@export var tilemap : TileMap
 var path = []  # Full A* path
 var path_index = 0
 var moving = false
@@ -12,18 +12,32 @@ var CURRENT_STATE = STATE.BUILD
 var target
 var previous_position = global_position
 @export var type : runeItem
-func _process(delta):
+var tail = preload("res://scenes/tail.tscn")
+var tail_position = []
+var tails = []
+var maxsize = 2
+const TILESIZE = 20
+func _process(_delta):
 	if CURRENT_STATE == STATE.MOVE:
 		print("start")
+		get_nearest_rune()	
+		await get_tree().create_timer(2.5).timeout  # Wait 1.5 seconds
+		walk_path()
+		
+		
 func _ready():
 	$Sprite2D.modulate = Color(1, 1, 0.7)    # yellowish
-	tilemap = $ROOT/TileMap
+	#tilemap = $ROOT/TileMap
 	init()
 	add_to_group("enemy_runes")
 	if CURRENT_STATE == STATE.MOVE:
 		get_nearest_rune()	
 		await get_tree().create_timer(2.5).timeout  # Wait 1.5 seconds
 		walk_path()
+	if type:
+		maxsize = type.max_size
+	else:
+		type = preload("res://runes/eye.tres")
 		
 func set_tilemap(tilemap_in):
 	tilemap = tilemap_in
@@ -35,6 +49,13 @@ func init():
 func move(pos):
 	await get_tree().create_timer(0.4).timeout
 	tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),false)
+	if pos != global_position:
+		tail_position.append(global_position)
+		if tail_position.size() > maxsize+1:
+			tail_position.pop_front()
+		else:
+			create_tail()
+	update_tails()
 	global_position = pos
 	tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
 	tilemap.queue_redraw()
@@ -50,25 +71,40 @@ func walk_path():
 		await move(raw_path[1])
 		walk_path()
 	
+func create_tail():
+	var t = tail.instantiate()
+	t.set_texture(type.tail_texture)
+	t.top_level = true
+	t.add_to_group("enemy_runes")
+	tails.append(t)
+	add_child(t)			
+	
+func update_tails():
+	for i in tail_position.size():
+		tails[i].position = tail_position[i] -Vector2(TILESIZE,TILESIZE)/2
 func get_nearest_rune():
 	var shortest_path = 10000
 	var current_path = 0
-	manager = get_parent().get_parent()
-	for i in manager.get_child(1).get_children():
+	var candidates = get_tree().get_nodes_in_group("pl_runes")
+
+	for i in candidates:
 		if i and tilemap:
-			current_path = tilemap.get_rune_path(tilemap.local_to_map(position)
-			,tilemap.local_to_map(i.position)).size()
+			current_path = tilemap.get_rune_path(
+				tilemap.local_to_map(position),
+				tilemap.local_to_map(i.position)
+			).size()
+			
 			if current_path < shortest_path:
 				target = i
 				shortest_path = current_path
 				queue_redraw()
-		
+
 func _draw():
 	#update_path()
 	pass
 
 func pos_tran(pos):
-	return Vector2i(floor(pos.x/20),floor(pos.y/20))
+	return Vector2i(floor(pos.x/TILESIZE),floor(pos.y/TILESIZE))
 	
 	
 func update_path():

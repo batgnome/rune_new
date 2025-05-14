@@ -1,6 +1,5 @@
 extends Node2D
 @export var inv: RuneInv
-@onready var options = %options
 var myInv
 var inside = false
 var inside_hold = false
@@ -17,7 +16,7 @@ var current_moves = 0
 var marker = preload("res://assets/runes/marker.png")
 var att_marker = preload("res://assets/runes/att_marker.png")
 var arrow_marker = preload("res://assets/runes/arrow_marker.png")
-
+var att_col = preload("res://scenes/attack_collision.tscn")
 var tail = preload("res://scenes/tail.tscn")
 var tail_position = []
 var tails = []
@@ -30,7 +29,7 @@ signal rune_set(rune)
 func get_current_state():
 	return CURRENT_STATE
 func _ready():
-	attack_collision(attack_range)
+	attack_collision_2(attack_range) 
 	$Sprite2D.material = $Sprite2D.material.duplicate()
 	CURRENT_STATE = STATE.BUILD
 	set_rune(preload("res://runes/blank.tres"))
@@ -38,14 +37,8 @@ func _ready():
 	myInv = %Inv_ui
 	myInv.connect("rune_chosen", Callable(self, "_on_rune_chosen"))
 	
-	var move_buttons = $move_buttons  # adjust path if needed
-	move_buttons.connect("up_button", Callable(self, "_on_move_buttons_up_button"))
-	move_buttons.connect("down_button", Callable(self, "_on_move_buttons_down_button"))
-	move_buttons.connect("left_button", Callable(self, "_on_move_buttons_left_button"))
-	move_buttons.connect("right_button", Callable(self, "_on_move_buttons_right_button"))
 	
-
-func _process(delta):
+func _process(_delta):
 	update_tails()
 	if CURRENT_STATE != STATE.BUILD:
 		$Sprite2D.material.set_shader_parameter("show_outline", manager.rune == self)
@@ -85,14 +78,14 @@ func _draw():
 					draw_set_transform(Vector2(0, 0), deg_to_rad(0), Vector2.ONE)
 				render_markers(marker,current_moves)
 		
-func render_markers(marker,size,rotate = false):
+func render_markers(mark,size):
 	var offset = Vector2(-10,-10)
 	for x in range(-size, size + 1):
 		for z in range(-size, size + 1):
 			if abs(z) + abs(x) <= size:
 				if can_move_to(Vector2(position.x+20*x,position.y+20*z)):
 					var rect =Rect2(Vector2(offset.x+20*x,offset.y+20*z),Vector2(20,20))
-					draw_texture_rect(marker,rect,false)	
+					draw_texture_rect(mark,rect,false)	
 
 func attack_collision(size):
 
@@ -104,26 +97,30 @@ func attack_collision(size):
 			if abs(x) + abs(y) <= size:  # same as your marker shape
 				var tile_center = Vector2(offset.x + 20 * x + 10, offset.y + 20 * y + 10)
 				tile_points.append(tile_center)
-
-	# Now build a polygon around those points using a convex hull
-	var hull_points = Geometry2D.convex_hull(tile_points)
-	var closed_loop = hull_points.duplicate()
+func attack_collision_2(size):
 	
-	if hull_points.size() > 1:
-		closed_loop.append(hull_points[0])  # Close the loop
-	$att_area/att_shape.set_polygon(closed_loop)
+	var offset = Vector2(-10, -10)
 
-func create_attack(marker,size,rotate = false):
-	var collision = CollisionPolygon2D.new()
+	for x in range(-size, size + 1):
+		for y in range(-size, size + 1):
+			if abs(x) + abs(y) <= size:  # same as your marker shape
+				if !(x == 0 and y == 0):
+					var tile_center = Vector2(offset.x + 20 * x, offset.y + 20 * y)
+					var att = att_col.instantiate()
+					att.position = tile_center
+					%att_area.add_child(att)
+
+func create_attack(mark,size):
+	var _collision = CollisionPolygon2D.new()
 	
-	var offset = Vector2(-10,-10)
+	var _offset = Vector2(-10,-10)
 	for x in range(-size, size + 1):
 		for z in range(-size, size + 1):
 			if abs(z) + abs(x) <= size:
 				print(Vector2i(x,z))
 				#if can_move_to(Vector2(position.x+20*x,position.y+20*z)):
 					#var rect =Rect2(Vector2(offset.x+20*x,offset.y+20*z),Vector2(20,20))
-					#draw_texture_rect(marker,rect,false)	
+					#draw_texture_rect(mark,rect,false)	
 					
 #closes menu if selected outside the rune
 func _unhandled_input(event):
@@ -137,13 +134,12 @@ func _unhandled_input(event):
 				if current_moves > 0:
 					move_logic(event)
 				else:
-					CURRENT_STATE == STATE.ATTACK
+					CURRENT_STATE = STATE.ATTACK
 		else:
 			queue_redraw()
 		
 ##-------------------------Main Game-------------------------##
 func move_logic(event):
-	#print(tail_position)
 	if CURRENT_STATE != STATE.BUILD:
 		var pre_position = position
 		if event.is_action_pressed('left') and can_move_to(position + (20*Vector2.LEFT)) and not $move_buttons/left.has_overlapping_areas():
@@ -172,17 +168,9 @@ func move_logic(event):
 func move_in_direction(dir: Vector2):
 	if CURRENT_STATE != STATE.BUILD:
 		var no_move = false
-		for area in $move_buttons/up.get_overlapping_areas():
-				print("Up overlaps with:", area.name)
-		for area in $move_buttons/left.get_overlapping_areas():
-				print("Left overlaps with:", area.name)
-		for area in $move_buttons/right.get_overlapping_areas():
-				print("Right overlaps with:", area.name)
-		for area in $move_buttons/down.get_overlapping_areas():
-				print("Down overlaps with:", area.name)
+	
 		if dir == Vector2.UP:
 			no_move = $move_buttons/up.has_overlapping_areas()
-			
 		elif dir == Vector2.DOWN:
 			no_move = $move_buttons/down.has_overlapping_areas()
 		elif dir == Vector2.LEFT:
@@ -198,11 +186,7 @@ func move_in_direction(dir: Vector2):
 			if tail_position.size() > max_size+1:
 				tail_position.pop_front()
 			else:
-				var t = tail.instantiate()
-				t.set_texture(current_rune.tail_texture)
-				t.top_level = true
-				tails.append(t)
-				add_child(t)
+				create_tail()
 				update_tails()
 			
 			position = target_pos
@@ -210,6 +194,14 @@ func move_in_direction(dir: Vector2):
 			emit_signal("rune_set",self)
 			queue_redraw()
 			
+func create_tail():
+	var t = tail.instantiate()
+	t.set_texture(current_rune.tail_texture)
+	t.top_level = true
+	t.add_to_group("pl_runes")
+	tails.append(t)
+	add_child(t)			
+	
 func update_tails():
 	for i in tail_position.size():
 		tails[i].position = tail_position[i] -Vector2(TILESIZE,TILESIZE)/2
@@ -267,9 +259,9 @@ func set_rune(rune):
 		max_size = 0
 		texture = blank
 		set_texture(texture)
-	attack_collision(attack_range)
-func set_texture(texture):
-	$Sprite2D.texture = texture	
+	attack_collision_2(attack_range)
+func set_texture(img):
+	$Sprite2D.texture = img	
 		
 #close inventory when another rune is selected, referenced in the autoload function:
 #runeSelectionManager
@@ -298,7 +290,7 @@ func _on_move_buttons_up_button():
 	move_in_direction(Vector2.UP)
 
 
-func _on_mouse_selected(viewport, event, shape_idx):
+func _on_mouse_selected(_viewport, event, _shape_idx):
 	if CURRENT_STATE != STATE.BUILD:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			manager.rune = self
@@ -311,12 +303,3 @@ func _on_mouse_selected(viewport, event, shape_idx):
 					myInv.open()
 					RuneSelectionManager.select(self)
 
-
-func _on_att_area_input_event(viewport, event, shape_idx):
-	#print("viewport: ",viewport, " event: ", event, " shape_idx: ", shape_idx)
-	pass # Replace with function body.
-
-
-func _on_att_area_area_entered(area):
-	print(area)
-	print(area.get_parent())

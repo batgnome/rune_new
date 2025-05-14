@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="runeItem" load_steps=5 format=3 uid="uid://bkb5y5qlkh36l"]
 
-[ext_resource type="Script" path="res://rune_item.gd" id="1_0bjye"]
+[ext_resource type="Script" path="res://Scripts/rune_item.gd" id="1_0bjye"]
 [ext_resource type="Texture2D" uid="uid://1esxmmeb55iy" path="res://assets/runes/wizard_head.png" id="2_nupsc"]
 [ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="2_og33j"]
 

@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgopp1hcrvaua"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_djdmk"]
+
+[node name="attack_collision" type="Area2D"]
+modulate = Color(1, 0.760784, 0.717647, 1)
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(10, 10)
+shape = SubResource("RectangleShape2D_djdmk")

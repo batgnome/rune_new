@@ -6,8 +6,6 @@ var grid_size
 var start = Vector2i.ZERO
 var end = Vector2i(12, 10)
 var parent = get_parent()
-var rune = preload("res://scenes/blank_rune.tscn")
-var enem = preload("res://scenes/enemy.tscn")
 var current_rune
 var slider
 var slider_label
@@ -25,13 +23,12 @@ func _ready()->void:
 func _on_rune_selected(rune):
 	
 	current_rune = rune
-	print("Selected:", rune.name)
 	
 func init_grid():
 	print(global_position)
 	grid_size = Vector2i(get_viewport_rect().size) / cell_size
 
-	astargrid.size = grid_size
+	astargrid.region = Rect2(Vector2i(0,0),grid_size)
 	astargrid.cell_size = cell_size
 	astargrid.offset = cell_size/2
 
@@ -46,16 +43,43 @@ func init_grid():
 	for a in arr:
 		
 		test.append(map_to_local(a))
-		var cell_data = get_cell_tile_data(0, a)
 		
 		astargrid.set_point_solid(a,false)
 	
 
+func _draw():
+	#draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
+	#draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
+	##draw_rect(get_viewport_rect(),Color.RED)
+	
+	draw_grid()
+	#update_path()
+	#draw_rect(get_viewport_rect(),Color.AQUA)
+	
+
+func draw_grid():
+	for x in grid_size.x:
+		for y in grid_size.y:
+			var cell = Vector2i(x, y)
+			var pos = cell * cell_size
+			if astargrid.is_point_solid(cell):
+				draw_rect(Rect2(pos, cell_size), Color.BLACK)  # Solid
+			else:
+				draw_rect(Rect2(pos, cell_size), Color.GREEN)  # Walkable
+	for x in grid_size.x + 1:
+		draw_line(Vector2(x * cell_size.x, 0),
+			Vector2(x * cell_size.x, grid_size.y * cell_size.y),
+			Color.DARK_GRAY, 2.0)
+	for y in grid_size.y + 1:
+		draw_line(Vector2(0, y * cell_size.y),
+			Vector2(grid_size.x * cell_size.x, y * cell_size.y),
+			Color.DARK_GRAY, 2.0)
 func update_path():
 	$Line2D.points = PackedVector2Array(astargrid.get_point_path(start, end))
 	
 			
 func get_rune_path(rune_start,rune_end):
+	print(" here")
 	start = rune_start
 	end = rune_end
 	return astargrid.get_point_path(start, end)

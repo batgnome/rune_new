@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://d0qvmbjy1de3r" path="res://assets/runes/blank.png" id="2_hurgw"]
 [ext_resource type="Resource" uid="uid://dyld06sk0hfem" path="res://runes/runeInventory.tres" id="2_rjcnk"]
 [ext_resource type="PackedScene" uid="uid://sro0000q02w4" path="res://inventory/inv_ui.tscn" id="3_esb4x"]
-[ext_resource type="Shader" path="res://scenes/blank_rune.gdshader" id="3_qtc2w"]
+[ext_resource type="Shader" path="res://shaders/blank_rune.gdshader" id="3_iv7bb"]
 [ext_resource type="Script" path="res://Scripts/move_buttons.gd" id="6_0cotn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v0rvp"]
-shader = ExtResource("3_qtc2w")
+shader = ExtResource("3_iv7bb")
 shader_parameter/thickness = 1.0
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/show_outline = false
@@ -105,12 +105,10 @@ shape = SubResource("RectangleShape2D_ww3pc")
 
 [node name="tails" type="Node2D" parent="."]
 
-[node name="att_area" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 4
-priority = 1
-
-[node name="att_shape" type="CollisionPolygon2D" parent="att_area"]
+[node name="att_area" type="Node2D" parent="."]
+unique_name_in_owner = true
+light_mask = 4
+visibility_layer = 4
 
 [connection signal="input_event" from="select_rune" to="." method="_on_mouse_selected"]
 [connection signal="close_button" from="Inv_ui" to="." method="_on_inv_ui_close_button"]
@@ -125,5 +123,3 @@ priority = 1
 [connection signal="input_event" from="move_buttons/up" to="move_buttons" method="_on_up_input_event"]
 [connection signal="input_event" from="move_buttons/left" to="move_buttons" method="_on_left_input_event"]
 [connection signal="input_event" from="move_buttons/right" to="move_buttons" method="_on_right_input_event"]
-[connection signal="area_entered" from="att_area" to="." method="_on_att_area_area_entered"]
-[connection signal="input_event" from="att_area" to="." method="_on_att_area_input_event"]

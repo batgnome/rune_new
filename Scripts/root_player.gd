@@ -6,17 +6,16 @@ enum STATES  {
 	PAUSE
 }
 var current_state
-var tilemap
+
 var rune
 @onready var runes = $runes
 @onready var Entities = $Entities
 @onready var ui = %Main_Ui
-
+@onready var tilemap = $TileMapPlayer
 signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
 func _init():
 	current_state = STATES.GAME
-	tilemap = $TileMapPlayer
 	
 func get_tilemap():
 	return tilemap
@@ -57,3 +56,5 @@ func _start_game():
 		rune.set_rune(rune)
 		if i.Rname == "blank":
 			i.queue_free()
+	for i in Entities.get_children():
+		i.CURRENT_STATE = i.STATE.MOVE

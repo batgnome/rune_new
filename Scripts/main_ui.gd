@@ -15,11 +15,6 @@ func _ready():
 	set_values()
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func set_values(rune = null):
 
 	if rune:

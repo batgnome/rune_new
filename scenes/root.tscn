@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bvw06s2wk3yvg"]
 
 [ext_resource type="PackedScene" uid="uid://btpe5cb6skwb0" path="res://scenes/map_creator.tscn" id="1_lg6ph"]
-[ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/main_ui.tscn" id="2_gjnp1"]
+[ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/ui/main_ui.tscn" id="2_gjnp1"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="3_i68o8"]
 [ext_resource type="PackedScene" uid="uid://d0e1ietq5fgdg" path="res://scenes/blank_rune.tscn" id="4_p5y4p"]
 [ext_resource type="PackedScene" uid="uid://knklcl5ypfqd" path="res://scenes/enemy.tscn" id="5_e736g"]

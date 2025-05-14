@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://citvvw0l28oxr"]
 
+[ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/ui/main_ui.tscn" id="1_bcbmr"]
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_x0wkd"]
 [ext_resource type="PackedScene" uid="uid://btpe5cb6skwb0" path="res://scenes/map_creator.tscn" id="3_bxw2d"]
-[ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/main_ui.tscn" id="4_tkivm"]
 
 [node name="main" type="Node2D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Main_Ui" parent="CanvasLayer" instance=ExtResource("4_tkivm")]
+[node name="Main_Ui" parent="CanvasLayer" instance=ExtResource("1_bcbmr")]
 unique_name_in_owner = true
 anchors_preset = 0
 anchor_right = 0.0

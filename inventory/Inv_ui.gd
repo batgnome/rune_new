@@ -9,7 +9,7 @@ signal close_button()
 
 func _ready():
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
-	inv.update.connect(update_slots)
+	#inv.update.connect(update_slots)
 	update_slots()
 	close()
 
@@ -24,9 +24,6 @@ func update_slots():
 		slots[i].update(inv.slots[i])
 		slots[i].connect("getRune", Callable(self, "on_get_rune")) 
 		
-
-func _process(delta):
-	pass
 
 func open():
 	self.mouse_filter = Control.MOUSE_FILTER_STOP

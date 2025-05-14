@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://btpe5cb6skwb0"]
 
 [ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="1_1e10i"]
-[ext_resource type="Script" path="res://rune_item.gd" id="1_qd653"]
+[ext_resource type="Script" path="res://Scripts/rune_item.gd" id="1_qd653"]
 [ext_resource type="Script" path="res://Scripts/map_creator.gd" id="2_kc2mk"]
 [ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="4_jslsm"]
 [ext_resource type="Script" path="res://Scripts/RunePalette.gd" id="5_4sgvk"]
