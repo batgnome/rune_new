@@ -15,7 +15,7 @@ func _ready()->void:
 	parent = get_parent()
 	Entities = $"../Entities"
 	Runes = $"../runes"
-	print(Entities)
+	
 	
 	init_grid()
 
@@ -25,7 +25,6 @@ func _on_rune_selected(rune):
 	current_rune = rune
 	
 func init_grid():
-	print(global_position)
 	grid_size = Vector2i(get_viewport_rect().size) / cell_size
 
 	astargrid.region = Rect2(Vector2i(0,0),grid_size)
@@ -38,7 +37,6 @@ func init_grid():
 
 	queue_redraw()
 	var arr = get_used_cells(0)
-	print(arr)
 	var test = []
 	for a in arr:
 		
@@ -79,7 +77,6 @@ func update_path():
 	
 			
 func get_rune_path(rune_start,rune_end):
-	print(" here")
 	start = rune_start
 	end = rune_end
 	return astargrid.get_point_path(start, end)

@@ -12,6 +12,7 @@ var rune
 @onready var Entities = $Entities
 @onready var ui = %Main_Ui
 @onready var tilemap = $TileMapPlayer
+
 signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -58,3 +59,19 @@ func _start_game():
 			i.queue_free()
 	for i in Entities.get_children():
 		i.CURRENT_STATE = i.STATE.MOVE
+		i.manager = self
+	set_enem_first()
+
+func set_enem_first():
+	
+	var closest_enem = 10000
+	var enem_start
+	for e in Entities.get_children():
+		if e.active:
+			if e.get_nearest_rune() < closest_enem:
+				closest_enem =  e.get_nearest_rune()
+				enem_start=e
+	if enem_start:
+		$"../CanvasLayer/active".text = enem_start.name
+		enem_start.playing = true
+	

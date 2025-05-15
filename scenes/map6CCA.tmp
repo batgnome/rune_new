@@ -11,6 +11,7 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_pis10"]
 font_size = 29
+font_color = Color(0, 0, 0, 1)
 
 [node name="Map_player" type="Node2D"]
 
@@ -41,10 +42,10 @@ unique_name_in_owner = true
 dialog_text = "Blank runes will be discarded when game starts, are you sure you want to proceed?"
 
 [node name="active" type="Label" parent="CanvasLayer"]
-offset_left = 170.0
+offset_left = 90.0
 offset_top = 90.0
-offset_right = 234.0
-offset_bottom = 130.0
+offset_right = 130.0
+offset_bottom = 113.0
 text = "TEST"
 label_settings = SubResource("LabelSettings_pis10")
 
