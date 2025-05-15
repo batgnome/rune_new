@@ -89,7 +89,7 @@ func walk_path():
 		active = false
 		playing = false
 		$active.text = name+": not playing"
-		get_parent().get_parent().set_enem_first()
+		get_parent().select_playing_enemy()
 		
 
 func create_tail():
@@ -126,13 +126,13 @@ func pos_tran(pos):
 	return Vector2i(floor(pos.x/TILESIZE),floor(pos.y/TILESIZE))
 
 func _draw():
-	#update_path()
+	#_debug_draw_astar_line()
 	pass
 	
 func wait(seconds):
 	await get_tree().create_timer(seconds).timeout
 	
-func update_path():
+func _debug_draw_astar_line():
 	if target:
 		var this_path = tilemap.get_rune_path(pos_tran(position),pos_tran(target.position))
 		path = this_path

@@ -60,7 +60,7 @@ func _start_game():
 	for i in Entities.get_children():
 		i.CURRENT_STATE = i.STATE.MOVE
 		i.manager = self
-	set_enem_first()
+	#set_enem_first()
 
 func set_enem_first():
 	

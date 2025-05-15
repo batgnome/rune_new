@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c56xodqblrruk"]
+[gd_scene load_steps=11 format=3 uid="uid://c56xodqblrruk"]
 
 [ext_resource type="Script" path="res://Scripts/root_player.gd" id="1_e5dos"]
 [ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/ui/main_ui.tscn" id="1_u188x"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://knklcl5ypfqd" path="res://scenes/enemy.tscn" id="4_sqlqv"]
 [ext_resource type="Resource" uid="uid://b606akji05or2" path="res://runes/frog.tres" id="5_qjrlp"]
 [ext_resource type="Resource" uid="uid://c4p1snujn35eo" path="res://runes/archer.tres" id="6_03jui"]
+[ext_resource type="Script" path="res://Scripts/Entities.gd" id="6_j883g"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pis10"]
 font_size = 29
@@ -61,6 +62,7 @@ layer_0/tile_data = PackedInt32Array(589839, 0, 0, 524303, 0, 0, 458767, 0, 0, 4
 position = Vector2(170, 230)
 
 [node name="Entities" type="Node2D" parent="ROOT"]
+script = ExtResource("6_j883g")
 
 [node name="Enemy" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
 position = Vector2(430, 90)
