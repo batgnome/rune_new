@@ -19,7 +19,7 @@ var max_range = 2
 var current_range = 2
 
 const TILESIZE = 20
-var speed = 1
+var speed = 2
 var playing = false
 var active  = true
 
@@ -28,13 +28,8 @@ func _process(_delta):
 		
 		STATE.MOVE:
 			#$timer_display.set_value(100)
-			active = true
-			if playing:
-				$active.text = name+":playing"
-				#await wait(2.5) # Wait 1.5 seconds
-				walk_path()
-			else:
-				$active.text = name+":not playing"
+			#if playing:
+			walk_path()
 		STATE.ATTACK:
 			$timer_display.set_value(($Timer.get_time_left()/$Timer.wait_time)*100)
 			$timer.text = str(($Timer.get_time_left()/$Timer.wait_time)*100)
@@ -138,3 +133,10 @@ func _debug_draw_astar_line():
 		path = this_path
 		$Line2D.global_position = Vector2(0,0)
 		$Line2D.points = PackedVector2Array(this_path)
+
+
+func _on_timer_timeout():
+	CURRENT_STATE = STATE.MOVE
+	current_range = max_range
+	active = true
+	

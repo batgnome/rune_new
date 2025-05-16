@@ -54,3 +54,5 @@ offset_bottom = 21.0
 scale = Vector2(0.48046, 0.49945)
 text = "test"
 label_settings = SubResource("LabelSettings_8vcyf")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

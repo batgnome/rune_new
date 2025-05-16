@@ -10,6 +10,8 @@ func _process(delta):
 		match current_enem.CURRENT_STATE:
 			current_enem.STATE.MOVE:
 				current_enem.walk_path()
+		if !current_enem.active:
+			current_enem = select_playing_enemy()
 func select_playing_enemy():
 	var closest_enem = 10000
 	for e in enemies:
