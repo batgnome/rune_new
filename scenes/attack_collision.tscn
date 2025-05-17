@@ -1,12 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgopp1hcrvaua"]
+[gd_scene load_steps=3 format=3 uid="uid://cgopp1hcrvaua"]
+
+[ext_resource type="Script" path="res://Scripts/attack_collision.gd" id="1_hhtox"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_djdmk"]
 
 [node name="attack_collision" type="Area2D"]
-modulate = Color(1, 0.760784, 0.717647, 1)
+modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.645, 0.645)
 collision_layer = 4
 collision_mask = 4
+input_pickable = false
+script = ExtResource("1_hhtox")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_djdmk")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

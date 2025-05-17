@@ -29,7 +29,11 @@ func _ready():
 		i.CURRENT_STATE = i.STATE.PRE
 	#print(tilemap)
 	_init()
-	
+func _process(delta):
+	if runes.get_children().size() == 0:
+		print("dead")
+	if Entities.get_children().size() == 0:
+		print("win")
 func _on_main_ui_start():
 	if current_state == STATES.PRE:
 		for i in runes.get_children():
@@ -58,8 +62,7 @@ func _start_game():
 		if i.Rname == "blank":
 			i.queue_free()
 	for i in Entities.get_children():
-		i.CURRENT_STATE = i.STATE.MOVE
-		i.manager = self
+		i.clock.start(4)
 	#set_enem_first()
 
 func set_enem_first():

@@ -10,14 +10,14 @@
 font_color = Color(0, 0, 0, 1)
 
 [node name="Enemy" type="Node2D" groups=["enemy_runes"]]
-position = Vector2(10, 10)
 script = ExtResource("1_am0vy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_rq6hg")
 metadata/_edit_group_ = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemy_runes"]]
+scale = Vector2(0.735, 0.735)
 collision_layer = 5
 collision_mask = 5
 metadata/_edit_group_ = true
@@ -38,6 +38,7 @@ offset_bottom = 8.0
 one_shot = true
 
 [node name="active" type="Label" parent="."]
+visible = false
 offset_left = -9.0
 offset_top = -12.0
 offset_right = 31.0
@@ -47,6 +48,7 @@ text = "test"
 label_settings = SubResource("LabelSettings_8vcyf")
 
 [node name="timer" type="Label" parent="."]
+visible = false
 offset_left = -8.0
 offset_top = -2.0
 offset_right = 32.0

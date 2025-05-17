@@ -23,26 +23,30 @@ var speed = 2
 var playing = false
 var active  = true
 
+@onready var clock = $Timer
+
 func _process(_delta):
-	match CURRENT_STATE:
-		
-		STATE.MOVE:
-			#$timer_display.set_value(100)
-			#if playing:
-			walk_path()
-		STATE.ATTACK:
-			$timer_display.set_value(($Timer.get_time_left()/$Timer.wait_time)*100)
-			$timer.text = str(($Timer.get_time_left()/$Timer.wait_time)*100)
-			if $Timer.time_left  <= 0:
-				CURRENT_STATE = STATE.MOVE
-				current_range = max_range
-				active = true
-	
+	$timer_display.set_value((clock.get_time_left()/clock.wait_time)*100)
+	#match CURRENT_STATE:
+		#
+		#STATE.MOVE:
+			##$timer_display.set_value(100)
+			##if playing:
+			#walk_path()
+		#STATE.ATTACK:
+			#$timer_display.set_value(($Timer.get_time_left()/$Timer.wait_time)*100)
+			#$timer.text = str(($Timer.get_time_left()/$Timer.wait_time)*100)
+			#if $Timer.time_left  <= 0:
+				#CURRENT_STATE = STATE.MOVE
+				#current_range = max_range
+				#active = true
+	#
 		
 func _ready():
+	add_to_group("enemy_runes")
 	init()
 	add_to_group("enemy_runes")
-	
+	print(get_groups())
 func init():
 	if type:
 		$Sprite2D.texture = type.texture
@@ -83,8 +87,7 @@ func walk_path():
 		$Timer.start(speed)
 		active = false
 		playing = false
-		$active.text = name+": not playing"
-		get_parent().select_playing_enemy()
+		#$active.text = name+": not playing"
 		
 
 func create_tail():

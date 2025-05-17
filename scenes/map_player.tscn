@@ -65,7 +65,7 @@ position = Vector2(170, 230)
 script = ExtResource("6_j883g")
 
 [node name="Enemy" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
-position = Vector2(430, 90)
+position = Vector2(170, 270)
 tilemap = NodePath("../../TileMapPlayer")
 type = ExtResource("5_qjrlp")
 
@@ -75,11 +75,11 @@ tilemap = NodePath("../../TileMapPlayer")
 type = ExtResource("5_qjrlp")
 
 [node name="Enemy2" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
-position = Vector2(250, 110)
+position = Vector2(170, 190)
 tilemap = NodePath("../../TileMapPlayer")
 
 [node name="Enemy3" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
-position = Vector2(430, 190)
+position = Vector2(210, 230)
 tilemap = NodePath("../../TileMapPlayer")
 type = ExtResource("6_03jui")
 

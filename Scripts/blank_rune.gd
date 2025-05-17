@@ -22,14 +22,13 @@ var tail_position = []
 var tails = []
 enum STATE {BUILD,PRE,MOVE,ATTACK}
 const TILESIZE = 20
-
+@onready var clock = $Timer
 @onready var  CURRENT_STATE = STATE.BUILD
 signal rune_set(rune)
 
 func get_current_state():
 	return CURRENT_STATE
 func _ready():
-	attack_collision_2(attack_range) 
 	$Sprite2D.material = $Sprite2D.material.duplicate()
 	CURRENT_STATE = STATE.BUILD
 	set_rune(preload("res://runes/blank.tres"))
@@ -39,13 +38,16 @@ func _ready():
 	
 	
 func _process(_delta):
+	$timer_display.set_value((clock.get_time_left()/clock.wait_time)*100)
 	update_tails()
 	if CURRENT_STATE != STATE.BUILD:
 		$Sprite2D.material.set_shader_parameter("show_outline", manager.rune == self)
 		if current_moves <= 0 and CURRENT_STATE == STATE.MOVE:
 			CURRENT_STATE = STATE.ATTACK
+			clock.start(1)
 			queue_redraw()
 		if CURRENT_STATE == STATE.ATTACK:
+			set_attack()
 			pass
 func _draw():
 	#render moves
@@ -87,40 +89,31 @@ func render_markers(mark,size):
 					var rect =Rect2(Vector2(offset.x+20*x,offset.y+20*z),Vector2(20,20))
 					draw_texture_rect(mark,rect,false)	
 
-func attack_collision(size):
 
-	var offset = Vector2(-10, -10)
-	var tile_points := []
-
-	for x in range(-size, size + 1):
-		for y in range(-size, size + 1):
-			if abs(x) + abs(y) <= size:  # same as your marker shape
-				var tile_center = Vector2(offset.x + 20 * x + 10, offset.y + 20 * y + 10)
-				tile_points.append(tile_center)
 func attack_collision_2(size):
 	
+	for child in %att_area.get_children():
+		child.queue_free()
 	var offset = Vector2(-10, -10)
 
 	for x in range(-size, size + 1):
 		for y in range(-size, size + 1):
 			if abs(x) + abs(y) <= size:  # same as your marker shape
 				if !(x == 0 and y == 0):
-					var tile_center = Vector2(offset.x + 20 * x, offset.y + 20 * y)
+					var tile_center = Vector2(x + 20 * x, y + 20 * y)
 					var att = att_col.instantiate()
 					att.position = tile_center
 					%att_area.add_child(att)
-
-func create_attack(mark,size):
-	var _collision = CollisionPolygon2D.new()
-	
-	var _offset = Vector2(-10,-10)
-	for x in range(-size, size + 1):
-		for z in range(-size, size + 1):
-			if abs(z) + abs(x) <= size:
-				print(Vector2i(x,z))
-				#if can_move_to(Vector2(position.x+20*x,position.y+20*z)):
-					#var rect =Rect2(Vector2(offset.x+20*x,offset.y+20*z),Vector2(20,20))
-					#draw_texture_rect(mark,rect,false)	
+func set_attack():
+	for a in %att_area.get_children():
+		a.set_pickable(true)
+	for a in $move_buttons.get_children():
+		a.set_pickable(false)
+func set_move():
+	for a in %att_area.get_children():
+		a.set_pickable(false)
+	for a in $move_buttons.get_children():
+		a.set_pickable(true)
 					
 #closes menu if selected outside the rune
 func _unhandled_input(event):
@@ -168,14 +161,14 @@ func move_logic(event):
 func move_in_direction(dir: Vector2):
 	if CURRENT_STATE != STATE.BUILD:
 		var no_move = false
-	
+		print(dir)
 		if dir == Vector2.UP:
 			no_move = $move_buttons/up.has_overlapping_areas()
-		elif dir == Vector2.DOWN:
+		if dir == Vector2.DOWN:
 			no_move = $move_buttons/down.has_overlapping_areas()
-		elif dir == Vector2.LEFT:
+		if dir == Vector2.LEFT:
 			no_move = $move_buttons/left.has_overlapping_areas()
-		elif dir == Vector2.RIGHT:
+		if dir == Vector2.RIGHT:
 			no_move = $move_buttons/right.has_overlapping_areas()
 			
 		if CURRENT_STATE != STATE.MOVE or manager.rune != self:
@@ -259,7 +252,7 @@ func set_rune(rune):
 		max_size = 0
 		texture = blank
 		set_texture(texture)
-	attack_collision_2(attack_range)
+	#attack_collision_2(attack_range)
 func set_texture(img):
 	$Sprite2D.texture = img	
 		
@@ -275,10 +268,12 @@ func _on_inv_ui_close_button():
 
 
 func _on_move_buttons_down_button():
+	print("down?")
 	move_in_direction(Vector2.DOWN)
 
 
 func _on_move_buttons_left_button():
+	print("left?")
 	move_in_direction(Vector2.LEFT)
 
 
