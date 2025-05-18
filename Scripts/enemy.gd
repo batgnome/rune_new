@@ -143,3 +143,13 @@ func _on_timer_timeout():
 	current_range = max_range
 	active = true
 	
+func delete_segments(size):
+	for s in size:
+		await wait(0.2)
+		if tails.size() > 0:
+			tails[s].queue_free()
+			tails.remove_at(s)
+			tail_position.remove_at(s)
+		else:
+			queue_free()
+	pass

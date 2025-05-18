@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d0e1ietq5fgdg"]
+[gd_scene load_steps=11 format=3 uid="uid://d0e1ietq5fgdg"]
 
 [ext_resource type="Script" path="res://Scripts/blank_rune.gd" id="1_jsdeh"]
 [ext_resource type="Texture2D" uid="uid://d0qvmbjy1de3r" path="res://assets/runes/blank.png" id="2_hurgw"]
@@ -16,16 +16,6 @@ shader_parameter/show_outline = false
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sudiy"]
 size = Vector2(18, 18)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lklqx"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g2eb1"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lejsr"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cjn14"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_il45c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ww3pc"]
 
@@ -52,25 +42,16 @@ unique_name_in_owner = true
 visible = false
 metadata/_edit_group_ = true
 
-[node name="select_button" type="Button" parent="."]
-unique_name_in_owner = true
-visible = false
-offset_left = -9.0
-offset_top = -9.0
-offset_right = 9.0
-offset_bottom = 9.0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_lklqx")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_g2eb1")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_lejsr")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_cjn14")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_il45c")
-toggle_mode = true
-action_mode = 0
-flat = true
-metadata/_edit_group_ = true
-
 [node name="move_buttons" type="Node2D" parent="."]
 script = ExtResource("6_0cotn")
+
+[node name="left" type="Area2D" parent="move_buttons"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="move_buttons/left"]
+position = Vector2(-20, 0)
+scale = Vector2(0.8, 0.8)
+shape = SubResource("RectangleShape2D_ww3pc")
 
 [node name="down" type="Area2D" parent="move_buttons"]
 collision_layer = 2
@@ -88,14 +69,6 @@ position = Vector2(0, -20)
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_ww3pc")
 
-[node name="left" type="Area2D" parent="move_buttons"]
-collision_layer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="move_buttons/left"]
-position = Vector2(-20, 0)
-scale = Vector2(0.8, 0.8)
-shape = SubResource("RectangleShape2D_ww3pc")
-
 [node name="right" type="Area2D" parent="move_buttons"]
 collision_layer = 2
 
@@ -108,10 +81,6 @@ shape = SubResource("RectangleShape2D_ww3pc")
 
 [node name="att_area" type="Node2D" parent="."]
 unique_name_in_owner = true
-process_mode = 4
-light_mask = 4
-visibility_layer = 4
-scale = Vector2(0.997958, 1)
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
@@ -124,14 +93,11 @@ offset_bottom = -6.0
 
 [connection signal="input_event" from="select_rune" to="." method="_on_mouse_selected"]
 [connection signal="close_button" from="Inv_ui" to="." method="_on_inv_ui_close_button"]
-[connection signal="button_down" from="select_button" to="." method="_on_button_button_down"]
-[connection signal="pressed" from="select_button" to="." method="_on_button_pressed"]
-[connection signal="toggled" from="select_button" to="." method="_on_button_toggled"]
 [connection signal="down_button" from="move_buttons" to="." method="_on_move_buttons_down_button"]
 [connection signal="left_button" from="move_buttons" to="." method="_on_move_buttons_left_button"]
 [connection signal="right_button" from="move_buttons" to="." method="_on_move_buttons_right_button"]
 [connection signal="up_button" from="move_buttons" to="." method="_on_move_buttons_up_button"]
+[connection signal="input_event" from="move_buttons/left" to="move_buttons" method="_on_left_input_event"]
 [connection signal="input_event" from="move_buttons/down" to="move_buttons" method="_on_down_input_event"]
 [connection signal="input_event" from="move_buttons/up" to="move_buttons" method="_on_up_input_event"]
-[connection signal="input_event" from="move_buttons/left" to="move_buttons" method="_on_left_input_event"]
 [connection signal="input_event" from="move_buttons/right" to="move_buttons" method="_on_right_input_event"]

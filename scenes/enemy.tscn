@@ -1,13 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://knklcl5ypfqd"]
+[gd_scene load_steps=5 format=3 uid="uid://knklcl5ypfqd"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_am0vy"]
 [ext_resource type="Texture2D" uid="uid://bq7cubkfqbhmp" path="res://assets/runes/eye.png" id="1_rq6hg"]
 [ext_resource type="PackedScene" uid="uid://ba2uik116jrrj" path="res://scenes/timer.tscn" id="3_jx2tv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foru4"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_8vcyf"]
-font_color = Color(0, 0, 0, 1)
 
 [node name="Enemy" type="Node2D" groups=["enemy_runes"]]
 script = ExtResource("1_am0vy")
@@ -36,25 +33,5 @@ offset_bottom = 8.0
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
-
-[node name="active" type="Label" parent="."]
-visible = false
-offset_left = -9.0
-offset_top = -12.0
-offset_right = 31.0
-offset_bottom = 11.0
-scale = Vector2(0.48046, 0.49945)
-text = "test"
-label_settings = SubResource("LabelSettings_8vcyf")
-
-[node name="timer" type="Label" parent="."]
-visible = false
-offset_left = -8.0
-offset_top = -2.0
-offset_right = 32.0
-offset_bottom = 21.0
-scale = Vector2(0.48046, 0.49945)
-text = "test"
-label_settings = SubResource("LabelSettings_8vcyf")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

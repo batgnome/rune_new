@@ -252,7 +252,7 @@ func set_rune(rune):
 		max_size = 0
 		texture = blank
 		set_texture(texture)
-	#attack_collision_2(attack_range)
+	attack_collision_2(attack_range)
 func set_texture(img):
 	$Sprite2D.texture = img	
 		
@@ -268,12 +268,10 @@ func _on_inv_ui_close_button():
 
 
 func _on_move_buttons_down_button():
-	print("down?")
 	move_in_direction(Vector2.DOWN)
 
 
 func _on_move_buttons_left_button():
-	print("left?")
 	move_in_direction(Vector2.LEFT)
 
 
@@ -286,6 +284,7 @@ func _on_move_buttons_up_button():
 
 
 func _on_mouse_selected(_viewport, event, _shape_idx):
+
 	if CURRENT_STATE != STATE.BUILD:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			manager.rune = self

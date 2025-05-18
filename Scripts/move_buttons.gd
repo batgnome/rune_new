@@ -23,10 +23,8 @@ func _on_right_input_event(_viewport, event, _shape_idx):
 
 
 func _on_left_input_event(_viewport, event, _shape_idx):
-	print(event)
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			
 			emit_signal("left_button")
 
 func _on_up_input_event(_viewport, event, _shape_idx):
