@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbldbimjt3s8g"]
+[gd_scene load_steps=7 format=3 uid="uid://cbldbimjt3s8g"]
 
 [ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="1_6j252"]
 [ext_resource type="Script" path="res://Scripts/tile_map_player.gd" id="2_0am55"]
+[ext_resource type="Texture2D" uid="uid://24prtrrx3jxo" path="res://assets/HD RUNES/TILE.png" id="2_bwlqe"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cgofy"]
 texture = ExtResource("1_6j252")
@@ -27,11 +28,18 @@ texture_region_size = Vector2i(20, 20)
 3:0/0 = 0
 3:0/0/custom_data_0 = true
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wl6k4"]
+texture = ExtResource("2_bwlqe")
+texture_region_size = Vector2i(1000, 1000)
+0:0/0 = 0
+0:0/0/custom_data_0 = true
+
 [sub_resource type="TileSet" id="TileSet_brrv6"]
 tile_size = Vector2i(20, 20)
 custom_data_layer_0/name = "walkable"
 custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_cgofy")
+sources/1 = SubResource("TileSetAtlasSource_wl6k4")
 
 [node name="TileMapPlayer" type="TileMap"]
 tile_set = SubResource("TileSet_brrv6")

@@ -7,7 +7,7 @@ func _ready():
 	parent = get_parent()
 	current_enem = await select_playing_enemy()
 	
-func _process(delta):
+func _process(_delta):
 	
 	if is_instance_valid(current_enem) and current_enem:
 		match current_enem.CURRENT_STATE:

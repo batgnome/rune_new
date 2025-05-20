@@ -1,241 +1,194 @@
 extends Node2D
+
 @export var inv: RuneInv
-var myInv
+var inv_ui
 var inside = false
 var inside_hold = false
-var Rname: String = "Blank"
+var rune_name: String = "Blank"
 var speed: int = 0 
-var attack_range: int =0 
+var attack_range: int = 0
 var attack_power: int = 0
 var max_size: int = 0
-var blank = preload("res://assets/runes/blank.png")
-var texture: Texture2D = preload("res://assets/runes/blank.png")
+
+var blank_texture = preload("res://assets/runes/blank.png")
+var texture: Texture2D = blank_texture
+
 var current_rune: runeItem
 var manager
 var current_moves = 0
-var marker = preload("res://assets/runes/marker.png")
-var att_marker = preload("res://assets/runes/att_marker.png")
-var arrow_marker = preload("res://assets/runes/arrow_marker.png")
-var att_col = preload("res://scenes/attack_collision.tscn")
-var tail = preload("res://scenes/tail.tscn")
+
+var marker_texture = preload("res://assets/runes/marker.png")
+var attack_marker_texture = preload("res://assets/runes/att_marker.png")
+var arrow_marker_texture = preload("res://assets/runes/arrow_marker.png")
+
+var attack_collision_scene = preload("res://scenes/attack_collision.tscn")
+var tail_scene = preload("res://scenes/tail.tscn")
+
 var tail_position = []
 var tails = []
-enum STATE {BUILD,PRE,MOVE,ATTACK}
+var attack_done = false
+
+const TILE_OFFSET = Vector2(-10, -10)
 const TILESIZE = 20
+const TIMER_SPEED = 2
+enum STATE { BUILD, PRE, MOVE, ATTACK }
+
 @onready var clock = $Timer
-@onready var  CURRENT_STATE = STATE.BUILD
+@onready var current_state = STATE.BUILD
+
 signal rune_set(rune)
 
 func get_current_state():
-	return CURRENT_STATE
+	return current_state
+
 func _ready():
 	$Sprite2D.material = $Sprite2D.material.duplicate()
-	CURRENT_STATE = STATE.BUILD
 	set_rune(preload("res://runes/blank.tres"))
 	manager = get_parent().get_parent()
-	myInv = %Inv_ui
-	myInv.connect("rune_chosen", Callable(self, "_on_rune_chosen"))
-	
-	
+	inv_ui = %Inv_ui
+	inv_ui.connect("rune_chosen", Callable(self, "_on_rune_chosen"))
+
 func _process(_delta):
-	$timer_display.set_value((clock.get_time_left()/clock.wait_time)*100)
+	$timer_display.set_value((clock.get_time_left() / clock.wait_time) * 100)
 	update_tails()
-	if CURRENT_STATE != STATE.BUILD:
+	if current_state != STATE.BUILD:
 		$Sprite2D.material.set_shader_parameter("show_outline", manager.rune == self)
-		if current_moves <= 0 and CURRENT_STATE == STATE.MOVE:
-			CURRENT_STATE = STATE.ATTACK
-			clock.start(1)
+		if current_moves <= 0 and current_state == STATE.MOVE:
+			set_state(STATE.ATTACK)
+			clock.start(TIMER_SPEED)
 			queue_redraw()
-		if CURRENT_STATE == STATE.ATTACK:
+		elif current_state == STATE.ATTACK:
 			set_attack()
-			pass
+
 func _draw():
-	#render moves
-	if CURRENT_STATE != STATE.BUILD:
-		if manager.rune == self:
-			#print("state: ", CURRENT_STATE, " moves: ", current_moves)
-			if CURRENT_STATE == STATE.ATTACK:
-				#print("super")
-				render_markers(att_marker,attack_range)
-				
-			if CURRENT_STATE == STATE.MOVE:
-				
-				
-				if current_moves >0:
-					var rect1 =Rect2(Vector2(-10,-30),Vector2(20,20))
-					if can_move_to(Vector2(position.x-20,position.y)):
-						draw_set_transform(Vector2(0, 0), deg_to_rad(-90), Vector2.ONE)
-						draw_texture_rect(arrow_marker,rect1,false)
-					if can_move_to(Vector2(position.x+20,position.y)):
-						draw_set_transform(Vector2(0, 0), deg_to_rad(90), Vector2.ONE)
-						draw_texture_rect(arrow_marker,rect1,false)
-					#Up
-					if can_move_to(Vector2(position.x,position.y-20)):
-						draw_set_transform(Vector2(0, 0), deg_to_rad(0), Vector2.ONE)
-						draw_texture_rect(arrow_marker,rect1,false)
-					#Down
-					if can_move_to(Vector2(position.x,position.y+20)):
-						draw_set_transform(Vector2(0, 0), deg_to_rad(180), Vector2.ONE)
-						draw_texture_rect(arrow_marker,rect1,false)
-					draw_set_transform(Vector2(0, 0), deg_to_rad(0), Vector2.ONE)
-				render_markers(marker,current_moves)
-		
-func render_markers(mark,size):
-	var offset = Vector2(-10,-10)
+	if current_state != STATE.BUILD and manager.rune == self:
+		if current_state == STATE.ATTACK and not attack_done:
+			render_markers(attack_marker_texture, attack_range)
+		elif current_state == STATE.MOVE and current_moves > 0:
+			draw_movement_arrows()
+			render_markers(marker_texture, current_moves)
+
+func render_markers(mark, size):
 	for x in range(-size, size + 1):
 		for z in range(-size, size + 1):
 			if abs(z) + abs(x) <= size:
-				if can_move_to(Vector2(position.x+20*x,position.y+20*z)):
-					var rect =Rect2(Vector2(offset.x+20*x,offset.y+20*z),Vector2(20,20))
-					draw_texture_rect(mark,rect,false)	
+				var target_pos = Vector2(position.x + TILESIZE * x, position.y + TILESIZE * z)
+				if can_move_to(target_pos):
+					var rect = Rect2(Vector2(TILE_OFFSET.x + TILESIZE * x, TILE_OFFSET.y + TILESIZE * z), Vector2(TILESIZE, TILESIZE))
+					draw_texture_rect(mark, rect, false)
 
+func draw_movement_arrows():
+	var rect = Rect2(Vector2(-10, -30), Vector2(TILESIZE, TILESIZE))
+	var dirs = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
+	var angles = [-90, 90, 0, 180]
+	for i in range(4):
+		var dir = dirs[i]
+		if can_move_to(position + TILESIZE * dir):
+			draw_set_transform(Vector2.ZERO, deg_to_rad(angles[i]), Vector2.ONE)
+			draw_texture_rect(arrow_marker_texture, rect, false)
+	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
 
 func attack_collision_2(size):
-	
 	for child in %att_area.get_children():
 		child.queue_free()
-	var offset = Vector2(-10, -10)
-
 	for x in range(-size, size + 1):
 		for y in range(-size, size + 1):
-			if abs(x) + abs(y) <= size:  # same as your marker shape
-				if !(x == 0 and y == 0):
-					var tile_center = Vector2(x + 20 * x, y + 20 * y)
-					var att = att_col.instantiate()
-					att.position = tile_center
-					%att_area.add_child(att)
+			if abs(x) + abs(y) <= size and not (x == 0 and y == 0):
+				var tile_center = Vector2(x + TILESIZE * x, y + TILESIZE * y)
+				var att = attack_collision_scene.instantiate()
+				att.position = tile_center
+				att.connect("attack_done", Callable(self, "_attack_done"))
+				att.parent = self
+				%att_area.add_child(att)
+
+func _attack_done():
+	attack_done = true
+	queue_redraw()
+
 func set_attack():
 	for a in %att_area.get_children():
 		a.set_pickable(true)
 	for a in $move_buttons.get_children():
 		a.set_pickable(false)
+
 func set_move():
 	for a in %att_area.get_children():
 		a.set_pickable(false)
 	for a in $move_buttons.get_children():
 		a.set_pickable(true)
-					
-#closes menu if selected outside the rune
+
 func _unhandled_input(event):
-	if CURRENT_STATE != STATE.BUILD:
-		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			myInv.close()
-			
+	if current_state != STATE.BUILD and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		inv_ui.close()
 		if manager.rune == self:
-			
-			if CURRENT_STATE == STATE.MOVE:
-				if current_moves > 0:
-					move_logic(event)
-				else:
-					CURRENT_STATE = STATE.ATTACK
+			queue_redraw()
+			if not current_moves > 0 and current_state == STATE.MOVE:
+				set_state(STATE.ATTACK)
 		else:
 			queue_redraw()
-		
-##-------------------------Main Game-------------------------##
-func move_logic(event):
-	if CURRENT_STATE != STATE.BUILD:
-		var pre_position = position
-		if event.is_action_pressed('left') and can_move_to(position + (20*Vector2.LEFT)) and not $move_buttons/left.has_overlapping_areas():
-			position += Vector2.LEFT*20
-			current_moves -= 1
-			tail_position.append(pre_position)
-			emit_signal("rune_set",self)
-		if event.is_action_pressed('right') and can_move_to(position + (20*Vector2.RIGHT)) and not $move_buttons/right.has_overlapping_areas():
-			position += Vector2.RIGHT*20
-			current_moves -= 1
-			tail_position.append(pre_position)
-			emit_signal("rune_set",self)
-		if event.is_action_pressed('up') and can_move_to(position + (20*Vector2.UP)) and not $move_buttons/up.has_overlapping_areas():
-			position += Vector2.UP*20
-			current_moves -= 1
-			tail_position.append(pre_position)
-			emit_signal("rune_set",self)
-		if event.is_action_pressed('down') and can_move_to(position + (20*Vector2.DOWN)) and not $move_buttons/down.has_overlapping_areas():
-			position += Vector2.DOWN*20
-			current_moves -= 1
-			tail_position.append(pre_position)
-			
-			emit_signal("rune_set",self)
-		queue_redraw()
-
+	if current_state == STATE.MOVE:
+		if event.is_action("attack"):
+			set_attack()
 func move_in_direction(dir: Vector2):
-	if CURRENT_STATE != STATE.BUILD:
+	if current_state != STATE.BUILD and current_state == STATE.MOVE and manager.rune == self:
 		var no_move = false
-		print(dir)
 		if dir == Vector2.UP:
 			no_move = $move_buttons/up.has_overlapping_areas()
-		if dir == Vector2.DOWN:
+		elif dir == Vector2.DOWN:
 			no_move = $move_buttons/down.has_overlapping_areas()
-		if dir == Vector2.LEFT:
+		elif dir == Vector2.LEFT:
 			no_move = $move_buttons/left.has_overlapping_areas()
-		if dir == Vector2.RIGHT:
+		elif dir == Vector2.RIGHT:
 			no_move = $move_buttons/right.has_overlapping_areas()
-			
-		if CURRENT_STATE != STATE.MOVE or manager.rune != self:
-			return
-		var target_pos = position + dir * 20
+		var target_pos = position + dir * TILESIZE
 		if can_move_to(target_pos) and current_moves > 0 and not no_move:
 			tail_position.append(global_position)
-			if tail_position.size() > max_size+1:
+			if tail_position.size() >= max_size:
 				tail_position.pop_front()
 			else:
 				create_tail()
 				update_tails()
-			
 			position = target_pos
 			current_moves -= 1
-			emit_signal("rune_set",self)
+			emit_signal("rune_set", self)
 			queue_redraw()
-			
+
 func create_tail():
-	var t = tail.instantiate()
+	var t = tail_scene.instantiate()
 	t.set_texture(current_rune.tail_texture)
 	t.top_level = true
 	t.add_to_group("pl_runes")
 	tails.append(t)
-	add_child(t)			
-	
+	add_child(t)
+
 func update_tails():
 	for i in tail_position.size():
-		tails[i].position = tail_position[i] -Vector2(TILESIZE,TILESIZE)/2
+		tails[i].position = tail_position[i] - Vector2(TILESIZE, TILESIZE) / 2
+
 func can_move_to(world_position: Vector2) -> bool:
-	
 	var map_pos = manager.tilemap.local_to_map(world_position)
 	var cell_data = manager.tilemap.get_cell_tile_data(0, map_pos)
-	
-	if cell_data:
-		var walkable = cell_data.get_custom_data("walkable")
-		return walkable == true
-	
-	return false
+	return cell_data and cell_data.get_custom_data("walkable") == true
 
-
-##-------------------------Pre Game-------------------------##
-##-------------------------Inventory functions-------------------------##
-#sets the current rune to the selected on in the menu
 func _on_rune_chosen(rune):
-	if CURRENT_STATE != STATE.BUILD:
-		if rune.name != 'blank':
-			if inv.get_amount(rune) > 0:
-				if current_rune:
-					inv.sub(rune)
-					inv.add(current_rune)
-				else:
-					inv.sub(rune)
-				current_rune=rune
-				set_rune(self)
-		else:
+	if current_state != STATE.BUILD:
+		if rune.name != "blank" and inv.get_amount(rune) > 0:
 			if current_rune:
+				inv.sub(rune)
 				inv.add(current_rune)
-				current_rune = null
+			else:
+				inv.sub(rune)
+			current_rune = rune
+			set_rune(self)
+		elif current_rune:
+			inv.add(current_rune)
+			current_rune = null
 			set_rune(self)
 
-#load the rune attributes
 func set_rune(rune):
-	emit_signal("rune_set",rune)
+	emit_signal("rune_set", rune)
 	if current_rune:
-		
-		Rname = current_rune.name
+		rune_name = current_rune.name
 		speed = current_rune.speed
 		current_moves = speed
 		attack_range = current_rune.attack_range
@@ -244,56 +197,48 @@ func set_rune(rune):
 		texture = current_rune.texture
 		set_texture(texture)
 	else:
-		Rname = "blank"
+		rune_name = "blank"
 		speed = 0
 		current_moves = 0
 		attack_range = 0
 		attack_power = 0
 		max_size = 0
-		texture = blank
+		texture = blank_texture
 		set_texture(texture)
 	attack_collision_2(attack_range)
+
 func set_texture(img):
-	$Sprite2D.texture = img	
-		
-#close inventory when another rune is selected, referenced in the autoload function:
-#runeSelectionManager
+	$Sprite2D.texture = img
+
 func deselect():
 	queue_redraw()
-	myInv.close()
-	
-#signal to the inv_ui node to get the close button on the inventory
+	inv_ui.close()
+
 func _on_inv_ui_close_button():
-	myInv.close()
-
-
-func _on_move_buttons_down_button():
-	move_in_direction(Vector2.DOWN)
-
-
-func _on_move_buttons_left_button():
-	move_in_direction(Vector2.LEFT)
-
-
-func _on_move_buttons_right_button():
-	move_in_direction(Vector2.RIGHT)
-
-
-func _on_move_buttons_up_button():
-	move_in_direction(Vector2.UP)
-
+	inv_ui.close()
 
 func _on_mouse_selected(_viewport, event, _shape_idx):
+	if current_state != STATE.BUILD and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		manager.rune = self
+		emit_signal("rune_set", self)
+		if current_state == STATE.PRE:
+			if inv_ui.is_open:
+				inv_ui.close()
+			else:
+				inv_ui.open()
+				RuneSelectionManager.select(self)
 
-	if CURRENT_STATE != STATE.BUILD:
-		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			manager.rune = self
-			#manager.set_rune(self)
-			emit_signal("rune_set",self)
-			if CURRENT_STATE == STATE.PRE:
-				if myInv.is_open:
-					myInv.close()
-				else:
-					myInv.open()
-					RuneSelectionManager.select(self)
+func _on_move_buttons_move_button(dir):
+	print(dir)
+	move_in_direction(dir)
 
+func _on_timer_timeout():
+	set_move()
+	attack_done = false
+	set_state(STATE.MOVE)
+	current_moves = speed
+
+func set_state(new_state):
+	if current_state != new_state:
+		current_state = new_state
+		queue_redraw()

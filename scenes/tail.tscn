@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ge3cyb07hei5"]
+[gd_scene load_steps=6 format=3 uid="uid://ge3cyb07hei5"]
 
 [ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="1_bp0lw"]
 [ext_resource type="Script" path="res://Scripts/tail.gd" id="1_q51hf"]
@@ -10,6 +10,10 @@ region = Rect2(40, 40, 20, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_50adh"]
 size = Vector2(16, 16)
 
+[sub_resource type="LabelSettings" id="LabelSettings_ox4lp"]
+font_size = 8
+font_color = Color(0, 0, 0, 1)
+
 [node name="Tail" type="Node2D"]
 position = Vector2(-10, -10)
 script = ExtResource("1_q51hf")
@@ -19,7 +23,15 @@ position = Vector2(10, 10)
 texture = SubResource("AtlasTexture_sug7m")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_50adh")
+
+[node name="index" type="Label" parent="."]
+offset_right = 20.0
+offset_bottom = 12.0
+text = "test"
+label_settings = SubResource("LabelSettings_ox4lp")

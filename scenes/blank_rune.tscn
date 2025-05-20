@@ -93,11 +93,9 @@ offset_bottom = -6.0
 
 [connection signal="input_event" from="select_rune" to="." method="_on_mouse_selected"]
 [connection signal="close_button" from="Inv_ui" to="." method="_on_inv_ui_close_button"]
-[connection signal="down_button" from="move_buttons" to="." method="_on_move_buttons_down_button"]
-[connection signal="left_button" from="move_buttons" to="." method="_on_move_buttons_left_button"]
-[connection signal="right_button" from="move_buttons" to="." method="_on_move_buttons_right_button"]
-[connection signal="up_button" from="move_buttons" to="." method="_on_move_buttons_up_button"]
+[connection signal="move_button" from="move_buttons" to="." method="_on_move_buttons_move_button"]
 [connection signal="input_event" from="move_buttons/left" to="move_buttons" method="_on_left_input_event"]
 [connection signal="input_event" from="move_buttons/down" to="move_buttons" method="_on_down_input_event"]
 [connection signal="input_event" from="move_buttons/up" to="move_buttons" method="_on_up_input_event"]
 [connection signal="input_event" from="move_buttons/right" to="move_buttons" method="_on_right_input_event"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -45,7 +45,6 @@ func _process(_delta):
 func _ready():
 	add_to_group("enemy_runes")
 	init()
-	add_to_group("enemy_runes")
 	print(get_groups())
 func init():
 	if type:
@@ -95,12 +94,14 @@ func create_tail():
 	t.set_texture(type.tail_texture)
 	t.top_level = true
 	t.add_to_group("enemy_runes")
+	t.add_index(tails.size())
 	tails.append(t)
 	add_child(t)			
 	
 func update_tails():
 	for i in tail_position.size():
-		tails[i].position = tail_position[i] -Vector2(TILESIZE,TILESIZE)/2
+		if is_instance_valid(tails[i]):
+			tails[i].position = tail_position[i] -Vector2(TILESIZE,TILESIZE)/2
 
 func get_nearest_rune():
 	var shortest_path = 10000
@@ -145,11 +146,18 @@ func _on_timer_timeout():
 	
 func delete_segments(size):
 	for s in size:
-		await wait(0.2)
-		if tails.size() > 0:
-			tails[s].queue_free()
-			tails.remove_at(s)
-			tail_position.remove_at(s)
+		#print("tail size: ",tails.size(),", size: ", size,", s:", s)
+		if tails.size() > 0 :
+			print(tilemap.local_to_map(tail_position[0]))
+			tilemap.astargrid.set_point_solid(tilemap.local_to_map(tail_position[0]),false)
+			
+			tail_position.remove_at(0)
+			if is_instance_valid(tails[0]):
+				tails[0].queue_free()
+			tails.remove_at(0)
 		else:
+			tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),false)
 			queue_free()
-	pass
+		tilemap.queue_redraw()
+		await wait(0.2)
+

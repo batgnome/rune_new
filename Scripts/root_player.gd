@@ -26,10 +26,10 @@ func _ready():
 
 	for i in get_child(1).get_children():
 		i.connect("rune_set", Callable(ui, "_on_main_get_rune"))
-		i.CURRENT_STATE = i.STATE.PRE
+		i.current_state = i.STATE.PRE
 	#print(tilemap)
 	_init()
-func _process(delta):
+func _process(_delta):
 	if runes.get_children().size() == 0:
 		print("dead")
 	if Entities.get_children().size() == 0:
@@ -46,7 +46,7 @@ func _on_main_ui_start():
 		#tilemap.queue_redraw()
 	else:
 		for i in runes.get_children():
-			if i.Rname =="blank":
+			if i.rune_name =="blank":
 				%AlertDialogue.popup_centered()
 				return
 		_start_game()
@@ -57,9 +57,9 @@ func _on_alert_dialogue_confirmed():
 func _start_game():
 	ui._hide_start()
 	for i in runes.get_children():
-		i.CURRENT_STATE = i.STATE.MOVE
+		i.current_state = i.STATE.MOVE
 		rune.set_rune(rune)
-		if i.Rname == "blank":
+		if i.rune_name == "blank":
 			i.queue_free()
 	for i in Entities.get_children():
 		i.clock.start(4)

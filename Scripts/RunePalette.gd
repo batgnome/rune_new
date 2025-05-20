@@ -26,14 +26,14 @@ func load_rune_buttons():
 	var t = preload("res://assets/tiles/tile.png")
 	var atlas_texture := AtlasTexture.new()
 	atlas_texture.set_atlas(t)
-	atlas_texture.set_region(Rect2i(Vector2i.ZERO,Vector2i(20,20)))
+	atlas_texture.set_region(Rect2i(Vector2i.ZERO,Vector2i(TILESIZE,TILESIZE)))
 	var rune = runeItem.new()
 	rune.name="tile"
 	create_btn(atlas_texture,rune)
 	
 	atlas_texture = AtlasTexture.new()
 	atlas_texture.set_atlas(t)
-	atlas_texture.set_region(Rect2i(Vector2i(20,40),Vector2i(20,20)))
+	atlas_texture.set_region(Rect2i(Vector2i(TILESIZE,40),Vector2i(TILESIZE,TILESIZE)))
 	rune = runeItem.new()
 	rune.name="erase tile"
 	create_btn(atlas_texture,rune)
