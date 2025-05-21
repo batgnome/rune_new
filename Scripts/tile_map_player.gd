@@ -46,12 +46,12 @@ func init_grid():
 		astargrid.set_point_solid(a,false)
 	
 
-func _draw():
-	#draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
-	#draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
-	##draw_rect(get_viewport_rect(),Color.RED)
-	
-	draw_grid()
+#func _draw():
+	##draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
+	##draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
+	###draw_rect(get_viewport_rect(),Color.RED)
+	#
+	#draw_grid()
 	#update_path()
 	#draw_rect(get_viewport_rect(),Color.AQUA)
 	
