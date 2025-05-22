@@ -6,16 +6,17 @@ var parent
 func _ready():
 	parent = get_parent()
 	current_enem = await select_playing_enemy()
-	
 func _process(_delta):
 	
 	if is_instance_valid(current_enem) and current_enem:
 		match current_enem.CURRENT_STATE:
 			current_enem.STATE.MOVE:
-				current_enem.walk_path()
+				if not current_enem.playing:
+					current_enem.take_turn()
 			current_enem.STATE.ATTACK:
 				pass
 		if not current_enem.active:
+			print("hey??")
 			current_enem = await select_playing_enemy()
 	else:
 		current_enem = await select_playing_enemy()

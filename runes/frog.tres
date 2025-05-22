@@ -14,7 +14,7 @@ region = Rect2(40, 40, 20, 20)
 [resource]
 script = ExtResource("1_iovm4")
 name = "frog"
-speed = 3
+speed = 5
 attack_range = 1
 attack_power = 2
 max_size = 1

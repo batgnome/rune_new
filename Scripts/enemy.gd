@@ -19,33 +19,23 @@ var max_range = 2
 var current_range = 2
 
 const TILESIZE = 20
+const TILE_OFFSET = Vector2(-10, -10)
 var speed = 2
 var playing = false
 var active  = true
-
+var attack_marker_texture = preload("res://assets/runes/att_marker.png")
+var attack_collision_scene = preload("res://scenes/attack_collision.tscn")
 @onready var clock = $Timer
 
 func _process(_delta):
 	$timer_display.set_value((clock.get_time_left()/clock.wait_time)*100)
-	#match CURRENT_STATE:
-		#
-		#STATE.MOVE:
-			##$timer_display.set_value(100)
-			##if playing:
-			#walk_path()
-		#STATE.ATTACK:
-			#$timer_display.set_value(($Timer.get_time_left()/$Timer.wait_time)*100)
-			#$timer.text = str(($Timer.get_time_left()/$Timer.wait_time)*100)
-			#if $Timer.time_left  <= 0:
-				#CURRENT_STATE = STATE.MOVE
-				#current_range = max_range
-				#active = true
-	#
-		
+
+
 func _ready():
 	add_to_group("enemy_runes")
 	init()
 	print(get_groups())
+	
 func init():
 	if type:
 		$Sprite2D.texture = type.texture
@@ -56,7 +46,7 @@ func init():
 		type = preload("res://runes/eye.tres")
 
 func move(pos):
-	await wait(0.4)
+	
 	tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),false)
 	if pos != global_position:
 		tail_position.append(global_position)
@@ -71,24 +61,60 @@ func move(pos):
 	tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
 	tilemap.queue_redraw()
 
+func take_turn():
+	playing = true
+	CURRENT_STATE = STATE.MOVE
+	await walk_path()
+	await start_attack()
+	
+func start_attack():
+	$Timer.start(speed)
+	active = false
+	playing = false
+	CURRENT_STATE = STATE.ATTACK
+	queue_redraw()
+
 func walk_path():
+	
 	get_nearest_rune()
 	var raw_path = tilemap.get_rune_path(
 		pos_tran(global_position),
 		pos_tran(target.global_position)
 	)
 	if raw_path.size() > 2 and current_range > 0:
-		await move(raw_path[1])
+		await wait(0.4)
+		move(raw_path[1])
 		current_range -= 1
-		walk_path()
-	else:
-		CURRENT_STATE = STATE.ATTACK
-		$Timer.start(speed)
-		active = false
-		playing = false
+		await walk_path()
 		#$active.text = name+": not playing"
-		
 
+func render_markers(mark, size):
+	for x in range(-size, size + 1):
+		for z in range(-size, size + 1):
+			if abs(z) + abs(x) <= size:
+				var target_pos = Vector2(position.x + TILESIZE * x, position.y + TILESIZE * z)
+				if can_move_to(target_pos):
+					var rect = Rect2(Vector2(TILE_OFFSET.x + TILESIZE * x, TILE_OFFSET.y + TILESIZE * z), Vector2(TILESIZE, TILESIZE))
+					draw_texture_rect(mark, rect, false)
+
+func attack_collision_2(size):
+	for child in %att_area.get_children():
+		child.queue_free()
+	for x in range(-size, size + 1):
+		for y in range(-size, size + 1):
+			if abs(x) + abs(y) <= size and not (x == 0 and y == 0):
+				var tile_center = Vector2(x + TILESIZE * x, y + TILESIZE * y)
+				var att = attack_collision_scene.instantiate()
+				att.position = tile_center
+				att.connect("attack_done", Callable(self, "_attack_done"))
+				att.parent = self
+				%att_area.add_child(att)
+				
+func can_move_to(world_position: Vector2) -> bool:
+	var map_pos = tilemap.local_to_map(world_position)
+	var cell_data = tilemap.get_cell_tile_data(0, map_pos)
+	return cell_data and cell_data.get_custom_data("walkable") == true
+	
 func create_tail():
 	var t = tail.instantiate()
 	t.set_texture(type.tail_texture)
@@ -121,23 +147,6 @@ func get_nearest_rune():
 				queue_redraw()
 	return shortest_path
 				
-func pos_tran(pos):
-	return Vector2i(floor(pos.x/TILESIZE),floor(pos.y/TILESIZE))
-
-func _draw():
-	#_debug_draw_astar_line()
-	pass
-	
-func wait(seconds):
-	await get_tree().create_timer(seconds).timeout
-	
-func _debug_draw_astar_line():
-	if target:
-		var this_path = tilemap.get_rune_path(pos_tran(position),pos_tran(target.position))
-		path = this_path
-		$Line2D.global_position = Vector2(0,0)
-		$Line2D.points = PackedVector2Array(this_path)
-
 
 func _on_timer_timeout():
 	CURRENT_STATE = STATE.MOVE
@@ -160,4 +169,23 @@ func delete_segments(size):
 			queue_free()
 		tilemap.queue_redraw()
 		await wait(0.2)
+				
+#utils
+func pos_tran(pos):
+	return Vector2i(floor(pos.x/TILESIZE),floor(pos.y/TILESIZE))
+	
+func wait(seconds):
+	await get_tree().create_timer(seconds).timeout
 
+#debugs
+func _draw():
+	#_debug_draw_astar_line()
+	if CURRENT_STATE == STATE.ATTACK:
+		render_markers(attack_marker_texture, type.attack_range)
+	pass
+func _debug_draw_astar_line():
+	if target:
+		var this_path = tilemap.get_rune_path(pos_tran(position),pos_tran(target.position))
+		path = this_path
+		$Line2D.global_position = Vector2(0,0)
+		$Line2D.points = PackedVector2Array(this_path)

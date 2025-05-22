@@ -68,14 +68,6 @@ func _draw():
 			draw_movement_arrows()
 			render_markers(marker_texture, current_moves)
 
-func render_markers(mark, size):
-	for x in range(-size, size + 1):
-		for z in range(-size, size + 1):
-			if abs(z) + abs(x) <= size:
-				var target_pos = Vector2(position.x + TILESIZE * x, position.y + TILESIZE * z)
-				if can_move_to(target_pos):
-					var rect = Rect2(Vector2(TILE_OFFSET.x + TILESIZE * x, TILE_OFFSET.y + TILESIZE * z), Vector2(TILESIZE, TILESIZE))
-					draw_texture_rect(mark, rect, false)
 
 func draw_movement_arrows():
 	var rect = Rect2(Vector2(-10, -30), Vector2(TILESIZE, TILESIZE))
@@ -87,6 +79,15 @@ func draw_movement_arrows():
 			draw_set_transform(Vector2.ZERO, deg_to_rad(angles[i]), Vector2.ONE)
 			draw_texture_rect(arrow_marker_texture, rect, false)
 	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
+	
+func render_markers(mark, size):
+	for x in range(-size, size + 1):
+		for z in range(-size, size + 1):
+			if abs(z) + abs(x) <= size:
+				var target_pos = Vector2(position.x + TILESIZE * x, position.y + TILESIZE * z)
+				if can_move_to(target_pos):
+					var rect = Rect2(Vector2(TILE_OFFSET.x + TILESIZE * x, TILE_OFFSET.y + TILESIZE * z), Vector2(TILESIZE, TILESIZE))
+					draw_texture_rect(mark, rect, false)
 
 func attack_collision_2(size):
 	for child in %att_area.get_children():

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c56xodqblrruk"]
+[gd_scene load_steps=13 format=3 uid="uid://c56xodqblrruk"]
 
 [ext_resource type="Script" path="res://Scripts/root_player.gd" id="1_e5dos"]
 [ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/ui/main_ui.tscn" id="1_u188x"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://knklcl5ypfqd" path="res://scenes/enemy.tscn" id="4_sqlqv"]
 [ext_resource type="Resource" uid="uid://b606akji05or2" path="res://runes/frog.tres" id="5_qjrlp"]
 [ext_resource type="Script" path="res://Scripts/Entities.gd" id="6_j883g"]
-[ext_resource type="Resource" uid="uid://bue2rsrvksimq" path="res://runes/eye.tres" id="8_lxrwa"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pis10"]
 font_size = 29
@@ -460,14 +459,16 @@ offset_bottom = 130.0
 text = "TEST"
 label_settings = SubResource("LabelSettings_pis10")
 
-[node name="ROOT" type="Node2D" parent="."]
-script = ExtResource("1_e5dos")
-
-[node name="TileMap" type="TileMap" parent="ROOT"]
+[node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_vtuh5")
 rendering_quadrant_size = 20
+collision_visibility_mode = 2
 format = 2
+layer_0/z_index = -310
 layer_0/tile_data = PackedInt32Array(589834, 196608, 4, 589835, 0, 5, 655371, 0, 1, 720907, 0, 2, 720908, 65536, 2, 655372, 65536, 1, 589836, 65536, 0, 589837, 65536, 0, 655373, 65536, 1, 720909, 65536, 2, 720910, 65536, 2, 720911, 65536, 2, 720912, 65536, 2, 720913, 65536, 2, 720914, 65536, 2, 720915, 65536, 2, 720916, 65536, 2, 720917, 131072, 2, 655381, 131072, 1, 589845, 131072, 0, 589844, 393216, 3, 589838, 65536, 0, 589839, 65536, 0, 589840, 458752, 6, 524304, 0, 1, 458769, 65536, 1, 393233, 65536, 1, 327697, 65536, 1, 262161, 65536, 0, 393232, 0, 1, 458768, 0, 1, 327696, 0, 1, 262160, 131072, 5, 196624, 196608, 1, 131088, 262144, 4, 262162, 131072, 0, 327698, 393216, 3, 327699, 65536, 0, 327700, 131072, 0, 393236, 131072, 1, 458772, 131072, 1, 524308, 131072, 1, 655380, 65536, 1, 655379, 65536, 1, 655378, 65536, 1, 655377, 65536, 1, 655376, 65536, 1, 655375, 65536, 1, 655374, 65536, 1, 589841, 65536, 1, 589842, 65536, 1, 589843, 65536, 1, 524307, 65536, 1, 458771, 65536, 1, 393235, 65536, 1, 393234, 65536, 1, 458770, 65536, 1, 524306, 65536, 1, 524305, 65536, 1)
+
+[node name="ROOT" type="Node2D" parent="."]
+script = ExtResource("1_e5dos")
 
 [node name="TileMapPlayer" parent="ROOT" instance=ExtResource("2_pxtra")]
 rendering_quadrant_size = 20
@@ -484,13 +485,11 @@ position = Vector2(350, 170)
 [node name="Entities" type="Node2D" parent="ROOT"]
 script = ExtResource("6_j883g")
 
-[node name="Enemy" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
-position = Vector2(350, 110)
-tilemap = NodePath("../../TileMapPlayer")
-type = ExtResource("8_lxrwa")
+[node name="Enemy" parent="ROOT/Entities" instance=ExtResource("4_sqlqv")]
+position = Vector2(390, 110)
 
 [node name="Enemy4" parent="ROOT/Entities" node_paths=PackedStringArray("tilemap") instance=ExtResource("4_sqlqv")]
-position = Vector2(250, 190)
+position = Vector2(210, 190)
 tilemap = NodePath("../../TileMapPlayer")
 type = ExtResource("5_qjrlp")
 
