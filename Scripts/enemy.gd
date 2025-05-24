@@ -14,9 +14,9 @@ var tail = preload("res://scenes/tail.tscn")
 var tail_position = []
 var tails = []
 
-var maxsize = 2
-var max_range = 2
-var current_range = 2
+var maxsize
+var max_range
+var current_range
 
 const TILESIZE = 20
 const TILE_OFFSET = Vector2(-10, -10)
@@ -32,6 +32,8 @@ func _process(_delta):
 
 
 func _ready():
+	if not tilemap:
+		tilemap = get_parent().get_parent().get_child(0)
 	add_to_group("enemy_runes")
 	init()
 	print(get_groups())
@@ -44,6 +46,7 @@ func init():
 		current_range = type.speed
 	else:
 		type = preload("res://runes/eye.tres")
+		init()
 
 func move(pos):
 	
@@ -51,7 +54,7 @@ func move(pos):
 	if pos != global_position:
 		tail_position.append(global_position)
 		tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
-		if tail_position.size() > maxsize+1:
+		if tail_position.size() > maxsize-1:
 			tilemap.astargrid.set_point_solid(tilemap.local_to_map(tail_position[0]),false)
 			tail_position.pop_front()
 		else:

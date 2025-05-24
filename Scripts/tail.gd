@@ -9,5 +9,5 @@ func delete_segments(size):
 	get_parent().delete_segments(size)
 
 func add_index(size):
-	$index.text = str(size)
+	#$index.text = str(size)
 	queue_redraw()

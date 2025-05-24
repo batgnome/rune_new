@@ -26,6 +26,7 @@ inv = ExtResource("2_rjcnk")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_v0rvp")
+scale = Vector2(0.7, 0.7)
 texture = ExtResource("2_hurgw")
 metadata/_edit_group_ = true
 

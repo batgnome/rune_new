@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="runeItem" load_steps=5 format=3 uid="uid://djdewiqrurvm3"]
+
+[ext_resource type="Script" path="res://Scripts/rune_item.gd" id="1_hp7et"]
+[ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="2_idrj0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x42x7"]
+atlas = ExtResource("2_idrj0")
+region = Rect2(20, 60, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ndb1d"]
+atlas = ExtResource("2_idrj0")
+region = Rect2(0, 60, 20, 20)
+
+[resource]
+script = ExtResource("1_hp7et")
+name = "skull"
+speed = 2
+attack_range = 2
+attack_power = 3
+max_size = 6
+texture = SubResource("AtlasTexture_ndb1d")
+tail_texture = SubResource("AtlasTexture_x42x7")

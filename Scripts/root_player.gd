@@ -31,9 +31,11 @@ func _ready():
 	_init()
 func _process(_delta):
 	if runes.get_children().size() == 0:
-		print("dead")
+		pass
+		#print("dead")
 	if Entities.get_children().size() == 0:
-		print("win")
+		pass
+		#print("win")
 func _on_main_ui_start():
 	if current_state == STATES.PRE:
 		for i in runes.get_children():

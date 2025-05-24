@@ -130,25 +130,35 @@ func _unhandled_input(event):
 	if current_state == STATE.MOVE:
 		if event.is_action("attack"):
 			set_attack()
+			
 func move_in_direction(dir: Vector2):
 	if current_state != STATE.BUILD and current_state == STATE.MOVE and manager.rune == self:
 		var no_move = false
-		if dir == Vector2.UP:
-			no_move = $move_buttons/up.has_overlapping_areas()
-		elif dir == Vector2.DOWN:
-			no_move = $move_buttons/down.has_overlapping_areas()
-		elif dir == Vector2.LEFT:
-			no_move = $move_buttons/left.has_overlapping_areas()
-		elif dir == Vector2.RIGHT:
-			no_move = $move_buttons/right.has_overlapping_areas()
 		var target_pos = position + dir * TILESIZE
+		var index = tail_position.find(target_pos)
+		if index == -1:
+			if dir == Vector2.UP:
+				no_move = $move_buttons/up.has_overlapping_areas()
+			elif dir == Vector2.DOWN:
+				no_move = $move_buttons/down.has_overlapping_areas()
+			elif dir == Vector2.LEFT:
+				no_move = $move_buttons/left.has_overlapping_areas()
+			elif dir == Vector2.RIGHT:
+				no_move = $move_buttons/right.has_overlapping_areas()
+			
 		if can_move_to(target_pos) and current_moves > 0 and not no_move:
-			tail_position.append(global_position)
-			if tail_position.size() >= max_size:
-				tail_position.pop_front()
+			
+			if index != -1:
+				var temp = tail_position[index]
+				tail_position.remove_at(index)
+				tail_position.append(global_position)
 			else:
-				create_tail()
-				update_tails()
+				tail_position.append(global_position)
+				if tail_position.size() >= max_size:
+					tail_position.pop_front()
+				else:
+					create_tail()
+					update_tails()
 			position = target_pos
 			current_moves -= 1
 			emit_signal("rune_set", self)
@@ -230,7 +240,6 @@ func _on_mouse_selected(_viewport, event, _shape_idx):
 				RuneSelectionManager.select(self)
 
 func _on_move_buttons_move_button(dir):
-	print(dir)
 	move_in_direction(dir)
 
 func _on_timer_timeout():

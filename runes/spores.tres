@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="runeItem" load_steps=5 format=3 uid="uid://bc0tdk5aaabyx"]
+
+[ext_resource type="Script" path="res://Scripts/rune_item.gd" id="1_c5o4e"]
+[ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="2_hdtf5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x42x7"]
+atlas = ExtResource("2_hdtf5")
+region = Rect2(100, 60, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ndb1d"]
+atlas = ExtResource("2_hdtf5")
+region = Rect2(80, 60, 20, 20)
+
+[resource]
+script = ExtResource("1_c5o4e")
+name = "Spores"
+speed = 1
+attack_range = 5
+attack_power = 3
+max_size = 8
+texture = SubResource("AtlasTexture_ndb1d")
+tail_texture = SubResource("AtlasTexture_x42x7")
