@@ -26,10 +26,13 @@ var active  = true
 var attack_marker_texture = preload("res://assets/runes/att_marker.png")
 var attack_collision_scene = preload("res://scenes/attack_collision.tscn")
 @onready var clock = $Timer
-
+var attack_done = true
 func _process(_delta):
 	$timer_display.set_value((clock.get_time_left()/clock.wait_time)*100)
-
+	if CURRENT_STATE == STATE.ATTACK:
+		set_attack(true)
+		queue_redraw()
+		
 
 func _ready():
 	if not tilemap:
@@ -44,6 +47,7 @@ func init():
 		maxsize = type.max_size
 		max_range = type.speed
 		current_range = type.speed
+		attack_collision_2(type.attack_range)
 	else:
 		type = preload("res://runes/eye.tres")
 		init()
@@ -65,6 +69,8 @@ func move(pos):
 	tilemap.queue_redraw()
 
 func take_turn():
+	set_attack(true)
+	#attack_done = false
 	playing = true
 	CURRENT_STATE = STATE.MOVE
 	await walk_path()
@@ -72,24 +78,28 @@ func take_turn():
 	
 func start_attack():
 	$Timer.start(speed)
+	
 	active = false
 	playing = false
 	CURRENT_STATE = STATE.ATTACK
+	attack_done = false
+	queue_redraw()
 	queue_redraw()
 
 func walk_path():
 	
 	get_nearest_rune()
-	var raw_path = tilemap.get_rune_path(
-		pos_tran(global_position),
-		pos_tran(target.global_position)
-	)
-	if raw_path.size() > 2 and current_range > 0:
-		await wait(0.4)
-		move(raw_path[1])
-		current_range -= 1
-		await walk_path()
-		#$active.text = name+": not playing"
+	if is_instance_valid(target):
+		var raw_path = tilemap.get_rune_path(
+			pos_tran(global_position),
+			pos_tran(target.global_position)
+		)
+		if raw_path.size() > 2 and current_range > 0:
+			await wait(0.4)
+			move(raw_path[1])
+			current_range -= 1
+			await walk_path()
+			#$active.text = name+": not playing"
 
 func render_markers(mark, size):
 	for x in range(-size, size + 1):
@@ -113,6 +123,18 @@ func attack_collision_2(size):
 				att.parent = self
 				%att_area.add_child(att)
 				
+func _attack_done(rune):
+	print("haha")
+	attack_done = true
+	set_attack(false)
+	wait(0.4)
+	rune.delete_segments(type.attack_power)
+	
+
+func set_attack(yesno):
+	for a in %att_area.get_children():
+		a.set_pickable(yesno)
+						
 func can_move_to(world_position: Vector2) -> bool:
 	var map_pos = tilemap.local_to_map(world_position)
 	var cell_data = tilemap.get_cell_tile_data(0, map_pos)
@@ -183,9 +205,9 @@ func wait(seconds):
 #debugs
 func _draw():
 	#_debug_draw_astar_line()
-	if CURRENT_STATE == STATE.ATTACK:
+	if CURRENT_STATE == STATE.ATTACK and not attack_done:
 		render_markers(attack_marker_texture, type.attack_range)
-	pass
+	
 func _debug_draw_astar_line():
 	if target:
 		var this_path = tilemap.get_rune_path(pos_tran(position),pos_tran(target.position))

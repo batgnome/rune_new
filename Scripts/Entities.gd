@@ -16,7 +16,6 @@ func _process(_delta):
 			current_enem.STATE.ATTACK:
 				pass
 		if not current_enem.active:
-			print("hey??")
 			current_enem = await select_playing_enemy()
 	else:
 		current_enem = await select_playing_enemy()

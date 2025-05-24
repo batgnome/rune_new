@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d0e1ietq5fgdg"]
+[gd_scene load_steps=17 format=3 uid="uid://d0e1ietq5fgdg"]
 
 [ext_resource type="Script" path="res://Scripts/blank_rune.gd" id="1_jsdeh"]
 [ext_resource type="Texture2D" uid="uid://d0qvmbjy1de3r" path="res://assets/runes/blank.png" id="2_hurgw"]
@@ -7,12 +7,50 @@
 [ext_resource type="Shader" path="res://shaders/blank_rune.gdshader" id="3_iv7bb"]
 [ext_resource type="Script" path="res://Scripts/move_buttons.gd" id="6_0cotn"]
 [ext_resource type="PackedScene" uid="uid://ba2uik116jrrj" path="res://scenes/timer.tscn" id="7_g44an"]
+[ext_resource type="Texture2D" uid="uid://b7ai2h5qc04aw" path="res://assets/runes/splosion.png" id="8_eedlv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epdd4"]
+atlas = ExtResource("8_eedlv")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tl1qc"]
+atlas = ExtResource("8_eedlv")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8shhy"]
+atlas = ExtResource("8_eedlv")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pimjc"]
+atlas = ExtResource("8_eedlv")
+region = Rect2(60, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xot01"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epdd4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tl1qc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8shhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pimjc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v0rvp"]
 shader = ExtResource("3_iv7bb")
 shader_parameter/thickness = 1.0
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/show_outline = false
+shader_parameter/mask_offset = Vector2(0, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sudiy"]
 size = Vector2(18, 18)
@@ -23,6 +61,17 @@ size = Vector2(18, 18)
 script = ExtResource("1_jsdeh")
 inv = ExtResource("2_rjcnk")
 
+[node name="view_container" type="Node2D" parent="."]
+
+[node name="SubViewport" type="SubViewport" parent="view_container"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(10, 10)
+render_target_update_mode = 4
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="view_container/SubViewport"]
+sprite_frames = SubResource("SpriteFrames_xot01")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_v0rvp")
@@ -31,6 +80,8 @@ texture = ExtResource("2_hurgw")
 metadata/_edit_group_ = true
 
 [node name="select_rune" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 5
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="select_rune"]
@@ -92,6 +143,8 @@ offset_top = -11.0
 offset_right = 10.0
 offset_bottom = -6.0
 
+[connection signal="animation_finished" from="view_container/SubViewport/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="frame_changed" from="view_container/SubViewport/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
 [connection signal="input_event" from="select_rune" to="." method="_on_mouse_selected"]
 [connection signal="close_button" from="Inv_ui" to="." method="_on_inv_ui_close_button"]
 [connection signal="move_button" from="move_buttons" to="." method="_on_move_buttons_move_button"]

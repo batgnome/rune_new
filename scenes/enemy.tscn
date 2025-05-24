@@ -35,4 +35,7 @@ offset_bottom = 8.0
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="att_area" type="Node2D" parent="."]
+unique_name_in_owner = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

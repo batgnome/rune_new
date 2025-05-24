@@ -13,6 +13,7 @@ input_pickable = false
 script = ExtResource("1_hhtox")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.655, 0.655)
 shape = SubResource("RectangleShape2D_djdmk")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

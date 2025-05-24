@@ -27,7 +27,7 @@ var tail_scene = preload("res://scenes/tail.tscn")
 var tail_position = []
 var tails = []
 var attack_done = false
-
+var tilemap
 const TILE_OFFSET = Vector2(-10, -10)
 const TILESIZE = 20
 const TIMER_SPEED = 2
@@ -42,9 +42,14 @@ func get_current_state():
 	return current_state
 
 func _ready():
+	# Assuming your Sprite2D has a ShaderMaterial
+	
+	var viewport_texture = $view_container/SubViewport.get_texture()
+	$Sprite2D.material.set_shader_parameter("mask_texture", viewport_texture)
 	$Sprite2D.material = $Sprite2D.material.duplicate()
 	set_rune(preload("res://runes/blank.tres"))
 	manager = get_parent().get_parent()
+	tilemap = manager.tilemap
 	inv_ui = %Inv_ui
 	inv_ui.connect("rune_chosen", Callable(self, "_on_rune_chosen"))
 
@@ -149,7 +154,6 @@ func move_in_direction(dir: Vector2):
 		if can_move_to(target_pos) and current_moves > 0 and not no_move:
 			
 			if index != -1:
-				var temp = tail_position[index]
 				tail_position.remove_at(index)
 				tail_position.append(global_position)
 			else:
@@ -252,3 +256,31 @@ func set_state(new_state):
 	if current_state != new_state:
 		current_state = new_state
 		queue_redraw()
+		
+func delete_segments(size):
+	
+	
+	for s in size:
+		if tails.size() > 0:
+			print(manager.tilemap.local_to_map(tail_position[0]))
+			tail_position.remove_at(0)
+
+			if is_instance_valid(tails[0]):
+				await tails[0].die()
+			tails.remove_at(0)
+		else:
+			var anim_sprite = $view_container/SubViewport/AnimatedSprite2D
+			if not anim_sprite.is_playing():
+				anim_sprite.play("default")  # Replace with your actual animation name
+				await wait(0.8)
+				queue_free()
+			await wait(0.4)
+		
+		
+func wait(seconds):
+	await get_tree().create_timer(seconds).timeout		
+
+
+func _on_animated_sprite_2d_animation_finished():
+	print("dead???")
+	queue_free()
