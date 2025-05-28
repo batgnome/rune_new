@@ -14,7 +14,7 @@ func _process(_delta):
 				if not current_enem.playing:
 					current_enem.take_turn()
 			current_enem.STATE.ATTACK:
-				pass
+				current_enem.active = false
 		if not current_enem.active:
 			current_enem = await select_playing_enemy()
 	else:

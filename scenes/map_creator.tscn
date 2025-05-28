@@ -167,6 +167,5 @@ offset_bottom = 374.32
 text = "label"
 label_settings = SubResource("LabelSettings_rrmc0")
 
-[connection signal="rune_selected" from="CanvasLayer/RunePalette" to="." method="_on_rune_palette_rune_selected"]
 [connection signal="changed" from="CanvasLayer/RunePalette/HSlider" to="." method="_on_h_slider_changed"]
 [connection signal="value_changed" from="CanvasLayer/RunePalette/HSlider" to="." method="_on_h_slider_value_changed"]

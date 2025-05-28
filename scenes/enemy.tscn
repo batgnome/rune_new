@@ -1,10 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://knklcl5ypfqd"]
+[gd_scene load_steps=6 format=3 uid="uid://knklcl5ypfqd"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_am0vy"]
 [ext_resource type="Texture2D" uid="uid://bq7cubkfqbhmp" path="res://assets/runes/eye.png" id="1_rq6hg"]
 [ext_resource type="PackedScene" uid="uid://ba2uik116jrrj" path="res://scenes/timer.tscn" id="3_jx2tv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foru4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rh1ya"]
+font_size = 15
+font_color = Color(0, 0, 0, 1)
 
 [node name="Enemy" type="Node2D" groups=["enemy_runes"]]
 script = ExtResource("1_am0vy")
@@ -37,5 +41,14 @@ one_shot = true
 
 [node name="att_area" type="Node2D" parent="."]
 unique_name_in_owner = true
+
+[node name="state" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = -16.0
+offset_top = -28.0
+offset_right = 14.0
+offset_bottom = -5.0
+text = "state"
+label_settings = SubResource("LabelSettings_rh1ya")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,6 +1,8 @@
 extends TileMap
 var aStar:AStar2D
 var astargrid = AStarGrid2D.new()
+const  TILESIZE = 20
+
 @export var cell_size = Vector2i(TILESIZE,TILESIZE)
 var grid_size
 var start = Vector2i.ZERO
@@ -17,7 +19,6 @@ func _ready()->void:
 	parent = get_parent()
 	Entities = $"../Entities"
 	Runes = $"../runes"
-	print(Entities)
 	slider = %HSlider
 	slider_label = $"CanvasLayer/RunePalette/slider label"
 	slider_label.text = "Size:" + str(slider.value)
@@ -27,7 +28,6 @@ func _ready()->void:
 func _on_rune_selected(rune):
 	
 	current_rune = rune
-	print("Selected:", rune.name)
 	
 func init_grid():
 	grid_size = Vector2i(get_viewport_rect().size) / cell_size
@@ -55,7 +55,6 @@ func init_grid():
 		astargrid.set_point_solid(a,false)
 	
 	#astargrid.update()
-	#print(astargrid.get_point_path(start, end))
 	
 func init_runes(pos):
 	var p = rune.instantiate()
@@ -172,7 +171,6 @@ func paint_mult(screen_pos):
 
 
 func _on_h_slider_value_changed(value):
-	#print(slider)
 	slider_label.text = "Size:" + str(value)
 	pass # Replace with function body.
 

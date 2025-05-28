@@ -20,6 +20,7 @@ var current_moves = 0
 var marker_texture = preload("res://assets/runes/marker.png")
 var attack_marker_texture = preload("res://assets/runes/att_marker.png")
 var arrow_marker_texture = preload("res://assets/runes/arrow_marker.png")
+var bullet = preload("res://scenes/bullet.tscn")
 
 var attack_collision_scene = preload("res://scenes/attack_collision.tscn")
 var tail_scene = preload("res://scenes/tail.tscn")
@@ -27,7 +28,7 @@ var tail_scene = preload("res://scenes/tail.tscn")
 var tail_position = []
 var tails = []
 var attack_done = false
-var tilemap
+
 const TILE_OFFSET = Vector2(-10, -10)
 const TILESIZE = 20
 const TIMER_SPEED = 2
@@ -35,15 +36,13 @@ enum STATE { BUILD, PRE, MOVE, ATTACK }
 
 @onready var clock = $Timer
 @onready var current_state = STATE.BUILD
-
+@onready var tilemap
 signal rune_set(rune)
 
 func get_current_state():
 	return current_state
 
 func _ready():
-	# Assuming your Sprite2D has a ShaderMaterial
-	
 	var viewport_texture = $view_container/SubViewport.get_texture()
 	$Sprite2D.material.set_shader_parameter("mask_texture", viewport_texture)
 	$Sprite2D.material = $Sprite2D.material.duplicate()
@@ -54,6 +53,8 @@ func _ready():
 	inv_ui.connect("rune_chosen", Callable(self, "_on_rune_chosen"))
 
 func _process(_delta):
+	if !tilemap:
+		tilemap = manager.tilemap
 	$timer_display.set_value((clock.get_time_left() / clock.wait_time) * 100)
 	update_tails()
 	if current_state != STATE.BUILD:
@@ -73,14 +74,14 @@ func _draw():
 			draw_movement_arrows()
 			render_markers(marker_texture, current_moves)
 
-
 func draw_movement_arrows():
 	var rect = Rect2(Vector2(-10, -30), Vector2(TILESIZE, TILESIZE))
 	var dirs = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
 	var angles = [-90, 90, 0, 180]
 	for i in range(4):
 		var dir = dirs[i]
-		if can_move_to(position + TILESIZE * dir):
+		print("utils", tilemap)
+		if Utils.can_move_to(position + TILESIZE * dir,tilemap):
 			draw_set_transform(Vector2.ZERO, deg_to_rad(angles[i]), Vector2.ONE)
 			draw_texture_rect(arrow_marker_texture, rect, false)
 	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
@@ -90,11 +91,12 @@ func render_markers(mark, size):
 		for z in range(-size, size + 1):
 			if abs(z) + abs(x) <= size:
 				var target_pos = Vector2(position.x + TILESIZE * x, position.y + TILESIZE * z)
-				if can_move_to(target_pos):
+				print("utils", tilemap)
+				if Utils.can_move_to(target_pos,tilemap):
 					var rect = Rect2(Vector2(TILE_OFFSET.x + TILESIZE * x, TILE_OFFSET.y + TILESIZE * z), Vector2(TILESIZE, TILESIZE))
 					draw_texture_rect(mark, rect, false)
 
-func attack_collision_2(size):
+func init_attack_collision_shapes(size):
 	for child in %att_area.get_children():
 		child.queue_free()
 	for x in range(-size, size + 1):
@@ -151,7 +153,7 @@ func move_in_direction(dir: Vector2):
 			elif dir == Vector2.RIGHT:
 				no_move = $move_buttons/right.has_overlapping_areas()
 			
-		if can_move_to(target_pos) and current_moves > 0 and not no_move:
+		if Utils.can_move_to(target_pos,manager.tilemap) and current_moves > 0 and not no_move:
 			
 			if index != -1:
 				tail_position.remove_at(index)
@@ -179,11 +181,6 @@ func create_tail():
 func update_tails():
 	for i in tail_position.size():
 		tails[i].position = tail_position[i] - Vector2(TILESIZE, TILESIZE) / 2
-
-func can_move_to(world_position: Vector2) -> bool:
-	var map_pos = manager.tilemap.local_to_map(world_position)
-	var cell_data = manager.tilemap.get_cell_tile_data(0, map_pos)
-	return cell_data and cell_data.get_custom_data("walkable") == true
 
 func _on_rune_chosen(rune):
 	if current_state != STATE.BUILD:
@@ -220,7 +217,7 @@ func set_rune(rune):
 		max_size = 0
 		texture = blank_texture
 		set_texture(texture)
-	attack_collision_2(attack_range)
+	init_attack_collision_shapes(attack_range)
 
 func set_texture(img):
 	$Sprite2D.texture = img
@@ -258,11 +255,8 @@ func set_state(new_state):
 		queue_redraw()
 		
 func delete_segments(size):
-	
-	
 	for s in size:
 		if tails.size() > 0:
-			print(manager.tilemap.local_to_map(tail_position[0]))
 			tail_position.remove_at(0)
 
 			if is_instance_valid(tails[0]):
@@ -276,7 +270,14 @@ func delete_segments(size):
 				queue_free()
 			await wait(0.4)
 		
-		
+func fire():
+	var b = bullet.instantiate()
+	b.speed = 3
+	b.pos = global_position
+	b.rota = global_rotation
+	b.dir = rotation
+	add_child(b)
+	
 func wait(seconds):
 	await get_tree().create_timer(seconds).timeout		
 

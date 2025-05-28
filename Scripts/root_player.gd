@@ -11,7 +11,7 @@ var rune
 @onready var runes = $runes
 @onready var Entities = $Entities
 @onready var ui = %Main_Ui
-@onready var tilemap = $TileMapPlayer
+@onready var tilemap = %TileMapPlayer
 
 signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
@@ -22,12 +22,11 @@ func get_tilemap():
 	return tilemap
 
 func _ready():
-	#$Camera2D.zoom = Vector2(2,2)
-
+	tilemap = $TileMapPlayer
+	print(tilemap)
 	for i in get_child(1).get_children():
 		i.connect("rune_set", Callable(ui, "_on_main_get_rune"))
 		i.current_state = i.STATE.PRE
-	#print(tilemap)
 	_init()
 func _process(_delta):
 	if runes.get_children().size() == 0:

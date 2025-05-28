@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bd4v1ofrdrdch"]
+
+[ext_resource type="Texture2D" uid="uid://besldgwctsqp3" path="res://assets/ui/bullet.png" id="1_eagw2"]
+[ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_hwjcg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ceuq2"]
+size = Vector2(8, 14)
+
+[node name="bullet" type="CharacterBody2D"]
+scale = Vector2(13.78, 13.78)
+script = ExtResource("1_hwjcg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_eagw2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_ceuq2")

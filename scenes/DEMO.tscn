@@ -1,0 +1,115 @@
+[gd_scene load_steps=11 format=3 uid="uid://cdgkcs2q447st"]
+
+[ext_resource type="Texture2D" uid="uid://cgdao7lrh84ja" path="res://assets/tiles/SWAMP_DEMO_BG.png" id="1_ph77k"]
+[ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="2_c8p4p"]
+[ext_resource type="Script" path="res://Scripts/boy.gd" id="2_cy15w"]
+[ext_resource type="Texture2D" uid="uid://dqlpt1si4ccg" path="res://assets/overworld/boy.png" id="3_f5h34"]
+[ext_resource type="PackedScene" uid="uid://bfukg06s3chtj" path="res://scenes/fade_transition.tscn" id="5_qn2lo"]
+
+[sub_resource type="Curve2D" id="Curve2D_b6kkx"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 750, 85, 46.4475, -6.74238, -46.4475, 6.74238, 637, 111, 7.49154, -26.9695, -7.49154, 26.9695, 572, 156, 0, 0, 0, 0, 648, 211, 0, 0, 0, 0, 761, 232, 26.2204, -34.4611, -26.2204, 34.4611, 787, 291, 0, 0, 0, 0, 720, 344)
+}
+point_count = 7
+
+[sub_resource type="Curve2D" id="Curve2D_b1ud7"]
+_data = {
+"points": PackedVector2Array(-7.41624, -7.41624, 7.41624, 7.41624, 748, 86, 20.1298, 5.29732, -20.1298, -5.29732, 636, 114, 22.2487, 9.53517, -22.2487, -9.53517, 518, 109, 6.35678, 5.29732, -6.35678, -5.29732, 416, 73)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_i5x0c"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 411, 71, 0, 0, 0, 0, 394, 114, 0, 0, 0, 0, 359, 147, 0, 0, 0, 0, 360, 196, 0, 0, 0, 0, 398, 232, 0, 0, 0, 0, 446, 239, 0, 0, 0, 0, 513, 254)
+}
+point_count = 7
+
+[sub_resource type="Curve2D" id="Curve2D_atebx"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 517, 251, 0, 0, 0, 0, 588, 270, 0, 0, 0, 0, 644, 284, 0, 0, 0, 0, 669, 278, 0, 0, 0, 0, 729, 247, 0, 0, 0, 0, 774, 240, 0, 0, 0, 0, 813, 253, 0, 0, 0, 0, 839, 277, 0, 0, 0, 0, 858, 314, 0, 0, 0, 0, 898, 318, 0, 0, 0, 0, 1040, 326)
+}
+point_count = 11
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d1oep"]
+radius = 18.0
+height = 74.0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(578.5, 324)
+scale = Vector2(5.755, 4.88722)
+texture = ExtResource("1_ph77k")
+
+[node name="lvl0" type="Button" parent="."]
+offset_left = 740.0
+offset_top = 65.0
+offset_right = 773.0
+offset_bottom = 98.0
+icon = ExtResource("2_c8p4p")
+
+[node name="lvl1" type="Button" parent="."]
+offset_left = 702.0
+offset_top = 326.0
+offset_right = 735.0
+offset_bottom = 359.0
+icon = ExtResource("2_c8p4p")
+
+[node name="lvl2" type="Button" parent="."]
+offset_left = 360.0
+offset_top = 314.0
+offset_right = 393.0
+offset_bottom = 347.0
+icon = ExtResource("2_c8p4p")
+
+[node name="lvl3" type="Button" parent="."]
+offset_left = 465.0
+offset_top = 504.0
+offset_right = 498.0
+offset_bottom = 537.0
+icon = ExtResource("2_c8p4p")
+
+[node name="lvl4" type="Button" parent="."]
+offset_left = 1002.0
+offset_top = 571.0
+offset_right = 1035.0
+offset_bottom = 604.0
+icon = ExtResource("2_c8p4p")
+
+[node name="level_1" type="Path2D" parent="."]
+curve = SubResource("Curve2D_b6kkx")
+
+[node name="level_2" type="Path2D" parent="."]
+position = Vector2(-34, 263)
+curve = SubResource("Curve2D_b1ud7")
+
+[node name="level_3" type="Path2D" parent="."]
+position = Vector2(-34, 263)
+curve = SubResource("Curve2D_i5x0c")
+
+[node name="level_4" type="Path2D" parent="."]
+position = Vector2(-34, 263)
+curve = SubResource("Curve2D_atebx")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(754, 87)
+script = ExtResource("2_cy15w")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(-11, -49)
+scale = Vector2(0.585, 0.585)
+texture = ExtResource("3_f5h34")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-6, -41)
+shape = SubResource("CapsuleShape2D_d1oep")
+metadata/_edit_group_ = true
+
+[node name="Fade" parent="." instance=ExtResource("5_qn2lo")]
+
+[connection signal="pressed" from="lvl0" to="CharacterBody2D" method="_on_lvl_0_pressed"]
+[connection signal="pressed" from="lvl1" to="CharacterBody2D" method="_on_lvl_1_pressed"]
+[connection signal="pressed" from="lvl2" to="CharacterBody2D" method="_on_lvl_2_pressed"]
+[connection signal="pressed" from="lvl3" to="CharacterBody2D" method="_on_lvl_3_pressed"]
+[connection signal="pressed" from="lvl4" to="CharacterBody2D" method="_on_lvl_4_pressed"]

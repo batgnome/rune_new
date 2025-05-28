@@ -29,7 +29,6 @@ func _ready():
 
 	for i in get_child(0).get_children():
 		i.connect("rune_set", Callable(ui, "_on_main_get_rune"))
-	#print(tilemap)
 	_init()
 	
 func _on_main_ui_start():
