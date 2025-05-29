@@ -262,6 +262,7 @@ metadata/_edit_group_ = true
 
 [node name="inv" type="NinePatchRect" parent="Panel"]
 texture_filter = 1
+layout_mode = 0
 offset_left = 290.0
 offset_top = 2.0
 offset_right = 415.0

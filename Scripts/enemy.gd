@@ -63,13 +63,15 @@ func init():
 		init()
 
 
-func fire():
+func fire(rotate):
+	
+	
 	var b = bullet.instantiate()
-	b.speed = 3
+	b.speed = 200  # or however fast you want — 3 is probably too slow unless it's pixels/frame
 	b.pos = global_position
-	b.rota = global_rotation
-	b.dir = rotation
-	add_child(b)
+	b.rota = rotate  # This sets the direction the bullet travels
+	
+	get_tree().root.get_child(0).add_child(b)
 	
 func take_turn():
 	set_attack(true)
@@ -101,11 +103,12 @@ func init_attack_collision_shapes(size):
 				att.parent = self
 				%att_area.add_child(att)
 				
-func _attack_done(rune):
+func _attack_done(rune,area):
+	var rotate = get_angle_to(rune.position)
 	attack_done = true
 	set_attack(false)
 	wait(0.4)
-	fire()
+	fire(rotate)
 	#rune.delete_segments(type.attack_power)
 	
 

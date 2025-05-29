@@ -19,7 +19,7 @@ func _on_area_entered(area):
 	if parent.is_in_group("enemy_runes"):
 		if area.get_parent() and area.get_parent().is_in_group("pl_runes") and not parent.attack_done:
 			enem = area.get_parent()
-			emit_signal("attack_done",enem)
+			emit_signal("attack_done",enem,self)
 	else:
 		if area.get_parent() and area.get_parent().is_in_group("enemy_runes"):
 			enem = area.get_parent()
