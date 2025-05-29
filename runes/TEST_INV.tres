@@ -1,0 +1,76 @@
+[gd_resource type="Resource" script_class="RuneInv" load_steps=25 format=3 uid="uid://cptdrns1oui5i"]
+
+[ext_resource type="Script" path="res://Scripts/runeInv.gd" id="1_ewqhp"]
+[ext_resource type="Resource" uid="uid://bkb5y5qlkh36l" path="res://runes/wizard.tres" id="2_isd51"]
+[ext_resource type="Script" path="res://Scripts/rune_slots.gd" id="3_woyoe"]
+[ext_resource type="Resource" uid="uid://cp6d687jq0df2" path="res://runes/wheel.tres" id="4_gs8ac"]
+[ext_resource type="Resource" uid="uid://c4p1snujn35eo" path="res://runes/archer.tres" id="5_b1vrw"]
+[ext_resource type="Resource" uid="uid://dsbiv82sptgkv" path="res://runes/brain.tres" id="6_bn6up"]
+[ext_resource type="Resource" uid="uid://bue2rsrvksimq" path="res://runes/eye.tres" id="7_ocatn"]
+[ext_resource type="Resource" uid="uid://b606akji05or2" path="res://runes/frog.tres" id="8_hm706"]
+[ext_resource type="Resource" uid="uid://b6ypmertvmsoq" path="res://runes/miner.tres" id="9_8jj00"]
+[ext_resource type="Resource" uid="uid://chl1gpxev6r52" path="res://runes/sheep.tres" id="10_ssbds"]
+[ext_resource type="Resource" uid="uid://djdewiqrurvm3" path="res://runes/skull.tres" id="11_ab3l2"]
+[ext_resource type="Resource" uid="uid://bc0tdk5aaabyx" path="res://runes/spores.tres" id="12_au0eu"]
+
+[sub_resource type="Resource" id="Resource_4uvfr"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("2_isd51")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_ea75t"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("4_gs8ac")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_krtd7"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("5_b1vrw")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_0kocb"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("6_bn6up")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_3mss1"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("7_ocatn")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_d7cl3"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("8_hm706")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_s26kb"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("9_8jj00")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_nxaff"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("10_ssbds")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_t2jgi"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("11_ab3l2")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_eothh"]
+script = ExtResource("3_woyoe")
+rune = ExtResource("12_au0eu")
+amount = -1
+
+[sub_resource type="Resource" id="Resource_8b2su"]
+script = ExtResource("3_woyoe")
+amount = 0
+
+[sub_resource type="Resource" id="Resource_7by0f"]
+script = ExtResource("3_woyoe")
+amount = 0
+
+[resource]
+script = ExtResource("1_ewqhp")
+slots = Array[ExtResource("3_woyoe")]([SubResource("Resource_4uvfr"), SubResource("Resource_ea75t"), SubResource("Resource_krtd7"), SubResource("Resource_0kocb"), SubResource("Resource_3mss1"), SubResource("Resource_d7cl3"), SubResource("Resource_s26kb"), SubResource("Resource_nxaff"), SubResource("Resource_t2jgi"), SubResource("Resource_eothh"), SubResource("Resource_8b2su"), SubResource("Resource_7by0f")])

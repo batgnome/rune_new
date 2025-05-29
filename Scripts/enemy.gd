@@ -152,7 +152,6 @@ func walk_path():
 			pos_tran(global_position),
 			pos_tran(target.global_position)
 		)
-
 		if raw_path.size() < 3:
 			break  # No path or already at target
 
@@ -204,6 +203,7 @@ func update_tails():
 			tails[i].position = tail_position[i] -Vector2(TILESIZE,TILESIZE)/2
 			
 func get_nearest_rune():
+	
 	var shortest_path = 10000
 	var current_path = 0
 	var candidates = get_tree().get_nodes_in_group("pl_runes")

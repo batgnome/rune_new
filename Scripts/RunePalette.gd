@@ -2,6 +2,7 @@ extends Control
 
 @export var rune_folder_path: String = "res://runes"  # Adjust to your folder
 @export var button_scene: PackedScene  # We'll assign a simple Button scene here
+var TILESIZE = 20
 signal rune_selected(rune: runeItem)
 
 func _ready():

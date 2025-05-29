@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="RuneFighterMinimum"
-run/main_scene="res://scenes/map_player.tscn"
+run/main_scene="res://scenes/DEMO.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 

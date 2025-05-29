@@ -1,6 +1,7 @@
 extends Control
 
-@onready var inv: RuneInv = preload("res://runes/runeInventory.tres")
+#@onready var inv: RuneInv = preload("res://runes/runeInventory.tres")
+@onready var inv: RuneInv = preload("res://runes/TEST_INV.tres")
 @onready var slots: Array = $NinePatchRect/GridContainer.get_children()
 var is_open = false
 var select: runeItem

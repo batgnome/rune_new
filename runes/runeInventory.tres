@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="RuneInv" load_steps=22 format=3 uid="uid://dyld06sk0hfem"]
+[gd_resource type="Resource" script_class="RuneInv" load_steps=25 format=3 uid="uid://dyld06sk0hfem"]
 
 [ext_resource type="Script" path="res://Scripts/runeInv.gd" id="1_jh5s5"]
 [ext_resource type="Script" path="res://Scripts/rune_slots.gd" id="2_2qfvr"]
@@ -8,58 +8,65 @@
 [ext_resource type="Resource" uid="uid://chl1gpxev6r52" path="res://runes/sheep.tres" id="6_4rgct"]
 [ext_resource type="Resource" uid="uid://c4p1snujn35eo" path="res://runes/archer.tres" id="6_qhrup"]
 [ext_resource type="Resource" uid="uid://cp6d687jq0df2" path="res://runes/wheel.tres" id="7_6cq63"]
+[ext_resource type="Resource" uid="uid://b6ypmertvmsoq" path="res://runes/miner.tres" id="9_1doai"]
 [ext_resource type="Resource" uid="uid://dsbiv82sptgkv" path="res://runes/brain.tres" id="9_khtqv"]
+[ext_resource type="Resource" uid="uid://djdewiqrurvm3" path="res://runes/skull.tres" id="11_srle3"]
+[ext_resource type="Resource" uid="uid://bc0tdk5aaabyx" path="res://runes/spores.tres" id="12_bumxn"]
 
 [sub_resource type="Resource" id="Resource_4uvfr"]
 script = ExtResource("2_2qfvr")
 rune = ExtResource("2_nuxqp")
-amount = 2
+amount = -1
 
 [sub_resource type="Resource" id="Resource_ea75t"]
 script = ExtResource("2_2qfvr")
-rune = ExtResource("4_d2hij")
-amount = 4
+rune = ExtResource("7_6cq63")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_krtd7"]
 script = ExtResource("2_2qfvr")
-rune = ExtResource("5_thaxr")
-amount = 6
+rune = ExtResource("6_qhrup")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_0kocb"]
 script = ExtResource("2_2qfvr")
-rune = ExtResource("6_qhrup")
-amount = 5
+rune = ExtResource("9_khtqv")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_3mss1"]
 script = ExtResource("2_2qfvr")
-rune = ExtResource("7_6cq63")
-amount = 5
+rune = ExtResource("4_d2hij")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_d7cl3"]
 script = ExtResource("2_2qfvr")
-rune = ExtResource("6_4rgct")
-amount = 5
+rune = ExtResource("5_thaxr")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_s26kb"]
 script = ExtResource("2_2qfvr")
-rune = ExtResource("9_khtqv")
-amount = 5
+rune = ExtResource("9_1doai")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_nxaff"]
 script = ExtResource("2_2qfvr")
-amount = 0
+rune = ExtResource("9_1doai")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_t2jgi"]
 script = ExtResource("2_2qfvr")
-amount = 0
+rune = ExtResource("6_4rgct")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_eothh"]
 script = ExtResource("2_2qfvr")
-amount = 0
+rune = ExtResource("11_srle3")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_8b2su"]
 script = ExtResource("2_2qfvr")
-amount = 0
+rune = ExtResource("12_bumxn")
+amount = -1
 
 [sub_resource type="Resource" id="Resource_7by0f"]
 script = ExtResource("2_2qfvr")

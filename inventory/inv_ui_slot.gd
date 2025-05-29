@@ -15,7 +15,11 @@ func update(slot: runeSlots):
 		
 		item_visual.texture = slot.rune.texture
 		amount_text.visible = true
-		amount_text.text = str(slot.amount)
+		if slot.amount < 0:
+			amount_text.text = "∞"
+		else:
+			amount_text.text = str(slot.amount)
+		
 
 
 

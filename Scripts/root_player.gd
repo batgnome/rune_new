@@ -23,7 +23,6 @@ func get_tilemap():
 
 func _ready():
 	tilemap = $TileMapPlayer
-	print(tilemap)
 	for i in get_child(1).get_children():
 		i.connect("rune_set", Callable(ui, "_on_main_get_rune"))
 		i.current_state = i.STATE.PRE
@@ -31,10 +30,8 @@ func _ready():
 func _process(_delta):
 	if runes.get_children().size() == 0:
 		pass
-		#print("dead")
 	if Entities.get_children().size() == 0:
 		pass
-		#print("win")
 func _on_main_ui_start():
 	if current_state == STATES.PRE:
 		for i in runes.get_children():
@@ -67,7 +64,6 @@ func _start_game():
 	#set_enem_first()
 
 func set_enem_first():
-	
 	var closest_enem = 10000
 	var enem_start
 	for e in Entities.get_children():

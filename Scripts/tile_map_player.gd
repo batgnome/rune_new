@@ -78,9 +78,10 @@ func update_path():
 	
 			
 func get_rune_path(rune_start,rune_end):
-	start = rune_start
-	end = rune_end
-	return astargrid.get_point_path(start, end)
+	var points = astargrid.get_point_path(rune_start, rune_end)
+	
+	return points
+	
 var t
 var coords
 func _unhandled_input(event):

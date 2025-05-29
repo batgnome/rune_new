@@ -10,9 +10,7 @@ func _ready():
 	global_rotation = rota
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _physics_process(_delta):
 	velocity=Vector2(speed,0).rotated(dir)
 	move_and_slide()
 
-func shoot(pos):
-	var angle = get_angle_to(pos)

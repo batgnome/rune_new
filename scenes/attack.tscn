@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://p010ds6bfmem"]
+
+[ext_resource type="Texture2D" uid="uid://d046tnjgraith" path="res://assets/tiles/attack.png" id="1_knxip"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_74gge"]
+atlas = ExtResource("1_knxip")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytfq4"]
+atlas = ExtResource("1_knxip")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ftt6"]
+atlas = ExtResource("1_knxip")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gka0"]
+atlas = ExtResource("1_knxip")
+region = Rect2(60, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fryj3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74gge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytfq4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ftt6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gka0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 16.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrwvy"]
+
+[sub_resource type="Animation" id="Animation_7mm8b"]
+resource_name = "attack"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_44pbn"]
+_data = {
+"attack": SubResource("Animation_7mm8b")
+}
+
+[node name="attack" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fryj3")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_xrwvy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_44pbn")
+}

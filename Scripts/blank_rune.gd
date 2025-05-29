@@ -80,7 +80,6 @@ func draw_movement_arrows():
 	var angles = [-90, 90, 0, 180]
 	for i in range(4):
 		var dir = dirs[i]
-		print("utils", tilemap)
 		if Utils.can_move_to(position + TILESIZE * dir,tilemap):
 			draw_set_transform(Vector2.ZERO, deg_to_rad(angles[i]), Vector2.ONE)
 			draw_texture_rect(arrow_marker_texture, rect, false)
@@ -91,7 +90,6 @@ func render_markers(mark, size):
 		for z in range(-size, size + 1):
 			if abs(z) + abs(x) <= size:
 				var target_pos = Vector2(position.x + TILESIZE * x, position.y + TILESIZE * z)
-				print("utils", tilemap)
 				if Utils.can_move_to(target_pos,tilemap):
 					var rect = Rect2(Vector2(TILE_OFFSET.x + TILESIZE * x, TILE_OFFSET.y + TILESIZE * z), Vector2(TILESIZE, TILESIZE))
 					draw_texture_rect(mark, rect, false)
@@ -192,8 +190,12 @@ func _on_rune_chosen(rune):
 				inv.sub(rune)
 			current_rune = rune
 			set_rune(self)
+		elif rune.name != "blank" and inv.get_amount(rune) < 0:
+			current_rune = rune
+			set_rune(self)
 		elif current_rune:
-			inv.add(current_rune)
+			if inv and inv.get_amount(current_rune) >= 0:
+				inv.add(current_rune)
 			current_rune = null
 			set_rune(self)
 
@@ -234,6 +236,8 @@ func _on_mouse_selected(_viewport, event, _shape_idx):
 		manager.rune = self
 		emit_signal("rune_set", self)
 		if current_state == STATE.PRE:
+			
+			#build state/ inv stuff	
 			if inv_ui.is_open:
 				inv_ui.close()
 			else:
@@ -283,5 +287,4 @@ func wait(seconds):
 
 
 func _on_animated_sprite_2d_animation_finished():
-	print("dead???")
 	queue_free()
