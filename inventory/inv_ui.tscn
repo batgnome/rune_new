@@ -1,11 +1,58 @@
 [gd_scene load_steps=7 format=3 uid="uid://sro0000q02w4"]
 
-[ext_resource type="Script" path="res://inventory/Inv_ui.gd" id="1_i4rs2"]
 [ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="2_yhroo"]
 [ext_resource type="PackedScene" uid="uid://qux01r6dbeij" path="res://inventory/inv_ui_slot.tscn" id="3_k3ddg"]
 [ext_resource type="Texture2D" uid="uid://dy1yt5we2ip8c" path="res://assets/runes/close.png" id="4_u414j"]
 [ext_resource type="Texture2D" uid="uid://c3j5t501n3vyg" path="res://assets/runes/close_hover.png" id="5_4v3jp"]
 [ext_resource type="Texture2D" uid="uid://cf78y0t72m74d" path="res://assets/runes/confirm.png" id="6_v5f55"]
+
+[sub_resource type="GDScript" id="GDScript_r7ia3"]
+script/source = "extends Control
+
+#@onready var inv: RuneInv = preload(\"res://runes/runeInventory.tres\")
+@onready var inv: RuneInv = preload(\"res://runes/TEST_INV.tres\")
+@onready var slots: Array = $NinePatchRect/GridContainer.get_children()
+var is_open = false
+var select: runeItem
+signal rune_chosen(runeItem)
+signal close_button()
+
+func _ready():
+	self.mouse_filter = Control.MOUSE_FILTER_STOP
+	#inv.update.connect(update_slots)
+	update_slots()
+	close()
+
+func on_get_rune(rune):
+	if rune:
+		emit_signal(\"rune_chosen\", rune)
+	else:
+		emit_signal(\"rune_chosen\", preload(\"res://runes/blank.tres\"))
+
+func update_slots():
+	for i in range(min(inv.slots.size(),slots.size())):
+		slots[i].update(inv.slots[i])
+		slots[i].connect(\"getRune\", Callable(self, \"on_get_rune\")) 
+		
+
+func open():
+	self.mouse_filter = Control.MOUSE_FILTER_STOP
+	visible = true
+	is_open = true
+	
+	
+func close():
+	visible = false
+	is_open = false
+
+func _on_close_button_pressed():
+	emit_signal(\"rune_chosen\", preload(\"res://runes/blank.tres\"))
+	emit_signal(\"close_button\")
+
+
+func _on_confirm_pressed():
+	emit_signal(\"close_button\")
+"
 
 [node name="Inv_ui" type="Control"]
 z_index = 1486
@@ -14,7 +61,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 84.0
 offset_bottom = 61.0
-script = ExtResource("1_i4rs2")
+script = SubResource("GDScript_r7ia3")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 texture_filter = 1

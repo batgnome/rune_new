@@ -5,7 +5,13 @@ extends Control
 @onready var values = %values
 @onready var labels = %labels
 @onready var icon = %icon
-
+#@onready var inv: RuneInv = preload("res://runes/runeInventory.tres")
+@onready var inv: RuneInv = preload("res://runes/TEST_INV.tres")
+@onready var slots: Array = $Panel/inv/GridContainer.get_children()
+var is_open = false
+var select: runeItem
+signal rune_chosen(runeItem)
+signal close_button()
 signal start
 
 func _ready():
@@ -13,7 +19,11 @@ func _ready():
 	icon.visible = false
 	labels.visible = false
 	set_values()
-	pass # Replace with function body.
+	
+	
+	self.mouse_filter = Control.MOUSE_FILTER_STOP
+	#inv.update.connect(update_slots)
+	update_slots()
 
 func set_values(rune = null):
 
@@ -50,3 +60,16 @@ func _hide_start():
 	$Panel/NinePatchRect/start_label.visible = false
 	%Start.visible = false
 	
+
+
+
+func on_get_rune(rune):
+	if rune:
+		emit_signal("rune_chosen", rune)
+	else:
+		emit_signal("rune_chosen", preload("res://runes/blank.tres"))
+
+func update_slots():
+	for i in range(min(inv.slots.size(),slots.size())):
+		slots[i].update(inv.slots[i])
+		slots[i].connect("getRune", Callable(self, "on_get_rune")) 
