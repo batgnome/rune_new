@@ -111,15 +111,20 @@ func _unhandled_input(event):
 			set_attack()
 			
 func move_in_direction(dir: Vector2):
+	print("here 1")
 	if current_state != STATE.BUILD and current_state == STATE.MOVE and manager.rune == self:
+		print("here 2")
 		var no_move = false
 		var target_pos = position + dir * TILESIZE
 		var index = tail_position.find(target_pos)
+		
 		if index == -1:
 			if dir == Vector2.UP:
 				no_move = $move_buttons/up.has_overlapping_areas()
 			elif dir == Vector2.DOWN:
+				print("here 2")
 				no_move = $move_buttons/down.has_overlapping_areas()
+				print("here 3", no_move)
 			elif dir == Vector2.LEFT:
 				no_move = $move_buttons/left.has_overlapping_areas()
 			elif dir == Vector2.RIGHT:

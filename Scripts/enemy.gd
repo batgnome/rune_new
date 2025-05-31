@@ -34,14 +34,18 @@ func _process(_delta):
 	match CURRENT_STATE:
 		STATE.BUILD:
 			%state.text = "BUILD"
+			%att_area.get_child(0).get_child(0).disabled = true
 		STATE.PRE:
 			%state.text = "PRE"
+			%att_area.get_child(0).get_child(0).disabled = true
 		STATE.MOVE:
 			%state.text = "MOVE"
+			%att_area.get_child(0).get_child(0).disabled = true
 		STATE.ATTACK:
 			%state.text = "ATTACK"
 	if CURRENT_STATE == STATE.ATTACK:
-		set_attack(true)
+		#set_attack(true)
+		%att_area.get_child(0).get_child(0).disabled = false
 		$draw_layer.queue_redraw()
 		
 
@@ -52,6 +56,7 @@ func _ready():
 	init()
 	
 func init():
+	%att_area.get_child(0).get_child(0).disabled = true
 	if type:
 		$Sprite2D.texture = type.texture
 		maxsize = type.max_size
@@ -75,7 +80,7 @@ func fire(rotate):
 	get_tree().root.get_child(0).add_child(b)
 	
 func take_turn():
-	set_attack(true)
+	#set_attack(true)
 	#attack_done = false
 	playing = true
 	CURRENT_STATE = STATE.MOVE
@@ -90,18 +95,12 @@ func init_attack_collision_shapes(size):
 
 	$att_area/Area2D/CollisionShape2D.shape = circle
 
-func _attack_done(rune,area):
-	var rotate = get_angle_to(rune.position)
-	attack_done = true
-	set_attack(false)
-	wait(0.4)
-	fire(rotate)
-	#rune.delete_segments(type.attack_power)
-	
+
 
 func set_attack(yesno):
 	for a in %att_area.get_children():
 		a.set_pickable(yesno)
+		
 						
 
 func delete_segments(size):
@@ -239,10 +238,10 @@ func _debug_draw_astar_line():
 
 
 func _on_area_2d_area_entered(area):
+	
 	var rune = area.get_parent().get_parent()
 	if area.get_parent().get_parent().is_in_group("pl_runes"):
 			var rotate = get_angle_to(rune.position)
 			attack_done = true
-			set_attack(false)
 			wait(0.4)
 			fire(rotate)

@@ -9,6 +9,7 @@ func _ready():
 	pass # Replace with function body.
 
 func _on_down_input_event(_viewport, event, _shape_idx):
+	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			emit_signal("move_button",Vector2.DOWN)
