@@ -42,7 +42,7 @@ func _process(_delta):
 			%state.text = "ATTACK"
 	if CURRENT_STATE == STATE.ATTACK:
 		set_attack(true)
-		queue_redraw()
+		$draw_layer.queue_redraw()
 		
 
 func _ready():
@@ -67,8 +67,9 @@ func fire(rotate):
 	
 	
 	var b = bullet.instantiate()
-	b.speed = 200  # or however fast you want — 3 is probably too slow unless it's pixels/frame
-	b.pos = global_position
+	b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
+	b.pos = global_position - TILE_OFFSET
+	b.max_dist = type.attack_range*20
 	b.rota = rotate  # This sets the direction the bullet travels
 	
 	get_tree().root.get_child(0).add_child(b)
@@ -81,28 +82,14 @@ func take_turn():
 	await walk_path()
 	await start_attack()
 
-func render_markers(mark, size):
-	for x in range(-size, size + 1):
-		for z in range(-size, size + 1):
-			if abs(z) + abs(x) <= size:
-				var target_pos = Vector2(position.x + TILESIZE * x, position.y + TILESIZE * z)
-				if can_move_to(target_pos):
-					var rect = Rect2(Vector2(TILE_OFFSET.x + TILESIZE * x, TILE_OFFSET.y + TILESIZE * z), Vector2(TILESIZE, TILESIZE))
-					draw_texture_rect(mark, rect, false)
 
+	
 func init_attack_collision_shapes(size):
-	for child in %att_area.get_children():
-		child.queue_free()
-	for x in range(-size, size + 1):
-		for y in range(-size, size + 1):
-			if abs(x) + abs(y) <= size and not (x == 0 and y == 0):
-				var tile_center = Vector2(x + TILESIZE * x, y + TILESIZE * y)
-				var att = attack_collision_scene.instantiate()
-				att.position = tile_center
-				att.connect("attack_done", Callable(self, "_attack_done"))
-				att.parent = self
-				%att_area.add_child(att)
-				
+	var circle = CircleShape2D.new()
+	circle.radius = size * 20
+
+	$att_area/Area2D/CollisionShape2D.shape = circle
+
 func _attack_done(rune,area):
 	var rotate = get_angle_to(rune.position)
 	attack_done = true
@@ -140,8 +127,7 @@ func start_attack():
 	playing = false
 	CURRENT_STATE = STATE.ATTACK
 	attack_done = false
-	queue_redraw()
-	queue_redraw()
+	$draw_layer.queue_redraw()
 
 
 				
@@ -168,7 +154,7 @@ func walk_path():
 
 	# After walking is done, trigger attack state
 	if moved > 0:
-		queue_redraw()
+		$draw_layer.queue_redraw()
 		
 func move(pos):
 	
@@ -221,7 +207,7 @@ func get_nearest_rune():
 			if current_path < shortest_path:
 				target = i
 				shortest_path = current_path
-				queue_redraw()
+				$draw_layer.queue_redraw()
 	return shortest_path
 	
 func _on_timer_timeout():
@@ -236,11 +222,13 @@ func pos_tran(pos):
 func wait(seconds):
 	await get_tree().create_timer(seconds).timeout
 
-#debugs
-func _draw():
-	#_debug_draw_astar_line()
-	if CURRENT_STATE == STATE.ATTACK and not attack_done:
-		render_markers(attack_marker_texture, type.attack_range)
+##debugs
+#func _draw():
+	##_debug_draw_astar_line()
+	#if CURRENT_STATE == STATE.ATTACK and not attack_done:
+		#render_markers(attack_marker_texture, type.attack_range)
+		
+		
 	
 func _debug_draw_astar_line():
 	if target:
@@ -248,3 +236,13 @@ func _debug_draw_astar_line():
 		path = this_path
 		$Line2D.global_position = Vector2(0,0)
 		$Line2D.points = PackedVector2Array(this_path)
+
+
+func _on_area_2d_area_entered(area):
+	var rune = area.get_parent().get_parent()
+	if area.get_parent().get_parent().is_in_group("pl_runes"):
+			var rotate = get_angle_to(rune.position)
+			attack_done = true
+			set_attack(false)
+			wait(0.4)
+			fire(rotate)

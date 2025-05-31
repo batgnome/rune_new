@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://knklcl5ypfqd"]
+[gd_scene load_steps=8 format=3 uid="uid://knklcl5ypfqd"]
 
 [ext_resource type="Script" path="res://Scripts/enemy.gd" id="1_am0vy"]
 [ext_resource type="Texture2D" uid="uid://bq7cubkfqbhmp" path="res://assets/runes/eye.png" id="1_rq6hg"]
+[ext_resource type="Script" path="res://Scripts/utils/draw_util.gd" id="2_jmj2d"]
 [ext_resource type="PackedScene" uid="uid://ba2uik116jrrj" path="res://scenes/timer.tscn" id="3_jx2tv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foru4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_twnvl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rh1ya"]
 font_size = 15
@@ -12,6 +15,11 @@ font_color = Color(0, 0, 0, 1)
 
 [node name="Enemy" type="Node2D" groups=["enemy_runes"]]
 script = ExtResource("1_am0vy")
+
+[node name="draw_layer" type="Node2D" parent="."]
+z_index = -150
+z_as_relative = false
+script = ExtResource("2_jmj2d")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.7, 0.7)
@@ -42,6 +50,12 @@ one_shot = true
 [node name="att_area" type="Node2D" parent="."]
 unique_name_in_owner = true
 
+[node name="Area2D" type="Area2D" parent="att_area"]
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="att_area/Area2D"]
+shape = SubResource("CircleShape2D_twnvl")
+
 [node name="state" type="Label" parent="."]
 unique_name_in_owner = true
 offset_left = -16.0
@@ -52,3 +66,4 @@ text = "state"
 label_settings = SubResource("LabelSettings_rh1ya")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="att_area/Area2D" to="." method="_on_area_2d_area_entered"]

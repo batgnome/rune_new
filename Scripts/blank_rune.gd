@@ -62,37 +62,11 @@ func _process(_delta):
 		if current_moves <= 0 and current_state == STATE.MOVE:
 			set_state(STATE.ATTACK)
 			clock.start(TIMER_SPEED)
-			queue_redraw()
+			$draw_layer.queue_redraw()
 		elif current_state == STATE.ATTACK:
 			set_attack()
 
-func _draw():
-	if current_state != STATE.BUILD and manager.rune == self:
-		if current_state == STATE.ATTACK and not attack_done:
-			render_markers(attack_marker_texture, attack_range)
-		elif current_state == STATE.MOVE and current_moves > 0:
-			draw_movement_arrows()
-			render_markers(marker_texture, current_moves)
 
-func draw_movement_arrows():
-	var rect = Rect2(Vector2(-10, -30), Vector2(TILESIZE, TILESIZE))
-	var dirs = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
-	var angles = [-90, 90, 0, 180]
-	for i in range(4):
-		var dir = dirs[i]
-		if Utils.can_move_to(position + TILESIZE * dir,tilemap):
-			draw_set_transform(Vector2.ZERO, deg_to_rad(angles[i]), Vector2.ONE)
-			draw_texture_rect(arrow_marker_texture, rect, false)
-	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE)
-	
-func render_markers(mark, size):
-	for x in range(-size, size + 1):
-		for z in range(-size, size + 1):
-			if abs(z) + abs(x) <= size:
-				var target_pos = Vector2(position.x + TILESIZE * x, position.y + TILESIZE * z)
-				if Utils.can_move_to(target_pos,tilemap):
-					var rect = Rect2(Vector2(TILE_OFFSET.x + TILESIZE * x, TILE_OFFSET.y + TILESIZE * z), Vector2(TILESIZE, TILESIZE))
-					draw_texture_rect(mark, rect, false)
 
 func init_attack_collision_shapes(size):
 	for child in %att_area.get_children():
@@ -109,7 +83,7 @@ func init_attack_collision_shapes(size):
 
 func _attack_done():
 	attack_done = true
-	queue_redraw()
+	$draw_layer.queue_redraw()
 
 func set_attack():
 	for a in %att_area.get_children():
@@ -127,11 +101,11 @@ func _unhandled_input(event):
 	if current_state != STATE.BUILD and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		inv_ui.close()
 		if manager.rune == self:
-			queue_redraw()
+			$draw_layer.queue_redraw()
 			if not current_moves > 0 and current_state == STATE.MOVE:
 				set_state(STATE.ATTACK)
 		else:
-			queue_redraw()
+			$draw_layer.queue_redraw()
 	if current_state == STATE.MOVE:
 		if event.is_action("attack"):
 			set_attack()
@@ -166,7 +140,7 @@ func move_in_direction(dir: Vector2):
 			position = target_pos
 			current_moves -= 1
 			emit_signal("rune_set", self)
-			queue_redraw()
+			$draw_layer.queue_redraw()
 
 func create_tail():
 	var t = tail_scene.instantiate()
@@ -225,7 +199,7 @@ func set_texture(img):
 	$Sprite2D.texture = img
 
 func deselect():
-	queue_redraw()
+	$draw_layer.queue_redraw()
 	inv_ui.close()
 
 func _on_inv_ui_close_button():
@@ -256,7 +230,7 @@ func _on_timer_timeout():
 func set_state(new_state):
 	if current_state != new_state:
 		current_state = new_state
-		queue_redraw()
+		$draw_layer.queue_redraw()
 		
 func delete_segments(size):
 	for s in size:

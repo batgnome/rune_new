@@ -4,16 +4,19 @@
 [ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_hwjcg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ceuq2"]
-size = Vector2(8, 14)
+size = Vector2(6, 6)
 
 [node name="bullet" type="CharacterBody2D"]
 script = ExtResource("1_hwjcg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 4.71239
 texture = ExtResource("1_eagw2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
-rotation = 4.71239
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_ceuq2")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

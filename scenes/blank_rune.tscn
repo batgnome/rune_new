@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d0e1ietq5fgdg"]
+[gd_scene load_steps=18 format=3 uid="uid://d0e1ietq5fgdg"]
 
 [ext_resource type="Script" path="res://Scripts/blank_rune.gd" id="1_jsdeh"]
 [ext_resource type="Resource" uid="uid://cptdrns1oui5i" path="res://runes/TEST_INV.tres" id="2_3opfi"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Scripts/move_buttons.gd" id="6_0cotn"]
 [ext_resource type="PackedScene" uid="uid://ba2uik116jrrj" path="res://scenes/timer.tscn" id="7_g44an"]
 [ext_resource type="Texture2D" uid="uid://b7ai2h5qc04aw" path="res://assets/runes/splosion.png" id="8_eedlv"]
+[ext_resource type="Script" path="res://Scripts/utils/draw_util.gd" id="9_64b4e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_epdd4"]
 atlas = ExtResource("8_eedlv")
@@ -60,6 +61,11 @@ size = Vector2(18, 18)
 [node name="Blank_rune" type="Node2D" groups=["pl_runes"]]
 script = ExtResource("1_jsdeh")
 inv = ExtResource("2_3opfi")
+
+[node name="draw_layer" type="Node2D" parent="."]
+z_index = -100
+z_as_relative = false
+script = ExtResource("9_64b4e")
 
 [node name="view_container" type="Node2D" parent="."]
 
