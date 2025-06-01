@@ -41,9 +41,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pimjc")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
-"speed": 5.0
+"speed": 15.0
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v0rvp"]
@@ -150,7 +150,6 @@ offset_right = 10.0
 offset_bottom = -6.0
 
 [connection signal="animation_finished" from="view_container/SubViewport/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="frame_changed" from="view_container/SubViewport/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_frame_changed"]
 [connection signal="input_event" from="select_rune" to="." method="_on_mouse_selected"]
 [connection signal="close_button" from="Inv_ui" to="." method="_on_inv_ui_close_button"]
 [connection signal="move_button" from="move_buttons" to="." method="_on_move_buttons_move_button"]

@@ -111,9 +111,8 @@ func _unhandled_input(event):
 			set_attack()
 			
 func move_in_direction(dir: Vector2):
-	print("here 1")
+	
 	if current_state != STATE.BUILD and current_state == STATE.MOVE and manager.rune == self:
-		print("here 2")
 		var no_move = false
 		var target_pos = position + dir * TILESIZE
 		var index = tail_position.find(target_pos)
@@ -122,9 +121,7 @@ func move_in_direction(dir: Vector2):
 			if dir == Vector2.UP:
 				no_move = $move_buttons/up.has_overlapping_areas()
 			elif dir == Vector2.DOWN:
-				print("here 2")
 				no_move = $move_buttons/down.has_overlapping_areas()
-				print("here 3", no_move)
 			elif dir == Vector2.LEFT:
 				no_move = $move_buttons/left.has_overlapping_areas()
 			elif dir == Vector2.RIGHT:
@@ -243,15 +240,11 @@ func delete_segments(size):
 			tail_position.remove_at(0)
 
 			if is_instance_valid(tails[0]):
-				await tails[0].die()
+				tails[0].die()
 			tails.remove_at(0)
 		else:
 			var anim_sprite = $view_container/SubViewport/AnimatedSprite2D
-			if not anim_sprite.is_playing():
-				anim_sprite.play("default")  # Replace with your actual animation name
-				await wait(0.8)
-				queue_free()
-			await wait(0.4)
+			anim_sprite.play()
 		
 func fire():
 	var b = bullet.instantiate()
@@ -266,4 +259,5 @@ func wait(seconds):
 
 
 func _on_animated_sprite_2d_animation_finished():
+	print("star")
 	queue_free()

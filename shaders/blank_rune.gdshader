@@ -13,6 +13,7 @@ void fragment() {
 
 	// Only show sprite where mask is black-ish (tweak threshold if needed)
 	bool mask_visible = mask.r < 0.1 && mask.g < 0.1 && mask.b < 0.1 && mask.a > 0.1;
+	
 	if (!mask_visible) {
 		discard;
 	}

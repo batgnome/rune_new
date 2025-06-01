@@ -14,14 +14,19 @@ func add_index(_size):
 	queue_redraw()
 func _ready():
 	# Assuming your Sprite2D has a ShaderMaterial
+
 	var viewport_texture = $view_container/SubViewport.get_texture()
 	$Sprite2D.material.set_shader_parameter("mask_texture", viewport_texture)
+	$Sprite2D.material = $Sprite2D.material.duplicate()
 	
 
 func die():
-	anim.play("default")
-	await wait(0.4)
+	anim.play()  # Or whatever your animation is named
+	await anim.animation_finished
 	queue_free()
+	
 
-func wait(seconds):
-	await get_tree().create_timer(seconds).timeout		
+
+
+func _on_animated_sprite_2d_animation_finished():
+	queue_free()

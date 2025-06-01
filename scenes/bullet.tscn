@@ -1,12 +1,51 @@
-[gd_scene load_steps=4 format=3 uid="uid://bd4v1ofrdrdch"]
+[gd_scene load_steps=10 format=3 uid="uid://bd4v1ofrdrdch"]
 
 [ext_resource type="Texture2D" uid="uid://besldgwctsqp3" path="res://assets/ui/bullet.png" id="1_eagw2"]
 [ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_hwjcg"]
+[ext_resource type="Texture2D" uid="uid://bxfgamm5g06fa" path="res://assets/tiles/splosion_2.png" id="3_x8825"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ceuq2"]
 size = Vector2(6, 6)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdi18"]
+atlas = ExtResource("3_x8825")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jsjf"]
+atlas = ExtResource("3_x8825")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjxs6"]
+atlas = ExtResource("3_x8825")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlg20"]
+atlas = ExtResource("3_x8825")
+region = Rect2(60, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_14hin"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hdi18")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jsjf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kjxs6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wlg20")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
 [node name="bullet" type="CharacterBody2D"]
+z_index = 21
+z_as_relative = false
 script = ExtResource("1_hwjcg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -19,4 +58,8 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_ceuq2")
 
+[node name="sploder" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_14hin")
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="animation_finished" from="sploder" to="." method="_on_sploder_animation_finished"]

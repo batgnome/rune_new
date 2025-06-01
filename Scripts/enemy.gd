@@ -20,7 +20,7 @@ var current_range
 
 const TILESIZE = 20
 const TILE_OFFSET = Vector2(-10, -10)
-var speed = 2
+var speed = 3
 var playing = false
 var active  = true
 var attack_marker_texture = preload("res://assets/runes/att_marker.png")
@@ -44,8 +44,10 @@ func _process(_delta):
 		STATE.ATTACK:
 			%state.text = "ATTACK"
 	if CURRENT_STATE == STATE.ATTACK:
-		#set_attack(true)
 		%att_area.get_child(0).get_child(0).disabled = false
+		if $Area2D.has_overlapping_areas():
+			#print("here attack bullet 1")
+			area_attack($Area2D.get_overlapping_areas())
 		$draw_layer.queue_redraw()
 		
 
@@ -69,19 +71,16 @@ func init():
 
 
 func fire(rotate):
-	
-	
 	var b = bullet.instantiate()
 	b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
-	b.pos = global_position - TILE_OFFSET
+	b.damage = type.attack_power
+	b.pos = global_position #- TILE_OFFSET
 	b.max_dist = type.attack_range*20
 	b.rota = rotate  # This sets the direction the bullet travels
 	
 	get_tree().root.get_child(0).add_child(b)
 	
 func take_turn():
-	#set_attack(true)
-	#attack_done = false
 	playing = true
 	CURRENT_STATE = STATE.MOVE
 	await walk_path()
@@ -93,7 +92,7 @@ func init_attack_collision_shapes(size):
 	var circle = CircleShape2D.new()
 	circle.radius = size * 20
 
-	$att_area/Area2D/CollisionShape2D.shape = circle
+	$att_area/att_bullet/CollisionShape2D.shape = circle
 
 
 
@@ -121,7 +120,7 @@ func delete_segments(size):
 	
 func start_attack():
 	$Timer.start(speed)
-	
+	fired = false
 	active = false
 	playing = false
 	CURRENT_STATE = STATE.ATTACK
@@ -141,6 +140,8 @@ func walk_path():
 			pos_tran(target.global_position)
 		)
 		if raw_path.size() < 3:
+			print("started")
+			start_attack()
 			break  # No path or already at target
 
 		# Move to next step
@@ -210,6 +211,7 @@ func get_nearest_rune():
 	return shortest_path
 	
 func _on_timer_timeout():
+	fired = false
 	CURRENT_STATE = STATE.MOVE
 	current_range = max_range
 	active = true
@@ -236,11 +238,21 @@ func _debug_draw_astar_line():
 		$Line2D.global_position = Vector2(0,0)
 		$Line2D.points = PackedVector2Array(this_path)
 
+var fired = false
+func _on_att_bullet_area_entered(area):
+	area_attack(area)
 
-func _on_area_2d_area_entered(area):
-	
-	var rune = area.get_parent().get_parent()
-	if area.get_parent().get_parent().is_in_group("pl_runes"):
+func area_attack(area):
+	if area is Array:
+		for a in area:
+			print(a.get_parent().get_parent())
+			if a.get_parent().get_parent().is_in_group("pl_runes"):
+				area = a.get_parent()
+				break
+		
+	var rune = area.get_parent()
+	if rune.is_in_group("pl_runes") and not fired:
+			fired = true
 			var rotate = get_angle_to(rune.position)
 			attack_done = true
 			wait(0.4)
