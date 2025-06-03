@@ -6,12 +6,19 @@ var patrol_points: PackedVector2Array = []
 var patrol_index := 0
 var current_lvl := 0
 var lvls: Array[Path2D] = []
+var lvl_buttons: Array[Button] = []
 var level_scenes = {
 	1: "res://Levels/Level_0.tscn",
 	2: "res://Levels/Level_1.tscn",
 }
 
 func _ready():
+	
+	if "load" in Global:
+		Global.load()
+	else:
+		print("Global script missing load method!")
+
 	$"../Fade".visible = false
 	# Collect paths manually (or dynamically if needed)
 	lvls = [null,
@@ -20,9 +27,19 @@ func _ready():
 		$"../level_3",
 		$"../level_4"
 	]
-	
-	#load_patrol_points_from_level(current_lvl)
-
+	lvl_buttons =[$"../lvl0", $"../lvl1", $"../lvl2", $"../lvl3", $"../lvl4"]
+	print(Global.levels_unlocked)
+	for i in range(lvl_buttons.size()):
+		lvl_buttons[i].disabled = true
+	for i in range(Global.levels_unlocked):
+		lvl_buttons[i].disabled = false
+		
+	if Global.current_level >= 1 and Global.current_level < lvl_buttons.size():
+		var button_pos = lvl_buttons[Global.current_level-1].global_position
+		global_position = button_pos
+		current_lvl = Global.current_level-1
+		patrol_points.clear()
+		
 func _physics_process(delta):
 	if patrol_points.is_empty():
 		velocity = Vector2.ZERO
@@ -47,7 +64,12 @@ func _physics_process(delta):
 		velocity = direction * move_speed
 		move_and_slide()
 
-
+func _input(event):
+	if event.is_action_pressed("reset_progress"): 
+		print("reset")
+		Global.current_level = 0
+		Global.levels_unlocked = 1 
+		Global.save()
 func load_patrol_points_from_level(lvl_index: int) -> void:
 	if lvl_index >= 0 and lvl_index < lvls.size():
 		var path_node = lvls[lvl_index]

@@ -39,7 +39,6 @@ _data = {
 [node name="fade_transition" type="Node2D"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-modulate = Color(1, 1, 1, 0)
 offset_right = 1148.0
 offset_bottom = 647.0
 color = Color(0, 0, 0, 1)

@@ -1,5 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://lll315nkfb80"]
+[gd_scene load_steps=17 format=3 uid="uid://lll315nkfb80"]
 
+[ext_resource type="PackedScene" uid="uid://bfukg06s3chtj" path="res://scenes/fade_transition.tscn" id="1_go6gj"]
 [ext_resource type="PackedScene" uid="uid://cxblmdvvlfow0" path="res://scenes/ui/game_ui_insinde.tscn" id="1_l1qi1"]
 [ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/ui/main_ui.tscn" id="2_6ltqb"]
 [ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="3_04fu2"]
@@ -191,8 +192,6 @@ texture_region_size = Vector2i(20, 20)
 7:3/0/terrains_peering_bit/top_left_corner = 0
 7:3/0/terrains_peering_bit/top_side = 0
 7:3/0/terrains_peering_bit/top_right_corner = 0
-8:3/0 = 0
-9:3/0 = 0
 0:4/0 = 0
 0:4/0/terrain_set = 0
 0:4/0/terrain = 0
@@ -250,8 +249,6 @@ texture_region_size = Vector2i(20, 20)
 7:4/0/terrains_peering_bit/left_side = 0
 7:4/0/terrains_peering_bit/top_left_corner = 0
 7:4/0/terrains_peering_bit/top_side = 0
-8:4/0 = 0
-9:4/0 = 0
 0:5/0 = 0
 0:5/0/terrain_set = 0
 0:5/0/terrain = 0
@@ -316,8 +313,6 @@ texture_region_size = Vector2i(20, 20)
 7:5/0/terrains_peering_bit/top_left_corner = 0
 7:5/0/terrains_peering_bit/top_side = 0
 7:5/0/terrains_peering_bit/top_right_corner = 0
-8:5/0 = 0
-9:5/0 = 0
 0:6/0 = 0
 0:6/0/terrain_set = 0
 0:6/0/terrain = 0
@@ -382,8 +377,6 @@ texture_region_size = Vector2i(20, 20)
 7:6/0/terrains_peering_bit/left_side = 0
 7:6/0/terrains_peering_bit/top_side = 0
 7:6/0/terrains_peering_bit/top_right_corner = 0
-8:6/0 = 0
-9:6/0 = 0
 0:7/0 = 0
 1:7/0 = 0
 2:7/0 = 0
@@ -408,21 +401,6 @@ texture_region_size = Vector2i(20, 20)
 7:7/0/terrains_peering_bit/left_side = 0
 7:7/0/terrains_peering_bit/top_side = 0
 7:7/0/terrains_peering_bit/top_right_corner = 0
-8:7/0 = 0
-9:7/0 = 0
-0:8/0 = 0
-1:8/0 = 0
-2:8/0 = 0
-3:8/0 = 0
-4:8/0 = 0
-5:8/0 = 0
-6:8/0 = 0
-7:8/0 = 0
-8:8/0 = 0
-9:8/0 = 0
-7:9/0 = 0
-8:9/0 = 0
-9:9/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qi6jp"]
 texture = ExtResource("4_2oac7")
@@ -766,6 +744,21 @@ offset_right = 82.0
 offset_bottom = 41.0
 texture = ExtResource("3_04fu2")
 
+[node name="Win" type="AcceptDialog" parent="CanvasLayer"]
+unique_name_in_owner = true
+process_mode = 3
+dialog_text = "Win!"
+
+[node name="lost" type="AcceptDialog" parent="CanvasLayer"]
+unique_name_in_owner = true
+process_mode = 3
+dialog_text = "Lost 😢"
+
+[node name="Fade" parent="CanvasLayer" instance=ExtResource("1_go6gj")]
+unique_name_in_owner = true
+visible = false
+position = Vector2(8, 38)
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_vtuh5")
 rendering_quadrant_size = 20
@@ -814,4 +807,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
+[connection signal="attack_pressed" from="CanvasLayer/Main_Ui" to="ROOT" method="_on_main_ui_attack_pressed"]
 [connection signal="start" from="CanvasLayer/Main_Ui" to="ROOT" method="_on_main_ui_start"]
+[connection signal="confirmed" from="CanvasLayer/Win" to="ROOT" method="_on_win_confirmed"]
+[connection signal="confirmed" from="CanvasLayer/lost" to="ROOT" method="_on_lost_confirmed"]

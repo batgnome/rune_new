@@ -43,7 +43,7 @@ animations = [{
 "speed": 15.0
 }]
 
-[node name="bullet" type="CharacterBody2D"]
+[node name="bullet" type="CharacterBody2D" groups=["damagable"]]
 z_index = 21
 z_as_relative = false
 script = ExtResource("1_hwjcg")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d0e1ietq5fgdg"]
+[gd_scene load_steps=19 format=3 uid="uid://d0e1ietq5fgdg"]
 
 [ext_resource type="Script" path="res://Scripts/blank_rune.gd" id="1_jsdeh"]
 [ext_resource type="Resource" uid="uid://cptdrns1oui5i" path="res://runes/TEST_INV.tres" id="2_3opfi"]
@@ -43,22 +43,27 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
-"speed": 15.0
+"speed": 10.0
 }]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_va2p0"]
+viewport_path = NodePath("view_container/SubViewport")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v0rvp"]
+resource_local_to_scene = true
 shader = ExtResource("3_iv7bb")
 shader_parameter/thickness = 1.0
 shader_parameter/outline_color = Color(0, 0, 0, 1)
 shader_parameter/show_outline = false
 shader_parameter/mask_offset = Vector2(0, 0)
+shader_parameter/mask_texture = SubResource("ViewportTexture_va2p0")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sudiy"]
 size = Vector2(18, 18)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ww3pc"]
 
-[node name="Blank_rune" type="Node2D" groups=["pl_runes"]]
+[node name="Blank_rune" type="Node2D" groups=["damagable", "pl_runes"]]
 script = ExtResource("1_jsdeh")
 inv = ExtResource("2_3opfi")
 
@@ -75,7 +80,8 @@ transparent_bg = true
 size = Vector2i(10, 10)
 render_target_update_mode = 4
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="view_container/SubViewport"]
+[node name="death_anim" type="AnimatedSprite2D" parent="view_container/SubViewport"]
+unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_xot01")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -149,7 +155,7 @@ offset_top = -11.0
 offset_right = 10.0
 offset_bottom = -6.0
 
-[connection signal="animation_finished" from="view_container/SubViewport/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="animation_finished" from="view_container/SubViewport/death_anim" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="input_event" from="select_rune" to="." method="_on_mouse_selected"]
 [connection signal="close_button" from="Inv_ui" to="." method="_on_inv_ui_close_button"]
 [connection signal="move_button" from="move_buttons" to="." method="_on_move_buttons_move_button"]

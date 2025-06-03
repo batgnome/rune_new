@@ -27,7 +27,7 @@ var attack_marker_texture = preload("res://assets/runes/att_marker.png")
 var attack_collision_scene = preload("res://scenes/attack_collision.tscn")
 @onready var clock = $Timer
 var attack_done = true
-
+var rune_name
 var bullet = preload("res://scenes/bullet.tscn")
 func _process(_delta):
 	$timer_display.set_value((clock.get_time_left()/clock.wait_time)*100)
@@ -52,9 +52,11 @@ func _process(_delta):
 		
 
 func _ready():
+	add_to_group("enemy_runes")
+	add_to_group("damagable")
+	print(get_groups())
 	if not tilemap:
 		tilemap = get_parent().get_parent().get_child(0)
-	add_to_group("enemy_runes")
 	init()
 	
 func init():
@@ -65,20 +67,25 @@ func init():
 		max_range = type.speed
 		current_range = type.speed
 		init_attack_collision_shapes(type.attack_range)
+		rune_name = type.name
 	else: 
 		type = preload("res://runes/eye.tres")
 		init()
 
 
 func fire(rotate):
-	var b = bullet.instantiate()
-	b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
-	b.damage = type.attack_power
-	b.pos = global_position #- TILE_OFFSET
-	b.max_dist = type.attack_range*20
-	b.rota = rotate  # This sets the direction the bullet travels
-	
-	get_tree().root.get_child(0).add_child(b)
+	pass
+	#var b = bullet.instantiate()
+	#b.add_to_group("enemy_runes")
+	#b.enemy = true
+	#b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
+	#b.damage = type.attack_power
+	#b.pos = global_position #- TILE_OFFSET
+	#b.max_dist = type.attack_range*20
+	#b.rota = rotate  # This sets the direction the bullet travels
+	#b.owner_group = "enemy_runes"
+	#b.target_group = "pl_runes"
+	#get_tree().root.get_child(0).add_child(b)
 	
 func take_turn():
 	playing = true
@@ -140,7 +147,7 @@ func walk_path():
 			pos_tran(target.global_position)
 		)
 		if raw_path.size() < 3:
-			print("started")
+			#print("started")
 			start_attack()
 			break  # No path or already at target
 
@@ -189,7 +196,7 @@ func create_tail():
 func update_tails():
 	for i in tail_position.size():
 		if is_instance_valid(tails[i]):
-			tails[i].position = tail_position[i] -Vector2(TILESIZE,TILESIZE)/2
+			tails[i].position = tail_position[i]
 			
 func get_nearest_rune():
 	
@@ -245,7 +252,7 @@ func _on_att_bullet_area_entered(area):
 func area_attack(area):
 	if area is Array:
 		for a in area:
-			print(a.get_parent().get_parent())
+			#print(a.get_parent().get_parent())
 			if a.get_parent().get_parent().is_in_group("pl_runes"):
 				area = a.get_parent()
 				break

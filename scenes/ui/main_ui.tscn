@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ysbpvegbtfi6"]
+[gd_scene load_steps=19 format=3 uid="uid://ysbpvegbtfi6"]
 
 [ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="1_0av6a"]
 [ext_resource type="Script" path="res://Scripts/main_ui.gd" id="1_occ4b"]
@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://bqlhe25ywtjfb" path="res://assets/ui/icons.png" id="3_6hd8i"]
 [ext_resource type="Texture2D" uid="uid://cf78y0t72m74d" path="res://assets/runes/confirm.png" id="4_p5hur"]
 [ext_resource type="PackedScene" uid="uid://qux01r6dbeij" path="res://inventory/inv_ui_slot.tscn" id="7_i28r4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wgf6"]
+atlas = ExtResource("3_6hd8i")
+region = Rect2(10, 10, 10, 10)
 
 [sub_resource type="LabelSettings" id="LabelSettings_4gdri"]
 font_color = Color(0, 0, 0, 1)
@@ -82,6 +86,34 @@ patch_margin_top = 6
 patch_margin_right = 6
 patch_margin_bottom = 6
 metadata/_edit_group_ = true
+
+[node name="Buttons" type="Control" parent="Panel/NinePatchRect"]
+anchors_preset = 0
+offset_left = -0.802734
+offset_top = 255.321
+offset_right = 39.1973
+offset_bottom = 295.321
+
+[node name="Start" type="Button" parent="Panel/NinePatchRect/Buttons"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 31.7835
+offset_top = 6.39417
+offset_right = 64.7835
+offset_bottom = 39.3942
+scale = Vector2(1.58677, 1)
+icon = ExtResource("4_p5hur")
+metadata/_edit_group_ = true
+
+[node name="Attack" type="Button" parent="Panel/NinePatchRect/Buttons"]
+layout_mode = 0
+offset_left = 143.433
+offset_top = 4.42672
+offset_right = 161.433
+offset_bottom = 22.4267
+scale = Vector2(3.2787, 1.84647)
+icon = SubResource("AtlasTexture_8wgf6")
+flat = true
 
 [node name="values" type="Control" parent="Panel/NinePatchRect"]
 unique_name_in_owner = true
@@ -249,17 +281,6 @@ text = "start"
 label_settings = SubResource("LabelSettings_0v3c8")
 metadata/_edit_group_ = true
 
-[node name="Start" type="Button" parent="Panel/NinePatchRect"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 30.9808
-offset_top = 261.715
-offset_right = 63.9808
-offset_bottom = 294.715
-scale = Vector2(1.58677, 1)
-icon = ExtResource("4_p5hur")
-metadata/_edit_group_ = true
-
 [node name="inv" type="NinePatchRect" parent="Panel"]
 texture_filter = 1
 layout_mode = 0
@@ -327,4 +348,5 @@ layout_mode = 2
 [node name="inv_UI_slot12" parent="Panel/inv/GridContainer" instance=ExtResource("7_i28r4")]
 layout_mode = 2
 
-[connection signal="pressed" from="Panel/NinePatchRect/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Panel/NinePatchRect/Buttons/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Panel/NinePatchRect/Buttons/Attack" to="." method="_on_attack_pressed"]

@@ -13,7 +13,7 @@
 font_size = 15
 font_color = Color(0, 0, 0, 1)
 
-[node name="Enemy" type="Node2D" groups=["enemy_runes"]]
+[node name="Enemy" type="Node2D" groups=["damagable", "enemy_runes"]]
 script = ExtResource("1_am0vy")
 
 [node name="draw_layer" type="Node2D" parent="."]
@@ -47,10 +47,10 @@ offset_bottom = 8.0
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="att_area" type="Node2D" parent="."]
+[node name="att_area" type="Node2D" parent="." groups=["enemy_runes"]]
 unique_name_in_owner = true
 
-[node name="att_bullet" type="Area2D" parent="att_area"]
+[node name="att_bullet" type="Area2D" parent="att_area" groups=["enemy_runes"]]
 collision_layer = 8
 collision_mask = 8
 
@@ -67,5 +67,5 @@ text = "state"
 label_settings = SubResource("LabelSettings_rh1ya")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="area_entered" from="att_area/att_bullet" to="." method="_on_att_bullet_area_entered"]
 [connection signal="area_entered" from="att_area/att_bullet" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="att_area/att_bullet" to="." method="_on_att_bullet_area_entered"]

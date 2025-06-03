@@ -1,9 +1,9 @@
 [gd_scene load_steps=14 format=3 uid="uid://ge3cyb07hei5"]
 
-[ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="1_bp0lw"]
 [ext_resource type="Script" path="res://Scripts/tail.gd" id="1_q51hf"]
 [ext_resource type="Texture2D" uid="uid://b7ai2h5qc04aw" path="res://assets/runes/splosion.png" id="2_ymsax"]
-[ext_resource type="Shader" path="res://shaders/blank_rune.gdshader" id="3_xwsif"]
+[ext_resource type="Shader" path="res://shaders/tail.gdshader" id="3_rtr7d"]
+[ext_resource type="Texture2D" uid="uid://d0qvmbjy1de3r" path="res://assets/runes/blank.png" id="4_md4xi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_epdd4"]
 atlas = ExtResource("2_ymsax")
@@ -21,7 +21,7 @@ region = Rect2(40, 0, 20, 20)
 atlas = ExtResource("2_ymsax")
 region = Rect2(60, 0, 20, 20)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_y65mm"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_fmdnb"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -38,19 +38,17 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
-"speed": 5.0
+"speed": 10.0
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6d5ak"]
-shader = ExtResource("3_xwsif")
-shader_parameter/thickness = 1.0
-shader_parameter/outline_color = Color(0, 0, 0, 1)
-shader_parameter/show_outline = false
-shader_parameter/mask_offset = Vector2(0, 0)
+[sub_resource type="ViewportTexture" id="ViewportTexture_us7jy"]
+viewport_path = NodePath("view_container/SubViewport")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sug7m"]
-atlas = ExtResource("1_bp0lw")
-region = Rect2(40, 40, 20, 20)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wyfec"]
+resource_local_to_scene = true
+shader = ExtResource("3_rtr7d")
+shader_parameter/mask_offset = Vector2(0, 0)
+shader_parameter/mask_texture = SubResource("ViewportTexture_us7jy")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_50adh"]
 size = Vector2(16, 16)
@@ -60,33 +58,31 @@ font_size = 8
 font_color = Color(0, 0, 0, 1)
 
 [node name="Tail" type="Node2D"]
-position = Vector2(-10, -10)
 script = ExtResource("1_q51hf")
 
 [node name="view_container" type="Node2D" parent="."]
 
 [node name="SubViewport" type="SubViewport" parent="view_container"]
-disable_3d = true
 transparent_bg = true
-size = Vector2i(10, 10)
-render_target_update_mode = 4
+size = Vector2i(20, 20)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="view_container/SubViewport"]
+[node name="death_anim" type="AnimatedSprite2D" parent="view_container/SubViewport"]
 unique_name_in_owner = true
-sprite_frames = SubResource("SpriteFrames_y65mm")
+sprite_frames = SubResource("SpriteFrames_fmdnb")
+centered = false
+offset = Vector2(-0.38, -0.85)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_6d5ak")
-position = Vector2(10, 10)
+material = SubResource("ShaderMaterial_wyfec")
 scale = Vector2(0.7, 0.7)
-texture = SubResource("AtlasTexture_sug7m")
+texture = ExtResource("4_md4xi")
+metadata/_edit_group_ = true
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 13
-collision_mask = 13
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_50adh")
 
 [node name="index" type="Label" parent="."]
@@ -94,4 +90,4 @@ offset_right = 20.0
 offset_bottom = 12.0
 label_settings = SubResource("LabelSettings_ox4lp")
 
-[connection signal="animation_finished" from="view_container/SubViewport/AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="animation_finished" from="view_container/SubViewport/death_anim" to="." method="_on_animated_sprite_2d_animation_finished"]

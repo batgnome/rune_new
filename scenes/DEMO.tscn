@@ -111,6 +111,7 @@ shape = SubResource("CapsuleShape2D_d1oep")
 metadata/_edit_group_ = true
 
 [node name="Fade" parent="." instance=ExtResource("5_qn2lo")]
+visible = false
 
 [connection signal="pressed" from="lvl0" to="CharacterBody2D" method="_on_lvl_0_pressed"]
 [connection signal="pressed" from="lvl1" to="CharacterBody2D" method="_on_lvl_1_pressed"]

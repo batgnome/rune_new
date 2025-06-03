@@ -7,12 +7,18 @@ var start
 var max_dist
 var sploding = false
 var damage =0
+var enemy
+@export var owner_group: String = ""
+@export var target_group: String = ""
 func _ready():
+	add_to_group("bullets")
+	add_to_group("damagable")
 	$sploder.visible = false
 	global_position = pos
 	start = global_position
 	rotation = (rota)  # sets the actual rotation of the node
 	$Sprite2D.rotation = deg_to_rad(rota+270)
+	print(get_groups())
 func _physics_process(_delta):
 	if global_position.distance_to(start) <= max_dist:
 		if not sploding:
@@ -23,23 +29,29 @@ func _physics_process(_delta):
 		queue_free()
 	move_and_slide()
 
-func _unhandled_input(event):
-	if event.is_action_pressed("c"):
-		$Sprite2D.rotation +=0.5
-	if event.is_action_pressed("x"):
-		$Sprite2D.rotation -=0.5
+
 
 func _on_area_2d_area_entered(area):
-	if area.get_parent().is_in_group("pl_runes"):
+	var node = area
+	#print("target ", target_group)
+	#print("owner ", owner_group)
+	while node and not node.is_in_group("damagable"):
+		node = node.get_parent()
+	
+	if node and node.is_in_group(target_group):
 		sploding = true
 		$Area2D.get_child(0).disabled = true
 		$sploder.visible = true
 		$sploder.play()
 		await $sploder.animation_finished
-		area.get_parent().delete_segments(damage)
+		if is_instance_valid(node):
+			print(node.rune_name)
+			print(area.get_parent().get_parent())
+			node.delete_segments(damage)
 		queue_free()
 
-#func _on_sploder_animation_finished():
+func delete_segments(_damage):
+	queue_free()
 	
 	
 

@@ -43,6 +43,7 @@ func get_current_state():
 	return current_state
 
 func _ready():
+	add_to_group("damagable")
 	var viewport_texture = $view_container/SubViewport.get_texture()
 	$Sprite2D.material.set_shader_parameter("mask_texture", viewport_texture)
 	$Sprite2D.material = $Sprite2D.material.duplicate()
@@ -146,15 +147,15 @@ func move_in_direction(dir: Vector2):
 
 func create_tail():
 	var t = tail_scene.instantiate()
+	t.add_to_group("pl_runes")
 	t.set_texture(current_rune.tail_texture)
 	t.top_level = true
-	t.add_to_group("pl_runes")
 	tails.append(t)
 	add_child(t)
 
 func update_tails():
 	for i in tail_position.size():
-		tails[i].position = tail_position[i] - Vector2(TILESIZE, TILESIZE) / 2
+		tails[i].position = tail_position[i] #- Vector2(TILESIZE, TILESIZE)
 
 func _on_rune_chosen(rune):
 	if current_state != STATE.BUILD:
@@ -237,27 +238,40 @@ func set_state(new_state):
 func delete_segments(size):
 	for s in size:
 		if tails.size() > 0:
+			var dying_tail = tails[0]
 			tail_position.remove_at(0)
-
-			if is_instance_valid(tails[0]):
-				tails[0].die()
 			tails.remove_at(0)
+			emit_signal("rune_set", self)
+			if is_instance_valid(dying_tail):
+				await dying_tail.die()
 		else:
-			var anim_sprite = $view_container/SubViewport/AnimatedSprite2D
+			# Play death anim for head if no tails left
+			emit_signal("rune_set")
+			var anim_sprite = %death_anim
 			anim_sprite.play()
 		
-func fire():
+#func fire():
+	#var b = bullet.instantiate()
+	#b.speed = 3
+	#b.pos = global_position
+	#b.rota = global_rotation
+	#b.dir = rotation
+	#add_child(b)
+func fire(rotate_bullet):
 	var b = bullet.instantiate()
-	b.speed = 3
-	b.pos = global_position
-	b.rota = global_rotation
-	b.dir = rotation
-	add_child(b)
+	b.add_to_group("pl_runes")
+	b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
+	b.damage = attack_power
+	b.pos = global_position #- TILE_OFFSET
+	b.max_dist = attack_range*20
+	b.rota = rotate_bullet  # This sets the direction the bullet travels
+	b.owner_group = "pl_runes"
+	b.target_group = "enemy_runes"
 	
+	get_tree().root.get_child(0).add_child(b)
 func wait(seconds):
 	await get_tree().create_timer(seconds).timeout		
 
 
 func _on_animated_sprite_2d_animation_finished():
-	print("star")
 	queue_free()

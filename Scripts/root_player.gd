@@ -29,9 +29,14 @@ func _ready():
 	_init()
 func _process(_delta):
 	if runes.get_children().size() == 0:
+		%lost.popup_centered()
+		pause_bullets()
 		pass
 	if Entities.get_children().size() == 0:
+		%Win.popup_centered()
+		pause_bullets()
 		pass
+		
 func _on_main_ui_start():
 	if current_state == STATES.PRE:
 		for i in runes.get_children():
@@ -75,3 +80,33 @@ func set_enem_first():
 		$"../CanvasLayer/active".text = enem_start.name
 		enem_start.playing = true
 	
+
+
+func _on_main_ui_attack_pressed():
+	if is_instance_valid(rune):
+		if rune.current_state == rune.STATE.MOVE:
+			rune.current_state = rune.STATE.ATTACK
+			rune.clock.start(rune.TIMER_SPEED)
+
+func _on_win_confirmed():
+	Global.current_level = max(Global.current_level, 2)
+	Global.levels_unlocked = max(Global.levels_unlocked, 2)  # unlock next
+	Global.save()
+	print(Global.levels_unlocked)
+	transition_to_level("res://scenes/DEMO.tscn")
+
+func _on_lost_confirmed():
+	transition_to_level("res://scenes/DEMO.tscn")
+
+func transition_to_level(level_path: String):
+	
+	%Fade.visible = true
+	%Fade.get_child(1).play("fade_out")
+	await %Fade.get_child(1).animation_finished
+	get_tree().change_scene_to_file(level_path)
+	
+func pause_bullets():
+	for bullet in get_tree().get_nodes_in_group("bullets"):
+		if is_instance_valid(bullet):
+			bullet.queue_free()
+

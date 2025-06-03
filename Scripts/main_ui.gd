@@ -13,7 +13,7 @@ var select: runeItem
 signal rune_chosen(runeItem)
 signal close_button()
 signal start
-
+signal attack_pressed
 func _ready():
 	values.visible = false
 	icon.visible = false
@@ -37,9 +37,9 @@ func set_values(rune = null):
 				labels.visible = true
 				values.get_child(0).text = current_rune.name
 				values.get_child(1).text = str(rune.current_moves) + "/" + str(current_rune.speed)
-				values.get_child(2).text = str(current_rune.attack_range)
+				values.get_child(2).text = str(rune.tails.size()+1) +"/"+str(current_rune.max_size)
+				values.get_child(4).text = str(current_rune.attack_range)
 				values.get_child(3).text = str(current_rune.attack_power)
-				values.get_child(4).text = str(current_rune.max_size)
 				icon.texture = current_rune.texture
 	else:
 		values.visible = false
@@ -73,3 +73,11 @@ func update_slots():
 	for i in range(min(inv.slots.size(),slots.size())):
 		slots[i].update(inv.slots[i])
 		slots[i].connect("getRune", Callable(self, "on_get_rune")) 
+
+
+func _on_attack_pressed():
+	emit_signal("attack_pressed")
+
+
+func _on_lost_confirmed():
+	pass # Replace with function body.
