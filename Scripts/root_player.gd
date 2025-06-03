@@ -12,7 +12,7 @@ var rune
 @onready var Entities = $Entities
 @onready var ui = %Main_Ui
 @onready var tilemap = %TileMapPlayer
-
+@onready var audio_player = $"../AudioStreamPlayer2D"
 signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -22,6 +22,11 @@ func get_tilemap():
 	return tilemap
 
 func _ready():
+	audio_player.volume_db = -40  # Start muted
+	audio_player.play()
+
+	var tween = create_tween()
+	tween.tween_property(audio_player, "volume_db", 0, 2.0)  # Fade to 0 dB over 2 seconds
 	tilemap = $TileMapPlayer
 	for i in get_child(1).get_children():
 		i.connect("rune_set", Callable(ui, "_on_main_get_rune"))
@@ -99,9 +104,10 @@ func _on_lost_confirmed():
 	transition_to_level("res://scenes/DEMO.tscn")
 
 func transition_to_level(level_path: String):
-	
+	var tween = create_tween()
 	%Fade.visible = true
 	%Fade.get_child(1).play("fade_out")
+	await tween.tween_property(audio_player, "volume_db", -40, 2.0)  # Fade to 0 dB over 2 seconds
 	await %Fade.get_child(1).animation_finished
 	get_tree().change_scene_to_file(level_path)
 	

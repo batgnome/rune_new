@@ -74,18 +74,18 @@ func init():
 
 
 func fire(rotate):
-	pass
-	#var b = bullet.instantiate()
-	#b.add_to_group("enemy_runes")
-	#b.enemy = true
-	#b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
-	#b.damage = type.attack_power
-	#b.pos = global_position #- TILE_OFFSET
-	#b.max_dist = type.attack_range*20
-	#b.rota = rotate  # This sets the direction the bullet travels
-	#b.owner_group = "enemy_runes"
-	#b.target_group = "pl_runes"
-	#get_tree().root.get_child(0).add_child(b)
+
+	var b = bullet.instantiate()
+	b.add_to_group("enemy_runes")
+	b.enemy = true
+	b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
+	b.damage = type.attack_power
+	b.pos = global_position #- TILE_OFFSET
+	b.max_dist = type.attack_range*20
+	b.rota = rotate  # This sets the direction the bullet travels
+	b.owner_group = "enemy_runes"
+	b.target_group = "pl_runes"
+	get_tree().root.get_child(0).add_child(b)
 	
 func take_turn():
 	playing = true

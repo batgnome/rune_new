@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://cdgkcs2q447st"]
+[gd_scene load_steps=12 format=3 uid="uid://cdgkcs2q447st"]
 
 [ext_resource type="Texture2D" uid="uid://cgdao7lrh84ja" path="res://assets/tiles/SWAMP_DEMO_BG.png" id="1_ph77k"]
 [ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="2_c8p4p"]
 [ext_resource type="Script" path="res://Scripts/boy.gd" id="2_cy15w"]
 [ext_resource type="Texture2D" uid="uid://dqlpt1si4ccg" path="res://assets/overworld/boy.png" id="3_f5h34"]
 [ext_resource type="PackedScene" uid="uid://bfukg06s3chtj" path="res://scenes/fade_transition.tscn" id="5_qn2lo"]
+[ext_resource type="AudioStream" uid="uid://d0w3q0lrrstug" path="res://assets/music/AI/Whispering Swamp.mp3" id="6_anue5"]
 
 [sub_resource type="Curve2D" id="Curve2D_b6kkx"]
 _data = {
@@ -112,6 +113,10 @@ metadata/_edit_group_ = true
 
 [node name="Fade" parent="." instance=ExtResource("5_qn2lo")]
 visible = false
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_anue5")
+autoplay = true
 
 [connection signal="pressed" from="lvl0" to="CharacterBody2D" method="_on_lvl_0_pressed"]
 [connection signal="pressed" from="lvl1" to="CharacterBody2D" method="_on_lvl_1_pressed"]

@@ -11,9 +11,13 @@ var level_scenes = {
 	1: "res://Levels/Level_0.tscn",
 	2: "res://Levels/Level_1.tscn",
 }
-
+@onready var audio_player = $"../AudioStreamPlayer2D"
 func _ready():
-	
+	audio_player.volume_db = -40  # Start muted
+	audio_player.play()
+
+	var tween = create_tween()
+	tween.tween_property(audio_player, "volume_db", 0, 2.0)  # Fade to 0 dB over 2 seconds
 	if "load" in Global:
 		Global.load()
 	else:
@@ -149,9 +153,13 @@ func go_to_level(target_level: int):
 
 
 func transition_to_level(level_path: String):
+	
 	$"../Fade".visible = true
 	$"../Fade".get_child(1).play("fade_out")
+	var tween = create_tween()
+	await tween.tween_property(audio_player, "volume_db", -40, 2.0)  # Fade to 0 dB over 2 seconds
 	await $"../Fade".get_child(1).animation_finished
+	
 	get_tree().change_scene_to_file(level_path)
 
 func _on_lvl_0_pressed():

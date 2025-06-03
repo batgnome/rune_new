@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cqrdq2b17hpcc"
+path="res://.godot/imported/Clunky Robot Symphony.mp3-e36faaf014ef9b7c85a3aade589b135c.mp3str"
+
+[deps]
+
+source_file="res://assets/music/AI/Clunky Robot Symphony.mp3"
+dest_files=["res://.godot/imported/Clunky Robot Symphony.mp3-e36faaf014ef9b7c85a3aade589b135c.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
