@@ -28,8 +28,8 @@ metadata/_edit_group_ = true
 
 [node name="Area2D" type="Area2D" parent="." groups=["enemy_runes"]]
 scale = Vector2(0.735, 0.735)
-collision_layer = 5
-collision_mask = 5
+collision_layer = 13
+collision_mask = 13
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
@@ -51,7 +51,7 @@ one_shot = true
 unique_name_in_owner = true
 
 [node name="att_bullet" type="Area2D" parent="att_area" groups=["enemy_runes"]]
-collision_layer = 8
+collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="att_area/att_bullet"]
