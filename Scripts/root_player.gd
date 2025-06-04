@@ -107,7 +107,7 @@ func transition_to_level(level_path: String):
 	var tween = create_tween()
 	%Fade.visible = true
 	%Fade.get_child(1).play("fade_out")
-	await tween.tween_property(audio_player, "volume_db", -40, 2.0)  # Fade to 0 dB over 2 seconds
+	tween.tween_property(audio_player, "volume_db", -40, 2.0)  # Fade to 0 dB over 2 seconds
 	await %Fade.get_child(1).animation_finished
 	get_tree().change_scene_to_file(level_path)
 	

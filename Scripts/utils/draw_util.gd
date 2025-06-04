@@ -18,13 +18,15 @@ func _draw():
 		if parent.current_state != parent.STATE.BUILD and parent.manager.rune == parent:
 			
 			if parent.current_state == parent.STATE.ATTACK and not parent.attack_done:
-				
+				var color = Color8(255,150,0,65)
+				draw_circle(Vector2.ZERO, parent.attack_range*20,color)
 				render_markers(parent.attack_marker_texture, parent.attack_range)
 			elif parent.current_state == parent.STATE.MOVE and parent.current_moves > 0:
 				draw_movement_arrows()
 				render_markers(parent.marker_texture, parent.current_moves)
+				
 	elif parent.is_in_group("enemy_runes"):
-		if parent.CURRENT_STATE == parent.STATE.ATTACK and not parent.attack_done:
+		if parent.CURRENT_STATE == parent.STATE.ATTACK and not parent.fired:
 			#render_markers(parent.attack_marker_texture, parent.type.attack_range)
 				var color = Color8(255,150,0,65)
 				draw_circle(Vector2.ZERO, parent.type.attack_range*20,color)

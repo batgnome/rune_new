@@ -33,7 +33,7 @@ const TILE_OFFSET = Vector2(-10, -10)
 const TILESIZE = 20
 const TIMER_SPEED = 2
 enum STATE { BUILD, PRE, MOVE, ATTACK }
-
+var fired = false
 @onready var clock = $Timer
 @onready var current_state = STATE.BUILD
 @onready var tilemap
@@ -69,22 +69,22 @@ func _process(_delta):
 
 
 
-func init_attack_collision_shapes(size):
-	for child in %att_area.get_children():
-		child.queue_free()
-	for x in range(-size, size + 1):
-		for y in range(-size, size + 1):
-			if abs(x) + abs(y) <= size and not (x == 0 and y == 0):
-				var tile_center = Vector2(x + TILESIZE * x, y + TILESIZE * y)
-				var att = attack_collision_scene.instantiate()
-				att.position = tile_center
-				att.connect("attack_done", Callable(self, "_attack_done"))
-				att.parent = self
-				%att_area.add_child(att)
+#func init_attack_collision_shapes(size):
+	#for child in %att_area.get_children():
+		#child.queue_free()
+	#for x in range(-size, size + 1):
+		#for y in range(-size, size + 1):
+			#if abs(x) + abs(y) <= size and not (x == 0 and y == 0):
+				#var tile_center = Vector2(x + TILESIZE * x, y + TILESIZE * y)
+				#var att = attack_collision_scene.instantiate()
+				#att.position = tile_center
+				#att.connect("attack_done", Callable(self, "_attack_done"))
+				#att.parent = self
+				#%att_area.add_child(att)
 
-func _attack_done():
-	attack_done = true
-	$draw_layer.queue_redraw()
+#func _attack_done():
+	#attack_done = true
+	#$draw_layer.queue_redraw()
 
 func set_attack():
 	for a in %att_area.get_children():
@@ -107,9 +107,19 @@ func _unhandled_input(event):
 				set_state(STATE.ATTACK)
 		else:
 			$draw_layer.queue_redraw()
+			
 	if current_state == STATE.MOVE:
 		if event.is_action("attack"):
 			set_attack()
+			
+	if current_state == STATE.ATTACK \
+	and event is InputEventMouseButton  \
+	and event.button_index == MOUSE_BUTTON_LEFT \
+	and event.pressed \
+	and not fired:
+		fired = true
+		var angle = get_local_mouse_position().angle()
+		fire(angle)
 			
 func move_in_direction(dir: Vector2):
 	
@@ -196,7 +206,7 @@ func set_rune(rune):
 		max_size = 0
 		texture = blank_texture
 		set_texture(texture)
-	init_attack_collision_shapes(attack_range)
+	#init_attack_collision_shapes(attack_range)
 
 func set_texture(img):
 	$Sprite2D.texture = img
@@ -228,6 +238,7 @@ func _on_timer_timeout():
 	set_move()
 	attack_done = false
 	set_state(STATE.MOVE)
+	fired = false
 	current_moves = speed
 
 func set_state(new_state):
@@ -246,7 +257,7 @@ func delete_segments(size):
 				await dying_tail.die()
 		else:
 			# Play death anim for head if no tails left
-			emit_signal("rune_set")
+			emit_signal("rune_set",null)
 			var anim_sprite = %death_anim
 			anim_sprite.play()
 		

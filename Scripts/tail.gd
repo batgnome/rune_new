@@ -15,7 +15,6 @@ func _ready():
 	var mat = $Sprite2D.material.duplicate()
 	$Sprite2D.material = mat
 	mat.set_shader_parameter("mask_texture", $view_container/SubViewport.get_texture())
-	print(get_groups())
 
 
 func die():
@@ -24,5 +23,4 @@ func die():
 	
 
 func _on_animated_sprite_2d_animation_finished():
-	print("destroyed?")
 	queue_free()

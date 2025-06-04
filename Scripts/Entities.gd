@@ -29,7 +29,7 @@ func select_playing_enemy():
 		if not is_instance_valid(e):
 			continue
 		if e.active:
-			var dist = e.get_nearest_rune()
+			var dist = e.get_nearest_rune()[0]
 			if dist < closest_enem:
 				closest_enem = dist
 				enem = e

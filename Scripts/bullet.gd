@@ -18,7 +18,7 @@ func _ready():
 	start = global_position
 	rotation = (rota)  # sets the actual rotation of the node
 	$Sprite2D.rotation = deg_to_rad(rota+270)
-	print(get_groups())
+	
 func _physics_process(_delta):
 	if global_position.distance_to(start) <= max_dist:
 		if not sploding:
@@ -26,27 +26,31 @@ func _physics_process(_delta):
 		else:
 			velocity = Vector2.ZERO
 	else:
-		queue_free()
+		if not sploding:
+			velocity = Vector2.ZERO
+			sploding = true
+			$Area2D/CollisionShape2D.disabled = true
+			$sploder.visible = true
+			$sploder.play()
+			await $sploder.animation_finished
+			queue_free()
 	move_and_slide()
 
 
 
 func _on_area_2d_area_entered(area):
 	var node = area
-	#print("target ", target_group)
-	#print("owner ", owner_group)
+
 	while node and not node.is_in_group("damagable"):
 		node = node.get_parent()
 	
 	if node and node.is_in_group(target_group):
 		sploding = true
-		$Area2D.get_child(0).disabled = true
+		$Area2D/CollisionShape2D.disabled = true
 		$sploder.visible = true
 		$sploder.play()
 		await $sploder.animation_finished
 		if is_instance_valid(node):
-			print(node.rune_name)
-			print(area.get_parent().get_parent())
 			node.delete_segments(damage)
 		queue_free()
 
@@ -55,3 +59,7 @@ func delete_segments(_damage):
 	
 	
 
+
+
+func _on_sploder_animation_finished():
+	queue_free()
