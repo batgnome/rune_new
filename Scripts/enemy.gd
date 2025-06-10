@@ -180,17 +180,18 @@ func get_nearest_rune():
 	var current_path = 0
 	var candidates = get_tree().get_nodes_in_group("pl_runes")
 	for i in candidates:
-		if i and tilemap:
-			current_path = tilemap.get_rune_path(
-				tilemap.local_to_map(position),
-				tilemap.local_to_map(i.position)
-			).size()
-			
-			if current_path < shortest_path:
-				target = i
-				shortest_path = current_path
-				$draw_layer.queue_redraw()
-			distance_to = floor(position.distance_to(target.position)/20)
+		if !i.is_in_group("bullets"):
+			if i and tilemap:
+				current_path = tilemap.get_rune_path(
+					tilemap.local_to_map(position),
+					tilemap.local_to_map(i.position)
+				).size()
+				
+				if current_path < shortest_path:
+					target = i
+					shortest_path = current_path
+					$draw_layer.queue_redraw()
+				distance_to = floor(position.distance_to(target.position)/20)
 	return [shortest_path,distance_to]
 	
 func _on_timer_timeout():

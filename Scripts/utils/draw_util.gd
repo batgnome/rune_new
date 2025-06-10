@@ -37,6 +37,7 @@ func draw_movement_arrows():
 	var angles = [-90, 90, 0, 180]
 	for i in range(4):
 		var dir = dirs[i]
+		
 		if Utils.can_move_to(parent.position + TILESIZE * dir,parent.tilemap):
 			draw_set_transform(Vector2.ZERO, deg_to_rad(angles[i]), Vector2.ONE)
 			draw_texture_rect(parent.arrow_marker_texture, rect, false)

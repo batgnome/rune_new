@@ -14,6 +14,7 @@ signal rune_chosen(runeItem)
 signal close_button()
 signal start
 signal attack_pressed
+signal muted
 func _ready():
 	values.visible = false
 	icon.visible = false
@@ -81,3 +82,37 @@ func _on_attack_pressed():
 
 func _on_lost_confirmed():
 	pass # Replace with function body.
+
+
+func _on_pause_button_down():
+	print("paused")
+	if get_tree().paused:
+		$Pause.visible = false
+		get_tree().paused = false
+	else:
+		$Pause.visible = true
+		get_tree().paused = true
+
+
+func _on_mute_toggled(toggled_on):
+	emit_signal("muted",toggled_on)
+
+
+func _on_back_to_game_button_down():
+	$Pause.visible = false
+	get_tree().paused = false
+
+
+func _on_home_button_down():
+	$Pause.visible = false
+	get_tree().paused = false
+	transition_to_level("res://scenes/DEMO.tscn")
+
+func transition_to_level(level_path: String):
+	var tween = create_tween()
+	var fade = get_node("Fade")
+	fade.visible = true
+	fade.get_child(1).play("fade_out")
+	#tween.tween_property(audio_player, "volume_db", -40, 2.0)  # Fade to 0 dB over 2 seconds
+	await fade.get_child(1).animation_finished
+	get_tree().change_scene_to_file(level_path)

@@ -67,6 +67,9 @@ size = Vector2(18, 18)
 script = ExtResource("1_jsdeh")
 inv = ExtResource("2_3opfi")
 
+[node name="Line2D" type="Line2D" parent="."]
+end_cap_mode = 2
+
 [node name="draw_layer" type="Node2D" parent="."]
 z_index = -100
 z_as_relative = false

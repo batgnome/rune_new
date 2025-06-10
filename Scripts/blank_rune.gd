@@ -14,7 +14,6 @@ var blank_texture = preload("res://assets/runes/blank.png")
 var texture: Texture2D = blank_texture
 
 var current_rune: runeItem
-var manager
 var current_moves = 0
 
 var marker_texture = preload("res://assets/runes/marker.png")
@@ -36,69 +35,137 @@ enum STATE { BUILD, PRE, MOVE, ATTACK }
 var fired = false
 @onready var clock = $Timer
 @onready var current_state = STATE.BUILD
-@onready var tilemap
+@onready var manager = get_parent().get_parent()
+@onready var tilemap = manager.tilemap
 signal rune_set(rune)
-
-func get_current_state():
-	return current_state
 
 func _ready():
 	add_to_group("damagable")
+	#shader nonsense
 	var viewport_texture = $view_container/SubViewport.get_texture()
 	$Sprite2D.material.set_shader_parameter("mask_texture", viewport_texture)
 	$Sprite2D.material = $Sprite2D.material.duplicate()
+	
 	set_rune(preload("res://runes/blank.tres"))
-	manager = get_parent().get_parent()
-	tilemap = manager.tilemap
+	
+	#this will be in the root ui in the future
 	inv_ui = %Inv_ui
 	inv_ui.connect("rune_chosen", Callable(self, "_on_rune_chosen"))
-
+	
+	
+var this_path = []
+var baked_path = []
+var path_select = false
 func _process(_delta):
 	if !tilemap:
 		tilemap = manager.tilemap
+		
 	$timer_display.set_value((clock.get_time_left() / clock.wait_time) * 100)
+	
 	update_tails()
-	if current_state != STATE.BUILD:
+	
+	if  manager.rune == self:
+		if tilemap:
+			this_path = tilemap.get_rune_path(pos_tran(position),pos_tran(get_global_mouse_position()))
+			
+			
 		$Sprite2D.material.set_shader_parameter("show_outline", manager.rune == self)
-		if current_moves <= 0 and current_state == STATE.MOVE:
-			set_state(STATE.ATTACK)
-			clock.start(TIMER_SPEED)
+		
+		match current_state:
+			STATE.MOVE:
+				if path_select == false:
+					baked_path = []
+					if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+						baked_path = this_path
+					if !baked_path.is_empty():
+						path_select = true
+						walk_path(baked_path)
+				queue_redraw()
+				
+
+				if current_moves <= 0:
+					set_state(STATE.ATTACK)
+			STATE.ATTACK:
+				set_attack()
+	else:
+		this_path = []
+		queue_redraw()
+			
+func _input(event):
+	if current_state == STATE.MOVE:
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			if path_select:
+				path_select = false
+				baked_path.clear()
+				this_path.clear()
+func run_path(path):
+	for i in path:
+		var target_pos = i
+		var index = tail_position.find(target_pos)
+		if Utils.can_move_to(target_pos,manager.tilemap) and current_moves > 0:
+			if index != -1:
+				tail_position.remove_at(index)
+				tail_position.append(global_position)
+			else:
+				tail_position.append(global_position)
+				if tail_position.size() >= max_size:
+					tail_position.pop_front()
+				else:
+					create_tail()
+					update_tails()
+			position = target_pos
+			current_moves -= 1
+			emit_signal("rune_set", self)
 			$draw_layer.queue_redraw()
-		elif current_state == STATE.ATTACK:
-			set_attack()
+			
+			
+func walk_path(path):
+	var moved = 0
+	var i = 0
+	while i < path.size()-1:
+		if current_moves <= 0:
+			set_state(STATE.ATTACK)
+			path_select = false
+			break
+		var next_pos = path[i+1]
+		move(next_pos)
+		current_moves -= 1
+		moved += 1
 
-
-
-#func init_attack_collision_shapes(size):
-	#for child in %att_area.get_children():
-		#child.queue_free()
-	#for x in range(-size, size + 1):
-		#for y in range(-size, size + 1):
-			#if abs(x) + abs(y) <= size and not (x == 0 and y == 0):
-				#var tile_center = Vector2(x + TILESIZE * x, y + TILESIZE * y)
-				#var att = attack_collision_scene.instantiate()
-				#att.position = tile_center
-				#att.connect("attack_done", Callable(self, "_attack_done"))
-				#att.parent = self
-				#%att_area.add_child(att)
-
-#func _attack_done():
-	#attack_done = true
-	#$draw_layer.queue_redraw()
-
-func set_attack():
-	for a in %att_area.get_children():
-		a.set_pickable(true)
-	for a in $move_buttons.get_children():
-		a.set_pickable(false)
-
-func set_move():
-	for a in %att_area.get_children():
-		a.set_pickable(false)
-	for a in $move_buttons.get_children():
-		a.set_pickable(true)
-
+		await wait(0.2) 
+		i+=1
+	if current_moves > 0:
+		path_select = false
+	# After walking is done, trigger attack state
+	if moved > 0:
+		$draw_layer.queue_redraw()
+		
+func move(pos):
+	
+	tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),false)
+	if pos != global_position:
+		tail_position.append(global_position)
+		tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
+		if tail_position.size() > max_size -1:
+			tilemap.astargrid.set_point_solid(tilemap.local_to_map(tail_position[0]),false)
+			tail_position.pop_front()
+		else:
+			create_tail()
+	update_tails()
+	global_position = pos
+	tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
+	tilemap.queue_redraw()
+	
+	
+func _draw():
+	$Line2D.global_position = Vector2(0,0)
+	$Line2D.points = PackedVector2Array(this_path)		
+		
+func pos_tran(pos):
+	return Vector2i(floor(pos.x/TILESIZE),floor(pos.y/TILESIZE))
+	
 func _unhandled_input(event):
+	
 	if current_state != STATE.BUILD and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		inv_ui.close()
 		if manager.rune == self:
@@ -137,7 +204,7 @@ func move_in_direction(dir: Vector2):
 				no_move = $move_buttons/left.has_overlapping_areas()
 			elif dir == Vector2.RIGHT:
 				no_move = $move_buttons/right.has_overlapping_areas()
-			
+		
 		if Utils.can_move_to(target_pos,manager.tilemap) and current_moves > 0 and not no_move:
 			
 			if index != -1:
@@ -185,7 +252,28 @@ func _on_rune_chosen(rune):
 				inv.add(current_rune)
 			current_rune = null
 			set_rune(self)
+			
+func set_attack():
+	for a in $move_buttons.get_children():
+		a.set_pickable(false)
 
+func set_move():
+	for a in $move_buttons.get_children():
+		a.set_pickable(true)
+			
+func set_state(new_state):
+	if current_state != new_state:
+		match  new_state:
+			STATE.MOVE:
+				set_move()
+				attack_done = false
+				fired = false
+				current_moves = speed
+			STATE.ATTACK:
+				clock.start(TIMER_SPEED)
+		current_state = new_state
+		$draw_layer.queue_redraw()
+		
 func set_rune(rune):
 	emit_signal("rune_set", rune)
 	if current_rune:
@@ -235,17 +323,9 @@ func _on_move_buttons_move_button(dir):
 	move_in_direction(dir)
 
 func _on_timer_timeout():
-	set_move()
-	attack_done = false
 	set_state(STATE.MOVE)
-	fired = false
-	current_moves = speed
 
-func set_state(new_state):
-	if current_state != new_state:
-		current_state = new_state
-		$draw_layer.queue_redraw()
-		
+
 func delete_segments(size):
 	for s in size:
 		if tails.size() > 0:
@@ -260,14 +340,7 @@ func delete_segments(size):
 			emit_signal("rune_set",null)
 			var anim_sprite = %death_anim
 			anim_sprite.play()
-		
-#func fire():
-	#var b = bullet.instantiate()
-	#b.speed = 3
-	#b.pos = global_position
-	#b.rota = global_rotation
-	#b.dir = rotation
-	#add_child(b)
+
 func fire(rotate_bullet):
 	var b = bullet.instantiate()
 	b.add_to_group("pl_runes")
@@ -280,6 +353,8 @@ func fire(rotate_bullet):
 	b.target_group = "enemy_runes"
 	
 	get_tree().root.get_child(0).add_child(b)
+	
+	
 func wait(seconds):
 	await get_tree().create_timer(seconds).timeout		
 

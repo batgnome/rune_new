@@ -11,9 +11,9 @@ region = Rect2(20, 20, 20, 20)
 [resource]
 script = ExtResource("1_6gprv")
 name = "eye"
-speed = 3
-attack_range = 3
-attack_power = 2
-max_size = 9
+speed = 0
+attack_range = 0
+attack_power = 0
+max_size = 1
 texture = ExtResource("2_62j2s")
 tail_texture = SubResource("AtlasTexture_ok1c1")

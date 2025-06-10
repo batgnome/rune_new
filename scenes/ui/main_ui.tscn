@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ysbpvegbtfi6"]
+[gd_scene load_steps=24 format=3 uid="uid://ysbpvegbtfi6"]
 
 [ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="1_0av6a"]
 [ext_resource type="Script" path="res://Scripts/main_ui.gd" id="1_occ4b"]
@@ -7,10 +7,15 @@
 [ext_resource type="Texture2D" uid="uid://bqlhe25ywtjfb" path="res://assets/ui/icons.png" id="3_6hd8i"]
 [ext_resource type="Texture2D" uid="uid://cf78y0t72m74d" path="res://assets/runes/confirm.png" id="4_p5hur"]
 [ext_resource type="PackedScene" uid="uid://qux01r6dbeij" path="res://inventory/inv_ui_slot.tscn" id="7_i28r4"]
+[ext_resource type="PackedScene" uid="uid://bfukg06s3chtj" path="res://scenes/fade_transition.tscn" id="8_roleo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8wgf6"]
 atlas = ExtResource("3_6hd8i")
 region = Rect2(10, 10, 10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18rsg"]
+atlas = ExtResource("3_6hd8i")
+region = Rect2(30, 10, 10, 10)
 
 [sub_resource type="LabelSettings" id="LabelSettings_4gdri"]
 font_color = Color(0, 0, 0, 1)
@@ -46,6 +51,15 @@ region = Rect2(30, 0, 10, 10)
 [sub_resource type="LabelSettings" id="LabelSettings_0v3c8"]
 font_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_elshm"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_73ddp"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6v7tc"]
+font_color = Color(0, 0, 0, 1)
+
 [node name="Main_Ui" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -64,10 +78,10 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.223
-offset_left = 18.0
-offset_top = 964.0
-offset_right = 13.085
-offset_bottom = 969.08
+offset_left = 14.0
+offset_top = 953.0
+offset_right = 9.08496
+offset_bottom = 958.08
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.985, 0.985)
@@ -114,6 +128,19 @@ offset_bottom = 22.4267
 scale = Vector2(3.2787, 1.84647)
 icon = SubResource("AtlasTexture_8wgf6")
 flat = true
+
+[node name="Pause" type="Button" parent="Panel/NinePatchRect/Buttons"]
+process_mode = 3
+layout_mode = 0
+offset_left = 813.0
+offset_top = 16.0
+offset_right = 833.0
+offset_bottom = 34.0
+scale = Vector2(2.21027, 1.62958)
+icon = SubResource("AtlasTexture_18rsg")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="values" type="Control" parent="Panel/NinePatchRect"]
 unique_name_in_owner = true
@@ -348,5 +375,113 @@ layout_mode = 2
 [node name="inv_UI_slot12" parent="Panel/inv/GridContainer" instance=ExtResource("7_i28r4")]
 layout_mode = 2
 
+[node name="Pause" type="Panel" parent="."]
+process_mode = 2
+visible = false
+layout_mode = 0
+offset_left = 549.0
+offset_top = 678.0
+offset_right = 589.0
+offset_bottom = 718.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Pause"]
+layout_mode = 0
+offset_left = -146.0
+offset_top = -94.0
+offset_right = -106.0
+offset_bottom = -54.0
+scale = Vector2(9.08531, 5.55175)
+texture = ExtResource("1_0av6a")
+region_rect = Rect2(6, 6, 6, 6)
+
+[node name="Label" type="Label" parent="Pause/NinePatchRect"]
+layout_mode = 0
+offset_left = 11.8873
+offset_top = -2.88197
+offset_right = 68.8873
+offset_bottom = 20.118
+scale = Vector2(0.281448, 0.614606)
+text = "Paused"
+label_settings = SubResource("LabelSettings_elshm")
+
+[node name="back_to_game" type="Button" parent="Pause/NinePatchRect"]
+layout_mode = 0
+offset_left = 14.8592
+offset_top = 9.54653
+offset_right = 59.8592
+offset_bottom = 40.5465
+scale = Vector2(0.204869, 0.283745)
+flat = true
+
+[node name="Label" type="Label" parent="Pause/NinePatchRect/back_to_game"]
+layout_mode = 0
+offset_left = 4.83533
+offset_top = 4.44365
+offset_right = 44.8353
+offset_bottom = 27.4436
+text = "back
+"
+label_settings = SubResource("LabelSettings_73ddp")
+
+[node name="Home" type="Button" parent="Pause/NinePatchRect"]
+layout_mode = 0
+offset_left = 15.0793
+offset_top = 17.1117
+offset_right = 60.0793
+offset_bottom = 48.1117
+scale = Vector2(0.204869, 0.283745)
+flat = true
+
+[node name="Label" type="Label" parent="Pause/NinePatchRect/Home"]
+layout_mode = 0
+offset_left = 4.83533
+offset_top = 4.44365
+offset_right = 44.8353
+offset_bottom = 27.4436
+text = "home
+"
+label_settings = SubResource("LabelSettings_73ddp")
+
+[node name="HSlider" type="HSlider" parent="Pause/NinePatchRect"]
+visible = false
+layout_mode = 0
+offset_left = 11.9974
+offset_top = 24.1365
+offset_right = 19.9974
+offset_bottom = 40.1365
+scale = Vector2(0.269364, 0.329345)
+
+[node name="mute" type="CheckButton" parent="Pause/NinePatchRect"]
+layout_mode = 0
+offset_left = 13.2081
+offset_top = 26.4781
+offset_right = 57.2081
+offset_bottom = 50.4781
+scale = Vector2(0.0984854, 0.214193)
+
+[node name="Label" type="Label" parent="Pause/NinePatchRect/mute"]
+layout_mode = 0
+offset_left = 52.0913
+offset_top = -10.3716
+offset_right = 93.0913
+offset_bottom = 12.6284
+scale = Vector2(1.42547, 1.44712)
+text = "Mute"
+label_settings = SubResource("LabelSettings_6v7tc")
+
+[node name="Fade" parent="." instance=ExtResource("8_roleo")]
+unique_name_in_owner = true
+visible = false
+position = Vector2(8, 38)
+
+[node name="Fade2" parent="." instance=ExtResource("8_roleo")]
+unique_name_in_owner = true
+visible = false
+position = Vector2(8, 38)
+
 [connection signal="pressed" from="Panel/NinePatchRect/Buttons/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Panel/NinePatchRect/Buttons/Attack" to="." method="_on_attack_pressed"]
+[connection signal="button_down" from="Panel/NinePatchRect/Buttons/Pause" to="." method="_on_pause_button_down"]
+[connection signal="button_down" from="Pause/NinePatchRect/back_to_game" to="." method="_on_back_to_game_button_down"]
+[connection signal="button_down" from="Pause/NinePatchRect/Home" to="." method="_on_home_button_down"]
+[connection signal="toggled" from="Pause/NinePatchRect/mute" to="." method="_on_mute_toggled"]
