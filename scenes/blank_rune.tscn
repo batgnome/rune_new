@@ -12,19 +12,19 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_epdd4"]
 atlas = ExtResource("8_eedlv")
-region = Rect2(0, 0, 20, 20)
+region = Rect2(0, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tl1qc"]
 atlas = ExtResource("8_eedlv")
-region = Rect2(20, 0, 20, 20)
+region = Rect2(20, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8shhy"]
 atlas = ExtResource("8_eedlv")
-region = Rect2(40, 0, 20, 20)
+region = Rect2(40, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pimjc"]
 atlas = ExtResource("8_eedlv")
-region = Rect2(60, 0, 20, 20)
+region = Rect2(60, 0, 100, 100)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xot01"]
 animations = [{
@@ -59,7 +59,7 @@ shader_parameter/mask_offset = Vector2(0, 0)
 shader_parameter/mask_texture = SubResource("ViewportTexture_va2p0")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sudiy"]
-size = Vector2(18, 18)
+size = Vector2(90, 90)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ww3pc"]
 
@@ -80,7 +80,7 @@ script = ExtResource("9_64b4e")
 [node name="SubViewport" type="SubViewport" parent="view_container"]
 disable_3d = true
 transparent_bg = true
-size = Vector2i(10, 10)
+size = Vector2i(100, 100)
 render_target_update_mode = 4
 
 [node name="death_anim" type="AnimatedSprite2D" parent="view_container/SubViewport"]

@@ -6,7 +6,7 @@
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cgofy"]
 texture = ExtResource("1_6j252")
-texture_region_size = Vector2i(20, 20)
+texture_region_size = Vector2i(100, 100)
 0:0/0 = 0
 0:0/0/custom_data_0 = true
 1:0/0 = 0
@@ -29,22 +29,22 @@ texture_region_size = Vector2i(20, 20)
 3:0/0/custom_data_0 = true
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_co75q"]
-vertices = PackedVector2Array(10, 10, -10, 10, -10, -10, 10, -10)
+vertices = PackedVector2Array(50, 50, -50, 50, -50, -50, 50, -50)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 0.0
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e3v3s"]
-vertices = PackedVector2Array(10, 10, -10, 10, -10, -10, 10, -10)
+vertices = PackedVector2Array(50, 50, -50, 50, -50, -50, 50, -50)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7pa5j"]
 texture = ExtResource("2_nmeri")
-texture_region_size = Vector2i(20, 20)
+texture_region_size = Vector2i(100, 100)
 0:0/0 = 0
 0:0/0/terrain_set = 0
 0:0/0/terrain = 0
@@ -460,7 +460,7 @@ texture_region_size = Vector2i(20, 20)
 7:7/0/terrains_peering_bit/top_right_corner = 0
 
 [sub_resource type="TileSet" id="TileSet_brrv6"]
-tile_size = Vector2i(20, 20)
+tile_size = Vector2i(100, 100)
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.501961, 0.345098, 0.25098, 1)

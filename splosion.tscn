@@ -4,19 +4,19 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q7npj"]
 atlas = ExtResource("1_cs0nl")
-region = Rect2(0, 0, 20, 20)
+region = Rect2(0, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_410cl"]
 atlas = ExtResource("1_cs0nl")
-region = Rect2(20, 0, 20, 20)
+region = Rect2(20, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gwho0"]
 atlas = ExtResource("1_cs0nl")
-region = Rect2(40, 0, 20, 20)
+region = Rect2(40, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n6kwp"]
 atlas = ExtResource("1_cs0nl")
-region = Rect2(60, 0, 20, 20)
+region = Rect2(60, 0, 100, 100)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dcxvm"]
 animations = [{

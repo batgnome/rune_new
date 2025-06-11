@@ -1,7 +1,7 @@
 extends TileMap
 var aStar:AStar2D
 var astargrid = AStarGrid2D.new()
-const TILESIZE = 20
+const TILESIZE = 100
 @export var cell_size = Vector2i(TILESIZE,TILESIZE)
 var grid_size
 var start = Vector2i.ZERO

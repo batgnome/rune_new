@@ -28,7 +28,7 @@ var tails = []
 var attack_done = false
 
 const TILE_OFFSET = Vector2(-10, -10)
-const TILESIZE = 20
+const TILESIZE = 100
 const TIMER_SPEED = 2
 enum STATE { BUILD, PRE, MOVE, ATTACK }
 var fired = false
@@ -322,7 +322,7 @@ func fire(rotate_bullet):
 	b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
 	b.damage = attack_power
 	b.pos = global_position #- TILE_OFFSET
-	b.max_dist = attack_range*20
+        b.max_dist = attack_range * TILESIZE
 	b.rota = rotate_bullet  # This sets the direction the bullet travels
 	b.owner_group = "pl_runes"
 	b.target_group = "enemy_runes"

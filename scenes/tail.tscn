@@ -7,19 +7,19 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_epdd4"]
 atlas = ExtResource("2_ymsax")
-region = Rect2(0, 0, 20, 20)
+region = Rect2(0, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tl1qc"]
 atlas = ExtResource("2_ymsax")
-region = Rect2(20, 0, 20, 20)
+region = Rect2(20, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8shhy"]
 atlas = ExtResource("2_ymsax")
-region = Rect2(40, 0, 20, 20)
+region = Rect2(40, 0, 100, 100)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pimjc"]
 atlas = ExtResource("2_ymsax")
-region = Rect2(60, 0, 20, 20)
+region = Rect2(60, 0, 100, 100)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fmdnb"]
 animations = [{
@@ -51,7 +51,7 @@ shader_parameter/mask_offset = Vector2(0, 0)
 shader_parameter/mask_texture = SubResource("ViewportTexture_us7jy")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_50adh"]
-size = Vector2(16, 16)
+size = Vector2(80, 80)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ox4lp"]
 font_size = 8
@@ -64,7 +64,7 @@ script = ExtResource("1_q51hf")
 
 [node name="SubViewport" type="SubViewport" parent="view_container"]
 transparent_bg = true
-size = Vector2i(20, 20)
+size = Vector2i(100, 100)
 
 [node name="death_anim" type="AnimatedSprite2D" parent="view_container/SubViewport"]
 unique_name_in_owner = true

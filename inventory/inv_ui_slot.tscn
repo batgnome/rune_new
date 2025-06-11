@@ -11,7 +11,7 @@ outline_color = Color(0.54902, 0.54902, 0.54902, 1)
 
 [node name="inv_UI_slot" type="Panel"]
 self_modulate = Color(1, 1, 1, 0)
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(80, 80)
 offset_right = 16.0
 offset_bottom = 16.0
 script = ExtResource("1_wck3e")

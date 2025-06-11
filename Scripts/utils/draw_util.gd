@@ -1,6 +1,6 @@
 extends Node2D
 
-const TILESIZE = 20
+const TILESIZE = 100
 @onready var parent = get_parent()
 func _ready():
 	pass # Replace with function body.
@@ -19,7 +19,7 @@ func _draw():
 			
 			if parent.current_state == parent.STATE.ATTACK and not parent.attack_done:
 				var color = Color8(255,150,0,65)
-				draw_circle(Vector2.ZERO, parent.attack_range*20,color)
+                                draw_circle(Vector2.ZERO, parent.attack_range * TILESIZE,color)
 				render_markers(parent.attack_marker_texture, parent.attack_range)
 			elif parent.current_state == parent.STATE.MOVE and parent.current_moves > 0:
 				draw_movement_arrows()
@@ -29,7 +29,7 @@ func _draw():
 		if parent.CURRENT_STATE == parent.STATE.ATTACK and not parent.fired:
 			#render_markers(parent.attack_marker_texture, parent.type.attack_range)
 				var color = Color8(255,150,0,65)
-				draw_circle(Vector2.ZERO, parent.type.attack_range*20,color)
+                                draw_circle(Vector2.ZERO, parent.type.attack_range * TILESIZE,color)
 			
 func draw_movement_arrows():
 	var rect = Rect2(Vector2(-10, -30), Vector2(TILESIZE, TILESIZE))
