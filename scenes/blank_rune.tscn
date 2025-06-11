@@ -1,11 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://d0e1ietq5fgdg"]
+[gd_scene load_steps=20 format=3 uid="uid://d0e1ietq5fgdg"]
 
 [ext_resource type="Script" path="res://Scripts/blank_rune.gd" id="1_jsdeh"]
-[ext_resource type="Texture2D" uid="uid://d0qvmbjy1de3r" path="res://assets/runes/blank.png" id="2_hurgw"]
 [ext_resource type="Resource" uid="uid://dyld06sk0hfem" path="res://runes/runeInventory.tres" id="2_pb0ew"]
 [ext_resource type="PackedScene" uid="uid://sro0000q02w4" path="res://inventory/inv_ui.tscn" id="3_esb4x"]
 [ext_resource type="Shader" path="res://shaders/blank_rune.gdshader" id="3_iv7bb"]
 [ext_resource type="Script" path="res://Scripts/move_buttons.gd" id="6_0cotn"]
+[ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="6_q26bf"]
 [ext_resource type="PackedScene" uid="uid://ba2uik116jrrj" path="res://scenes/timer.tscn" id="7_g44an"]
 [ext_resource type="Texture2D" uid="uid://b7ai2h5qc04aw" path="res://assets/runes/splosion.png" id="8_eedlv"]
 [ext_resource type="Script" path="res://Scripts/utils/draw_util.gd" id="9_64b4e"]
@@ -58,6 +58,10 @@ shader_parameter/show_outline = false
 shader_parameter/mask_offset = Vector2(0, 0)
 shader_parameter/mask_texture = SubResource("ViewportTexture_va2p0")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_a0kyh"]
+atlas = ExtResource("6_q26bf")
+region = Rect2(40, 0, 20, 20)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sudiy"]
 size = Vector2(18, 18)
 
@@ -68,6 +72,7 @@ script = ExtResource("1_jsdeh")
 inv = ExtResource("2_pb0ew")
 
 [node name="Line2D" type="Line2D" parent="."]
+default_color = Color(1, 1, 1, 0.34902)
 end_cap_mode = 2
 
 [node name="draw_layer" type="Node2D" parent="."]
@@ -91,7 +96,7 @@ sprite_frames = SubResource("SpriteFrames_xot01")
 texture_filter = 1
 material = SubResource("ShaderMaterial_v0rvp")
 scale = Vector2(0.7, 0.7)
-texture = ExtResource("2_hurgw")
+texture = SubResource("AtlasTexture_a0kyh")
 metadata/_edit_group_ = true
 
 [node name="select_rune" type="Area2D" parent="."]

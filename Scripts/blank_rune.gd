@@ -9,7 +9,7 @@ var attack_range: int = 0
 var attack_power: int = 0
 var max_size: int = 0
 
-var blank_texture = preload("res://assets/runes/blank.png")
+@onready var blank_texture = $Sprite2D.texture
 var texture: Texture2D = blank_texture
 
 var current_rune: runeItem
@@ -136,8 +136,11 @@ func move(pos):
 	
 	
 func _draw():
-	$Line2D.global_position = Vector2(0,0)
-	$Line2D.points = PackedVector2Array(this_path)		
+	if current_state == STATE.MOVE:
+		$Line2D.global_position = Vector2(0,0)
+		$Line2D.points = PackedVector2Array(this_path)
+	else:
+		$Line2D.points = []
 		
 func pos_tran(pos):
 	return Vector2i(floor(pos.x/TILESIZE),floor(pos.y/TILESIZE))
@@ -264,6 +267,7 @@ func set_state(new_state):
 				clock.start(TIMER_SPEED)
 		current_state = new_state
 		$draw_layer.queue_redraw()
+		queue_redraw()
 		
 func set_rune(rune):
 	emit_signal("rune_set", rune)
