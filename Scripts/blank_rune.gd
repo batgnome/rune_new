@@ -1,7 +1,6 @@
 extends Node2D
 
 @export var inv: RuneInv
-var inv_ui
 var inside = false
 var inside_hold = false
 var rune_name: String = "Blank"
@@ -39,6 +38,10 @@ var fired = false
 @onready var tilemap = manager.tilemap
 signal rune_set(rune)
 
+var this_path = []
+var baked_path = []
+var path_select = false
+
 func _ready():
 	add_to_group("damagable")
 	#shader nonsense
@@ -47,15 +50,9 @@ func _ready():
 	$Sprite2D.material = $Sprite2D.material.duplicate()
 	
 	set_rune(preload("res://runes/blank.tres"))
-	
-	#this will be in the root ui in the future
-	inv_ui = %Inv_ui
-	inv_ui.connect("rune_chosen", Callable(self, "_on_rune_chosen"))
+	connect("rune_set", Callable(manager, "_on_rune_selected"))
 	
 	
-var this_path = []
-var baked_path = []
-var path_select = false
 func _process(_delta):
 	if !tilemap:
 		tilemap = manager.tilemap
@@ -98,26 +95,7 @@ func _input(event):
 				path_select = false
 				baked_path.clear()
 				this_path.clear()
-func run_path(path):
-	for i in path:
-		var target_pos = i
-		var index = tail_position.find(target_pos)
-		if Utils.can_move_to(target_pos,manager.tilemap) and current_moves > 0:
-			if index != -1:
-				tail_position.remove_at(index)
-				tail_position.append(global_position)
-			else:
-				tail_position.append(global_position)
-				if tail_position.size() >= max_size:
-					tail_position.pop_front()
-				else:
-					create_tail()
-					update_tails()
-			position = target_pos
-			current_moves -= 1
-			emit_signal("rune_set", self)
-			$draw_layer.queue_redraw()
-			
+
 			
 func walk_path(path):
 	var moved = 0
@@ -167,26 +145,39 @@ func pos_tran(pos):
 func _unhandled_input(event):
 	
 	if current_state != STATE.BUILD and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		inv_ui.close()
+		
 		if manager.rune == self:
 			$draw_layer.queue_redraw()
 			if not current_moves > 0 and current_state == STATE.MOVE:
 				set_state(STATE.ATTACK)
 		else:
 			$draw_layer.queue_redraw()
-			
-	if current_state == STATE.MOVE:
-		if event.is_action("attack"):
-			set_attack()
-			
-	if current_state == STATE.ATTACK \
-	and event is InputEventMouseButton  \
-	and event.button_index == MOUSE_BUTTON_LEFT \
-	and event.pressed \
-	and not fired:
-		fired = true
-		var angle = get_local_mouse_position().angle()
-		fire(angle)
+	if manager.rune == self:		
+		if current_state == STATE.MOVE:
+			if event.is_action("attack"):
+				set_attack()
+
+		if current_state == STATE.ATTACK \
+		and event is InputEventMouseButton  \
+		and event.button_index == MOUSE_BUTTON_LEFT \
+		and event.pressed \
+		and not fired:
+			var nodes =get_parent().get_children()
+			var entered = false
+			for n in nodes:
+				if n.mouse_entered == true:
+					entered = true
+			if not entered:
+				fired = true
+				var angle = get_local_mouse_position().angle()
+				fire(angle)
+				
+
+func _on_mouse_selected(_viewport, event, _shape_idx):
+	if current_state != STATE.BUILD and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	
+		emit_signal("rune_set", self)
+
 			
 func move_in_direction(dir: Vector2):
 	
@@ -301,29 +292,13 @@ func set_texture(img):
 
 func deselect():
 	$draw_layer.queue_redraw()
-	inv_ui.close()
-
-func _on_inv_ui_close_button():
-	inv_ui.close()
-
-func _on_mouse_selected(_viewport, event, _shape_idx):
-	if current_state != STATE.BUILD and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		manager.rune = self
-		emit_signal("rune_set", self)
-		if current_state == STATE.PRE:
-			
-			#build state/ inv stuff	
-			if inv_ui.is_open:
-				inv_ui.close()
-			else:
-				inv_ui.open()
-				RuneSelectionManager.select(self)
 
 func _on_move_buttons_move_button(dir):
 	move_in_direction(dir)
 
 func _on_timer_timeout():
 	set_state(STATE.MOVE)
+	path_select = false
 
 
 func delete_segments(size):
@@ -361,3 +336,10 @@ func wait(seconds):
 
 func _on_animated_sprite_2d_animation_finished():
 	queue_free()
+
+var mouse_entered = false
+func _on_select_rune_mouse_entered():
+	mouse_entered = true
+
+func _on_select_rune_mouse_exited():
+	mouse_entered = false

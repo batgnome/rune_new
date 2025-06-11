@@ -14,6 +14,8 @@ var rune
 @onready var tilemap = %TileMapPlayer
 @onready var audio_player = $"../AudioStreamPlayer2D"
 @onready var fade = %Fade
+@onready var inv_ui = %Main_Ui
+@export var inv: RuneInv
 signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -23,6 +25,8 @@ func get_tilemap():
 	return tilemap
 
 func _ready():
+	
+	inv_ui.connect("rune_chosen", Callable(self, "_on_rune_chosen"))
 	audio_player.volume_db = -40  # Start muted
 	audio_player.play()
 
@@ -109,7 +113,7 @@ func transition_to_level(level_path: String):
 	var tween = create_tween()
 	fade.visible = true
 	fade.get_child(1).play("fade_out")
-	tween.tween_property(audio_player, "volume_db", -40, 2.0)  # Fade to 0 dB over 2 seconds
+	#tween.tween_property(audio_player, "volume_db", -40, 2.0)  # Fade to 0 dB over 2 seconds
 	await fade.get_child(1).animation_finished
 	get_tree().change_scene_to_file(level_path)
 	
@@ -127,3 +131,11 @@ func _on_main_ui_muted(toggled_on):
 		audio_player.set_volume_db(0)
 
 	print(audio_player.volume_db)
+
+func _on_rune_selected(rune_chosen):
+	rune = rune_chosen
+
+
+func _on_main_ui_rune_chosen(runeItem):
+	rune._on_rune_chosen(runeItem)
+	%Main_Ui.update_slots()

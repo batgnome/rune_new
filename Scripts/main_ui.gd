@@ -5,8 +5,8 @@ extends Control
 @onready var values = %values
 @onready var labels = %labels
 @onready var icon = %icon
-#@onready var inv: RuneInv = preload("res://runes/runeInventory.tres")
-@onready var inv: RuneInv = preload("res://runes/TEST_INV.tres")
+@onready var inv: RuneInv = preload("res://runes/runeInventory.tres")
+#@onready var inv: RuneInv = preload("res://runes/TEST_INV.tres")
 @onready var slots: Array = $Panel/inv/GridContainer.get_children()
 var is_open = false
 var select: runeItem
@@ -60,6 +60,7 @@ func _on_start_pressed():
 func _hide_start():
 	$Panel/NinePatchRect/start_label.visible = false
 	%Start.visible = false
+	$Panel/inv.visible = false
 	
 
 
@@ -116,3 +117,9 @@ func transition_to_level(level_path: String):
 	#tween.tween_property(audio_player, "volume_db", -40, 2.0)  # Fade to 0 dB over 2 seconds
 	await fade.get_child(1).animation_finished
 	get_tree().change_scene_to_file(level_path)
+	
+
+
+
+func _on_inv_ui_rune_chosen(runeItem):
+	emit_signal("inv_select",runeItem)

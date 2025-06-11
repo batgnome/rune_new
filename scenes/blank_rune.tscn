@@ -1,8 +1,8 @@
 [gd_scene load_steps=19 format=3 uid="uid://d0e1ietq5fgdg"]
 
 [ext_resource type="Script" path="res://Scripts/blank_rune.gd" id="1_jsdeh"]
-[ext_resource type="Resource" uid="uid://cptdrns1oui5i" path="res://runes/TEST_INV.tres" id="2_3opfi"]
 [ext_resource type="Texture2D" uid="uid://d0qvmbjy1de3r" path="res://assets/runes/blank.png" id="2_hurgw"]
+[ext_resource type="Resource" uid="uid://dyld06sk0hfem" path="res://runes/runeInventory.tres" id="2_pb0ew"]
 [ext_resource type="PackedScene" uid="uid://sro0000q02w4" path="res://inventory/inv_ui.tscn" id="3_esb4x"]
 [ext_resource type="Shader" path="res://shaders/blank_rune.gdshader" id="3_iv7bb"]
 [ext_resource type="Script" path="res://Scripts/move_buttons.gd" id="6_0cotn"]
@@ -65,7 +65,7 @@ size = Vector2(18, 18)
 
 [node name="Blank_rune" type="Node2D" groups=["damagable", "pl_runes"]]
 script = ExtResource("1_jsdeh")
-inv = ExtResource("2_3opfi")
+inv = ExtResource("2_pb0ew")
 
 [node name="Line2D" type="Line2D" parent="."]
 end_cap_mode = 2
@@ -160,6 +160,8 @@ offset_bottom = -6.0
 
 [connection signal="animation_finished" from="view_container/SubViewport/death_anim" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="input_event" from="select_rune" to="." method="_on_mouse_selected"]
+[connection signal="mouse_entered" from="select_rune" to="." method="_on_select_rune_mouse_entered"]
+[connection signal="mouse_exited" from="select_rune" to="." method="_on_select_rune_mouse_exited"]
 [connection signal="close_button" from="Inv_ui" to="." method="_on_inv_ui_close_button"]
 [connection signal="move_button" from="move_buttons" to="." method="_on_move_buttons_move_button"]
 [connection signal="input_event" from="move_buttons/left" to="move_buttons" method="_on_left_input_event"]

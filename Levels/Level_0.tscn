@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://bfukg06s3chtj" path="res://scenes/fade_transition.tscn" id="1_go6gj"]
 [ext_resource type="PackedScene" uid="uid://cxblmdvvlfow0" path="res://scenes/ui/game_ui_insinde.tscn" id="1_l1qi1"]
 [ext_resource type="PackedScene" uid="uid://ysbpvegbtfi6" path="res://scenes/ui/main_ui.tscn" id="2_6ltqb"]
-[ext_resource type="Texture2D" uid="uid://q2vt8sfccyx8" path="res://assets/runes/inv_blank.png" id="3_04fu2"]
 [ext_resource type="Texture2D" uid="uid://dpgqfqs6hc5jh" path="res://assets/tiles/tile_office.png" id="3_844ro"]
 [ext_resource type="Texture2D" uid="uid://6p2r26f1vj0k" path="res://assets/tiles/tille_office_floor.png" id="4_2oac7"]
 [ext_resource type="Script" path="res://Scripts/root_player.gd" id="5_lks3v"]
 [ext_resource type="PackedScene" uid="uid://cbldbimjt3s8g" path="res://scenes/tile_map_player.tscn" id="6_6ge48"]
+[ext_resource type="Resource" uid="uid://dyld06sk0hfem" path="res://runes/runeInventory.tres" id="7_pqthg"]
 [ext_resource type="PackedScene" uid="uid://d0e1ietq5fgdg" path="res://scenes/blank_rune.tscn" id="7_rmukx"]
 [ext_resource type="Script" path="res://Scripts/Entities.gd" id="8_4otmy"]
 [ext_resource type="PackedScene" uid="uid://knklcl5ypfqd" path="res://scenes/enemy.tscn" id="9_qdl8y"]
@@ -695,56 +695,6 @@ offset_bottom = 130.0
 text = "TEST"
 label_settings = SubResource("LabelSettings_pis10")
 
-[node name="rune_list" type="Control" parent="CanvasLayer"]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/rune_list"]
-layout_mode = 2
-offset_left = 287.0
-offset_top = 525.0
-offset_right = 605.0
-offset_bottom = 627.0
-size_flags_horizontal = 4
-texture = ExtResource("3_04fu2")
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/rune_list/NinePatchRect"]
-layout_mode = 0
-offset_right = 460.0
-offset_bottom = 93.0
-
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/rune_list/NinePatchRect/ScrollContainer"]
-layout_mode = 2
-columns = 3
-
-[node name="Panel" type="Panel" parent="CanvasLayer/rune_list/NinePatchRect/ScrollContainer/GridContainer"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/rune_list/NinePatchRect/ScrollContainer/GridContainer/Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("3_04fu2")
-metadata/_edit_use_anchors_ = true
-
-[node name="Panel2" type="Panel" parent="CanvasLayer/rune_list/NinePatchRect/ScrollContainer/GridContainer"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/rune_list/NinePatchRect/ScrollContainer/GridContainer/Panel2"]
-layout_mode = 0
-offset_left = 42.0
-offset_top = 1.0
-offset_right = 82.0
-offset_bottom = 41.0
-texture = ExtResource("3_04fu2")
-
 [node name="Win" type="AcceptDialog" parent="CanvasLayer"]
 unique_name_in_owner = true
 process_mode = 3
@@ -778,6 +728,7 @@ layer_2/tile_data = PackedInt32Array(524293, 131073, 1, 393221, 1, 2, 393222, 65
 
 [node name="ROOT" type="Node2D" parent="."]
 script = ExtResource("5_lks3v")
+inv = ExtResource("7_pqthg")
 
 [node name="TileMapPlayer" parent="ROOT" instance=ExtResource("6_6ge48")]
 unique_name_in_owner = true
@@ -817,6 +768,7 @@ bus = &"music"
 
 [connection signal="attack_pressed" from="CanvasLayer/Main_Ui" to="ROOT" method="_on_main_ui_attack_pressed"]
 [connection signal="muted" from="CanvasLayer/Main_Ui" to="ROOT" method="_on_main_ui_muted"]
+[connection signal="rune_chosen" from="CanvasLayer/Main_Ui" to="ROOT" method="_on_main_ui_rune_chosen"]
 [connection signal="start" from="CanvasLayer/Main_Ui" to="ROOT" method="_on_main_ui_start"]
 [connection signal="confirmed" from="CanvasLayer/Win" to="ROOT" method="_on_win_confirmed"]
 [connection signal="confirmed" from="CanvasLayer/lost" to="ROOT" method="_on_lost_confirmed"]
