@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="RuneTileTexture" load_steps=4 format=3 uid="uid://cymvfxjlh0g33"]
+
+[ext_resource type="Texture2D" uid="uid://sya66l7vs3uk" path="res://assets/tiles/tile_hd.png" id="1_s5xwh"]
+[ext_resource type="Script" path="res://Scripts/rune_atlas.gd" id="2_s2dqg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyy1f"]
+atlas = ExtResource("1_s5xwh")
+region = Rect2(500, 0, 100, 100)
+filter_clip = true
+
+[resource]
+script = ExtResource("2_s2dqg")
+atlas_texture = ExtResource("1_s5xwh")
+tile_index = Vector2i(5, 0)
+tile_size = 100
+texture = SubResource("AtlasTexture_oyy1f")
