@@ -1,7 +1,17 @@
-[gd_resource type="Resource" script_class="runeItem" load_steps=3 format=3 uid="uid://bc0tdk5aaabyx"]
+[gd_resource type="Resource" script_class="runeItem" load_steps=5 format=3 uid="uid://bc0tdk5aaabyx"]
 
 [ext_resource type="Script" path="res://Scripts/rune_item.gd" id="1_c5o4e"]
 [ext_resource type="Texture2D" uid="uid://sya66l7vs3uk" path="res://assets/tiles/tile_hd.png" id="1_xb36l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7p4wh"]
+atlas = ExtResource("1_xb36l")
+region = Rect2(500, 300, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpape"]
+atlas = ExtResource("1_xb36l")
+region = Rect2(400, 300, 100, 100)
+filter_clip = true
 
 [resource]
 script = ExtResource("1_c5o4e")
@@ -10,6 +20,8 @@ speed = 1
 attack_range = 5
 attack_power = 3
 max_size = 8
+texture = SubResource("AtlasTexture_jpape")
+tail_texture = SubResource("AtlasTexture_7p4wh")
 atlas_texture = ExtResource("1_xb36l")
-tile_index = Vector2i(0, 0)
+tile_index = Vector2i(4, 3)
 tile_size = 100

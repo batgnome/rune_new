@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
-uniform float thickness = 1.0;
-uniform vec4 outline_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform float thickness = 4.0;
+uniform vec4 outline_color : source_color = vec4(255.0, 255.0,255.0, 1.0);
 uniform bool show_outline = false;
 
 uniform sampler2D mask_texture;
@@ -35,9 +35,7 @@ void fragment() {
 			} else {
 				discard;
 			}
-		} else {
-			COLOR = tex;
-		}
+		} 
 	} else {
 		COLOR = tex;
 	}

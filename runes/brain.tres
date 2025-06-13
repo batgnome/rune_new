@@ -1,15 +1,27 @@
-[gd_resource type="Resource" script_class="runeItem" load_steps=3 format=3 uid="uid://dsbiv82sptgkv"]
+[gd_resource type="Resource" script_class="runeItem" load_steps=5 format=3 uid="uid://dsbiv82sptgkv"]
 
 [ext_resource type="Texture2D" uid="uid://sya66l7vs3uk" path="res://assets/tiles/tile_hd.png" id="1_rhea3"]
 [ext_resource type="Script" path="res://Scripts/rune_item.gd" id="1_rmgkx"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7n3s"]
+atlas = ExtResource("1_rhea3")
+region = Rect2(500, 100, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aov8f"]
+atlas = ExtResource("1_rhea3")
+region = Rect2(400, 100, 100, 100)
+filter_clip = true
+
 [resource]
 script = ExtResource("1_rmgkx")
-name = ""
-speed = 0
-attack_range = 0
-attack_power = 0
+name = "brain"
+speed = 4
+attack_range = 1
+attack_power = 3
 max_size = 0
+texture = SubResource("AtlasTexture_aov8f")
+tail_texture = SubResource("AtlasTexture_i7n3s")
 atlas_texture = ExtResource("1_rhea3")
-tile_index = Vector2i(4, 4)
+tile_index = Vector2i(4, 1)
 tile_size = 100

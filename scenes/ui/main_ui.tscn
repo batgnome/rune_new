@@ -291,12 +291,13 @@ label_settings = SubResource("LabelSettings_2mang")
 [node name="icon" type="TextureRect" parent="Panel/NinePatchRect"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 30.1658
-offset_top = 17.2617
-offset_right = 52.1658
-offset_bottom = 39.2617
-scale = Vector2(2.48224, 1.52065)
+offset_left = 30.1657
+offset_top = 17.2618
+offset_right = 52.1657
+offset_bottom = 39.2618
+scale = Vector2(2.76888, 1.87499)
 texture = ExtResource("3_1diq0")
+stretch_mode = 2
 
 [node name="start_label" type="Label" parent="Panel/NinePatchRect"]
 layout_mode = 0

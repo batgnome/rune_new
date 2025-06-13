@@ -53,7 +53,7 @@ func _update_preview():
 	tex.atlas = atlas_texture
 	tex.region = region
 	tex.filter_clip = true
-	
 	texture = tex
+	
 	set_tail_texture()
-
+	

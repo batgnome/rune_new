@@ -1,9 +1,9 @@
 extends Node2D
 
 @onready var anim = %death_anim
-func set_texture(texture):
+func set_texture(texture,scale):
 	$Sprite2D.texture = texture
-	
+	$Sprite2D.apply_scale(Vector2.ONE*(20.0/scale))
 
 func delete_segments(size):
 	get_parent().delete_segments(size)

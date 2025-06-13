@@ -57,8 +57,13 @@ func _ready():
 	init()
 	
 func init():
+	print(type.max_size)
 	if type:
 		$Sprite2D.texture = type.texture
+		if $Sprite2D.texture.get_size() > Vector2.ONE *20:
+			$Sprite2D.scale = (Vector2.ONE * 20.0/type.tile_size)*0.7
+		else:
+			$Sprite2D.scale = Vector2.ONE*0.7
 		maxsize = type.max_size
 		max_range = type.speed
 		current_range = type.speed
@@ -161,7 +166,7 @@ func can_move_to(world_position: Vector2) -> bool:
 	
 func create_tail():
 	var t = tail.instantiate()
-	t.set_texture(type.tail_texture)
+	t.set_texture(type.tail_texture,type.get_tile_size())
 	t.top_level = true
 	t.add_to_group("enemy_runes")
 	t.add_index(tails.size())

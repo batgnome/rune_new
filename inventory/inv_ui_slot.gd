@@ -14,6 +14,11 @@ func update(slot: runeSlots):
 		rune = slot.rune
 		
 		item_visual.texture = slot.rune.texture
+		if item_visual.texture.get_size() > Vector2.ONE *20:
+			item_visual.scale = (Vector2.ONE * 20.0/rune.tile_size)*0.7
+		else:
+			item_visual.scale = Vector2.ONE*0.7
+		print("scale ", item_visual.scale)
 		amount_text.visible = true
 		if slot.amount < 0:
 			amount_text.text = "∞"

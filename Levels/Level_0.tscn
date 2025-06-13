@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://d0e1ietq5fgdg" path="res://scenes/blank_rune.tscn" id="7_rmukx"]
 [ext_resource type="Script" path="res://Scripts/Entities.gd" id="8_4otmy"]
 [ext_resource type="PackedScene" uid="uid://knklcl5ypfqd" path="res://scenes/enemy.tscn" id="9_qdl8y"]
-[ext_resource type="Resource" uid="uid://bue2rsrvksimq" path="res://runes/eye.tres" id="11_fnion"]
+[ext_resource type="Resource" uid="uid://c4p1snujn35eo" path="res://runes/archer.tres" id="12_pffxc"]
 [ext_resource type="AudioStream" uid="uid://cqrdq2b17hpcc" path="res://assets/music/AI/Clunky Robot Symphony.mp3" id="13_4mcyy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pis10"]
@@ -713,7 +713,6 @@ scale = Vector2(1.18247, 1.51153)
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_vtuh5")
-rendering_quadrant_size = 20
 collision_visibility_mode = 2
 format = 2
 layer_0/name = "top"
@@ -749,7 +748,7 @@ script = ExtResource("8_4otmy")
 
 [node name="Enemy" parent="ROOT/Entities" instance=ExtResource("9_qdl8y")]
 position = Vector2(290, 70)
-type = ExtResource("11_fnion")
+type = ExtResource("12_pffxc")
 
 [node name="Camera2D" type="Camera2D" parent="ROOT"]
 position = Vector2(226, 194)

@@ -24,7 +24,7 @@ func _ready():
 	
 	self.mouse_filter = Control.MOUSE_FILTER_STOP
 	#inv.update.connect(update_slots)
-	update_slots()
+	update_slots(true)
 
 func set_values(rune = null):
 
@@ -42,6 +42,9 @@ func set_values(rune = null):
 				values.get_child(4).text = str(current_rune.attack_range)
 				values.get_child(3).text = str(current_rune.attack_power)
 				icon.texture = current_rune.texture
+				icon.scale = (Vector2.ONE * 20.0/current_rune.tile_size) * Vector2(2.769,1.875)
+				print(icon.scale)
+				
 	else:
 		values.visible = false
 		icon.visible = false
@@ -71,10 +74,11 @@ func on_get_rune(rune):
 	else:
 		emit_signal("rune_chosen", preload("res://runes/blank.tres"))
 
-func update_slots():
+func update_slots(init = false):
 	for i in range(min(inv.slots.size(),slots.size())):
 		slots[i].update(inv.slots[i])
-		slots[i].connect("getRune", Callable(self, "on_get_rune")) 
+		if init:
+			slots[i].connect("getRune", Callable(self, "on_get_rune")) 
 
 
 func _on_attack_pressed():
@@ -121,5 +125,5 @@ func transition_to_level(level_path: String):
 
 
 
-func _on_inv_ui_rune_chosen(runeItem):
-	emit_signal("inv_select",runeItem)
+func _on_inv_ui_rune_chosen(rune_item):
+	emit_signal("inv_select",rune_item)

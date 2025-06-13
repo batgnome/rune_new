@@ -136,6 +136,7 @@ func _on_rune_selected(rune_chosen):
 	rune = rune_chosen
 
 
-func _on_main_ui_rune_chosen(runeItem):
-	rune._on_rune_chosen(runeItem)
-	%Main_Ui.update_slots()
+func _on_main_ui_rune_chosen(rune_item):
+	if rune:
+		rune._on_rune_chosen(rune_item)
+		%Main_Ui.update_slots()

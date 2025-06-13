@@ -3,12 +3,12 @@
 [ext_resource type="Script" path="res://Scripts/rune_item.gd" id="1_40kns"]
 [ext_resource type="Texture2D" uid="uid://sya66l7vs3uk" path="res://assets/tiles/tile_hd.png" id="1_vqnk3"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vsskb"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1g4xb"]
 atlas = ExtResource("1_vqnk3")
 region = Rect2(500, 0, 100, 100)
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_s0xt6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqpu2"]
 atlas = ExtResource("1_vqnk3")
 region = Rect2(400, 0, 100, 100)
 filter_clip = true
@@ -19,9 +19,9 @@ name = "archer"
 speed = 3
 attack_range = 3
 attack_power = 1
-max_size = 0
-texture = SubResource("AtlasTexture_s0xt6")
-tail_texture = SubResource("AtlasTexture_vsskb")
+max_size = 3
+texture = SubResource("AtlasTexture_fqpu2")
+tail_texture = SubResource("AtlasTexture_1g4xb")
 atlas_texture = ExtResource("1_vqnk3")
 tile_index = Vector2i(4, 0)
 tile_size = 100

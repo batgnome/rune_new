@@ -178,7 +178,7 @@ func _unhandled_input(event):
 
 func _on_mouse_selected(_viewport, event, _shape_idx):
 	if current_state != STATE.BUILD and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-	
+		$Sprite2D.material.set_shader_parameter("show_outline", true)
 		emit_signal("rune_set", self)
 
 			
@@ -219,7 +219,7 @@ func move_in_direction(dir: Vector2):
 func create_tail():
 	var t = tail_scene.instantiate()
 	t.add_to_group("pl_runes")
-	t.set_texture(current_rune.tail_texture)
+	t.set_texture(current_rune.tail_texture,current_rune.tile_size)
 	t.top_level = true
 	tails.append(t)
 	add_child(t)
@@ -292,8 +292,13 @@ func set_rune(rune):
 	#init_attack_collision_shapes(attack_range)
 
 func set_texture(img):
+	
 	$Sprite2D.texture = img
-
+	print($Sprite2D.texture.get_size() > Vector2.ONE *20)
+	if current_rune and $Sprite2D.texture.get_size() > Vector2.ONE *20:
+		$Sprite2D.scale = (Vector2.ONE * 20.0/current_rune.tile_size)*0.7
+	else:
+		$Sprite2D.scale = Vector2.ONE*0.7
 func deselect():
 	$draw_layer.queue_redraw()
 
