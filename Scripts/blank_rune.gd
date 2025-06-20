@@ -56,6 +56,8 @@ func _ready():
 func _process(_delta):
 	if !tilemap:
 		tilemap = manager.tilemap
+		tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
+		tilemap.queue_redraw()
 		
 	$timer_display.set_value((clock.get_time_left() / clock.wait_time) * 100)
 	
@@ -89,12 +91,15 @@ func _process(_delta):
 		queue_redraw()
 			
 func _input(event):
-	if current_state == STATE.MOVE:
-		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-			if path_select:
-				path_select = false
-				baked_path.clear()
-				this_path.clear()
+	if manager.rune == self:
+		if current_state == STATE.MOVE:
+			if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+				if path_select:
+					path_select = false
+					baked_path.clear()
+					this_path.clear()
+				set_state(STATE.ATTACK)
+		
 
 			
 func walk_path(path):
@@ -147,15 +152,15 @@ func pos_tran(pos):
 	
 func _unhandled_input(event):
 	
-	if current_state != STATE.BUILD and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	if manager.rune == self:
+		if current_state != STATE.BUILD and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		
-		if manager.rune == self:
 			$draw_layer.queue_redraw()
 			if not current_moves > 0 and current_state == STATE.MOVE:
 				set_state(STATE.ATTACK)
 		else:
 			$draw_layer.queue_redraw()
-	if manager.rune == self:		
+		
 		if current_state == STATE.MOVE:
 			if event.is_action("attack"):
 				set_attack()
@@ -294,7 +299,6 @@ func set_rune(rune):
 func set_texture(img):
 	
 	$Sprite2D.texture = img
-	print($Sprite2D.texture.get_size() > Vector2.ONE *20)
 	if current_rune and $Sprite2D.texture.get_size() > Vector2.ONE *20:
 		$Sprite2D.scale = (Vector2.ONE * 20.0/current_rune.tile_size)*0.7
 	else:
@@ -314,6 +318,7 @@ func delete_segments(size):
 	for s in size:
 		if tails.size() > 0:
 			var dying_tail = tails[0]
+			tilemap.astargrid.set_point_solid(tilemap.local_to_map(tail_position[0]),false)
 			tail_position.remove_at(0)
 			tails.remove_at(0)
 			emit_signal("rune_set", self)
@@ -321,10 +326,12 @@ func delete_segments(size):
 				await dying_tail.die()
 		else:
 			# Play death anim for head if no tails left
+			tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),false)
 			emit_signal("rune_set",null)
 			var anim_sprite = %death_anim
 			anim_sprite.play()
-
+	tilemap.queue_redraw()
+	
 func fire(rotate_bullet):
 	var b = bullet.instantiate()
 	b.add_to_group("pl_runes")

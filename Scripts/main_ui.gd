@@ -43,7 +43,7 @@ func set_values(rune = null):
 				values.get_child(3).text = str(current_rune.attack_power)
 				icon.texture = current_rune.texture
 				icon.scale = (Vector2.ONE * 20.0/current_rune.tile_size) * Vector2(2.769,1.875)
-				print(icon.scale)
+				
 				
 	else:
 		values.visible = false
@@ -90,7 +90,6 @@ func _on_lost_confirmed():
 
 
 func _on_pause_button_down():
-	print("paused")
 	if get_tree().paused:
 		$Pause.visible = false
 		get_tree().paused = false

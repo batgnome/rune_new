@@ -130,8 +130,6 @@ func _on_main_ui_muted(toggled_on):
 	else: 
 		audio_player.set_volume_db(0)
 
-	print(audio_player.volume_db)
-
 func _on_rune_selected(rune_chosen):
 	rune = rune_chosen
 

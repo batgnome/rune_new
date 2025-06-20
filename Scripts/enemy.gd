@@ -3,7 +3,7 @@ extends Node2D
 @export var tilemap : TileMap
 @export var type : runeItem
 
-enum STATE {BUILD,PRE,MOVE,ATTACK}
+enum STATE {BUILD,INACTIVE,ACTIVE,MOVE,ATTACK}
 var CURRENT_STATE = STATE.BUILD
 
 var path = []  # Full A* path
@@ -34,8 +34,8 @@ func _process(_delta):
 	match CURRENT_STATE:
 		STATE.BUILD:
 			%state.text = "BUILD"
-		STATE.PRE:
-			%state.text = "PRE"
+		STATE.INACTIVE:
+			%state.text = "INACTIVE"
 		STATE.MOVE:
 			fired = false
 			%state.text = "MOVE"
@@ -44,6 +44,7 @@ func _process(_delta):
 	if CURRENT_STATE == STATE.ATTACK:
 		if get_nearest_rune()[1] <= type.attack_range and not fired:
 			shoot()
+			set_state(STATE.INACTIVE)
 			fired = true
 		$draw_layer.queue_redraw()
 		
@@ -54,10 +55,10 @@ func _ready():
 	
 	if not tilemap:
 		tilemap = get_parent().get_parent().get_child(0)
+		tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
 	init()
 	
 func init():
-	print(type.max_size)
 	if type:
 		$Sprite2D.texture = type.texture
 		if $Sprite2D.texture.get_size() > Vector2.ONE *20:
@@ -78,7 +79,7 @@ func fire(rotate_bullet):
 	var b = bullet.instantiate()
 	b.add_to_group("enemy_runes")
 	b.enemy = true
-	b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
+	b.speed = 300  # or however fast you want — 3 is probably too slow unless it's pixels/frame
 	b.damage = type.attack_power
 	b.pos = global_position #- TILE_OFFSET
 	b.max_dist = type.attack_range*20
@@ -87,12 +88,19 @@ func fire(rotate_bullet):
 	b.target_group = "pl_runes"
 	get_tree().root.get_child(0).add_child(b)
 	
+func shoot():
+	var rotate_bullet = get_angle_to(target.position)
+	wait(0.4)
+	fire(rotate_bullet)
+		
 func take_turn():
 	playing = true
 	CURRENT_STATE = STATE.MOVE
 	await walk_path()
 	await start_attack()
 
+func set_state(state):
+	CURRENT_STATE = state
 		
 func delete_segments(size):
 	for s in size:
@@ -229,7 +237,4 @@ func _debug_draw_astar_line():
 
 
 
-func shoot():
-	var rotate_bullet = get_angle_to(target.position)
-	wait(0.4)
-	fire(rotate_bullet)
+

@@ -95,7 +95,7 @@ sprite_frames = SubResource("SpriteFrames_xot01")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 material = SubResource("ShaderMaterial_v0rvp")
-scale = Vector2(0.7, 0.7)
+scale = Vector2(0.33, 0.33)
 texture = SubResource("AtlasTexture_a0kyh")
 metadata/_edit_group_ = true
 

@@ -6,7 +6,7 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# Called every frame. 'delta' is the elapsed time since the ACTIVEvious frame.
 func _process(_delta):
 	#parent = get_parent()
 	queue_redraw()

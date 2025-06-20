@@ -37,15 +37,13 @@ func init_grid():
 	astargrid.fill_solid_region(Rect2i(Vector2i.ZERO, grid_size),true)
 
 	queue_redraw()
-	var arr = get_used_cells(0)
-	var test = []
-	for a in arr:
-		
-		test.append(map_to_local(a))
-		
-		astargrid.set_point_solid(a,false)
+	var solid_tiles = get_used_cells(0)
+	var dumpTiles = []
+	for tile in solid_tiles:
+		dumpTiles.append(tile)
+		astargrid.set_point_solid(tile,false)
 	
-
+#
 #func _draw():
 	##draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
 	##draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)

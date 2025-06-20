@@ -8,8 +8,8 @@ var grid_size
 var start = Vector2i.ZERO
 var end = Vector2i(12, 10)
 var parent = get_parent()
-var rune = preload("res://scenes/blank_rune.tscn")
-var enem = preload("res://scenes/enemy.tscn")
+var rune = ACTIVEload("res://scenes/blank_rune.tscn")
+var enem = ACTIVEload("res://scenes/enemy.tscn")
 var current_rune
 var slider
 var slider_label
@@ -70,7 +70,7 @@ func _draw():
 	#draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
 	#draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
 	##draw_rect(get_viewport_rect(),Color.RED)
-	if parent.current_state == parent.STATES.PRE:
+	if parent.current_state == parent.STATES.ACTIVE:
 		draw_grid()
 	#update_path()
 	#draw_rect(get_viewport_rect(),Color.AQUA)
@@ -107,7 +107,7 @@ var atlas_coords = Vector2i(0, 0)  # adjust as needed
 var is_painting = false
 
 func _unhandled_input(event):
-	if parent.current_state == parent.STATES.PRE:
+	if parent.current_state == parent.STATES.ACTIVE:
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				is_painting = event.pressed  # true on down, false on release

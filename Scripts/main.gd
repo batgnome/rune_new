@@ -1,7 +1,7 @@
 extends Node2D
 
 enum STATES  {
-	PRE,
+	ACTIVE,
 	GAME,
 	PAUSE
 }
@@ -18,7 +18,7 @@ signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
 func _init():
 	turn_state =TURN.PLAYER
-	current_state = STATES.PRE
+	current_state = STATES.ACTIVE
 	tilemap = $TileMap
 	
 func get_tilemap():
@@ -32,13 +32,13 @@ func _ready():
 	_init()
 	
 func _on_main_ui_start():
-	if current_state == STATES.PRE:
+	if current_state == STATES.ACTIVE:
 		for i in runes.get_children():
 			if i.CURRENT_STATE == i.STATE.BUILD:
-				i.CURRENT_STATE = i.STATE.PRE
+				i.CURRENT_STATE = i.STATE.ACTIVE
 		for i in Entities.get_children():
 			if i.CURRENT_STATE == i.STATE.BUILD:
-				i.CURRENT_STATE = i.STATE.PRE
+				i.CURRENT_STATE = i.STATE.ACTIVE
 		current_state = STATES.GAME
 		tilemap.queue_redraw()
 	else:
