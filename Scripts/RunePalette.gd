@@ -24,7 +24,7 @@ func load_rune_buttons():
 					create_btn(rune.texture,rune)
 			file = dir.get_next()
 		dir.list_dir_end()
-	var t = ACTIVEload("res://assets/tiles/tile.png")
+	var t = preload("res://assets/tiles/tile.png")
 	var atlas_texture := AtlasTexture.new()
 	atlas_texture.set_atlas(t)
 	atlas_texture.set_region(Rect2i(Vector2i.ZERO,Vector2i(TILESIZE,TILESIZE)))

@@ -8,8 +8,8 @@ var grid_size
 var start = Vector2i.ZERO
 var end = Vector2i(12, 10)
 var parent = get_parent()
-var rune = ACTIVEload("res://scenes/blank_rune.tscn")
-var enem = ACTIVEload("res://scenes/enemy.tscn")
+var rune = preload("res://scenes/blank_rune.tscn")
+var enem = preload("res://scenes/enemy.tscn")
 var current_rune
 var slider
 var slider_label

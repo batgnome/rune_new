@@ -2,7 +2,7 @@
 extends AtlasTexture
 class_name RuneTileTexture
 
-@export var atlas_texture: Texture2D = ACTIVEload("res://assets/tiles/tile_hd.png") : set = set_atlas_texture
+@export var atlas_texture: Texture2D = preload("res://assets/tiles/tile_hd.png") : set = set_atlas_texture
 @export var tile_index: Vector2i = Vector2i(0, 0) : set = set_tile_index
 @export var tile_size: int = 100 : set = set_tile_size
 

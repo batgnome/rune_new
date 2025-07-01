@@ -1,7 +1,7 @@
 extends Control
 
-#@onready var inv: RuneInv = ACTIVEload("res://runes/runeInventory.tres")
-@onready var inv: RuneInv = ACTIVEload("res://runes/TEST_INV.tres")
+#@onready var inv: RuneInv = preload("res://runes/runeInventory.tres")
+@onready var inv: RuneInv = preload("res://runes/TEST_INV.tres")
 @onready var slots: Array = $NinePatchRect/GridContainer.get_children()
 var is_open = false
 var select: runeItem
@@ -18,7 +18,7 @@ func on_get_rune(rune):
 	if rune:
 		emit_signal("rune_chosen", rune)
 	else:
-		emit_signal("rune_chosen", ACTIVEload("res://runes/blank.tres"))
+		emit_signal("rune_chosen", preload("res://runes/blank.tres"))
 
 func update_slots():
 	for i in range(min(inv.slots.size(),slots.size())):
@@ -37,7 +37,7 @@ func close():
 	is_open = false
 
 func _on_close_button_pressed():
-	emit_signal("rune_chosen", ACTIVEload("res://runes/blank.tres"))
+	emit_signal("rune_chosen", preload("res://runes/blank.tres"))
 	emit_signal("close_button")
 
 
