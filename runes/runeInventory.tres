@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="RuneInv" load_steps=17 format=3 uid="uid://dyld06sk0hfem"]
+[gd_resource type="Resource" script_class="RuneInv" load_steps=18 format=3 uid="uid://dyld06sk0hfem"]
 
 [ext_resource type="Script" path="res://Scripts/runeInv.gd" id="1_jh5s5"]
 [ext_resource type="Script" path="res://Scripts/rune_slots.gd" id="2_2qfvr"]
 [ext_resource type="Resource" uid="uid://bkb5y5qlkh36l" path="res://runes/wizard.tres" id="2_nuxqp"]
 [ext_resource type="Resource" uid="uid://chl1gpxev6r52" path="res://runes/sheep.tres" id="4_g4oql"]
+[ext_resource type="Resource" uid="uid://c4p1snujn35eo" path="res://runes/archer.tres" id="5_bfxcn"]
 
 [sub_resource type="Resource" id="Resource_4uvfr"]
 script = ExtResource("2_2qfvr")
@@ -17,7 +18,8 @@ amount = 1
 
 [sub_resource type="Resource" id="Resource_krtd7"]
 script = ExtResource("2_2qfvr")
-amount = 0
+rune = ExtResource("5_bfxcn")
+amount = 2
 
 [sub_resource type="Resource" id="Resource_0kocb"]
 script = ExtResource("2_2qfvr")

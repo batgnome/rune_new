@@ -79,7 +79,7 @@ func fire(rotate_bullet):
 	var b = bullet.instantiate()
 	b.add_to_group("enemy_runes")
 	b.enemy = true
-	b.speed = 300  # or however fast you want — 3 is probably too slow unless it's pixels/frame
+	b.speed = 300  
 	b.damage = type.attack_power
 	b.pos = global_position #- TILE_OFFSET
 	b.max_dist = type.attack_range*20
