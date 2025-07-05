@@ -1,16 +1,17 @@
-[gd_resource type="Resource" script_class="runeItem" load_steps=6 format=3 uid="uid://cp6d687jq0df2"]
+[gd_resource type="Resource" script_class="runeItem" load_steps=5 format=3 uid="uid://cp6d687jq0df2"]
 
 [ext_resource type="Script" path="res://Scripts/rune_item.gd" id="1_3x8dl"]
 [ext_resource type="Texture2D" uid="uid://sya66l7vs3uk" path="res://assets/tiles/tile_hd.png" id="1_54xmo"]
-[ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="2_xf0ih"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1cw4i"]
-atlas = ExtResource("2_xf0ih")
-region = Rect2(20, 40, 20, 20)
+[sub_resource type="AtlasTexture" id="AtlasTexture_qawmi"]
+atlas = ExtResource("1_54xmo")
+region = Rect2(100, 0, 100, 100)
+filter_clip = true
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ndb1d"]
-atlas = ExtResource("2_xf0ih")
-region = Rect2(0, 40, 20, 20)
+[sub_resource type="AtlasTexture" id="AtlasTexture_5w2o4"]
+atlas = ExtResource("1_54xmo")
+region = Rect2(0, 0, 100, 100)
+filter_clip = true
 
 [resource]
 script = ExtResource("1_3x8dl")
@@ -19,8 +20,8 @@ speed = 2
 attack_range = 1
 attack_power = 3
 max_size = 2
-texture = SubResource("AtlasTexture_ndb1d")
-tail_texture = SubResource("AtlasTexture_1cw4i")
+texture = SubResource("AtlasTexture_5w2o4")
+tail_texture = SubResource("AtlasTexture_qawmi")
 atlas_texture = ExtResource("1_54xmo")
 tile_index = Vector2i(0, 0)
 tile_size = 100

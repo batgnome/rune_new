@@ -44,13 +44,13 @@ func init_grid():
 		astargrid.set_point_solid(tile,false)
 	
 #
-#func _draw():
+func _draw():
 	##draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
 	##draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
 	###draw_rect(get_viewport_rect(),Color.RED)
 	#
 	#draw_grid()
-	#update_path()
+	update_path()
 	#draw_rect(get_viewport_rect(),Color.AQUA)
 	
 
@@ -76,9 +76,7 @@ func update_path():
 	
 			
 func get_rune_path(rune_start,rune_end):
-	var points = astargrid.get_point_path(rune_start, rune_end)
-	
-	return points
+	return astargrid.get_point_path(rune_start, rune_end)
 	
 var t
 var coords

@@ -133,11 +133,12 @@ func walk_path():
 	var moved = 0
 	while current_range > 0 and is_instance_valid(target):
 		# Recalculate path each step to follow player movement
+		#print("astar points", tilemap.astargrid)
 		var raw_path = tilemap.get_rune_path(
-			pos_tran(global_position),
-			pos_tran(target.global_position)
+			pos_tran(position),
+			pos_tran(target.position)
 		)
-		print(global_position," ",target.global_position)
+		print(pos_tran(position)," enem ",pos_tran(target.position))
 		if raw_path.size() < 3 or get_nearest_rune()[1] <= type.attack_range:
 			
 			start_attack()
@@ -226,15 +227,17 @@ func wait(seconds):
 	await get_tree().create_timer(seconds).timeout
 
 ##debugs
-#func _draw():
-	##_debug_draw_astar_line()
+func _draw():
+	_debug_draw_astar_line()
 	#if CURRENT_STATE == STATE.ATTACK:
 		#render_markers(attack_marker_texture, type.attack_range)
 		
 		
 	
 func _debug_draw_astar_line():
+	print(target)
 	if target:
+		print("astar points", tilemap.astargrid.get_id_path(pos_tran(position),target.position))
 		var this_path = tilemap.get_rune_path(pos_tran(position),pos_tran(target.position))
 		path = this_path
 		$Line2D.global_position = Vector2(0,0)

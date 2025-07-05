@@ -747,7 +747,7 @@ position = Vector2(350, 170)
 script = ExtResource("8_4otmy")
 
 [node name="Enemy" parent="ROOT/Entities" instance=ExtResource("9_qdl8y")]
-position = Vector2(290, 70)
+position = Vector2(310, 90)
 type = ExtResource("12_pffxc")
 
 [node name="Camera2D" type="Camera2D" parent="ROOT"]

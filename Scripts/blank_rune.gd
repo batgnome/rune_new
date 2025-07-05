@@ -56,7 +56,7 @@ func _ready():
 func _process(_delta):
 	if !tilemap:
 		tilemap = manager.tilemap
-		tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
+		#tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
 		tilemap.queue_redraw()
 		
 	$timer_display.set_value((clock.get_time_left() / clock.wait_time) * 100)
@@ -65,6 +65,7 @@ func _process(_delta):
 	
 	if  manager.rune == self:
 		if tilemap:
+			
 			this_path = tilemap.get_rune_path(pos_tran(position),pos_tran(get_global_mouse_position()))
 			
 			
@@ -125,18 +126,18 @@ func walk_path(path):
 		
 func move(pos):
 	
-	tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),false)
+	#tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),false)
 	if pos != global_position:
 		tail_position.append(global_position)
-		tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
+		#tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
 		if tail_position.size() > max_size -1:
-			tilemap.astargrid.set_point_solid(tilemap.local_to_map(tail_position[0]),false)
+			#tilemap.astargrid.set_point_solid(tilemap.local_to_map(tail_position[0]),false)
 			tail_position.pop_front()
 		else:
 			create_tail()
 	update_tails()
 	global_position = pos
-	tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
+	#tilemap.astargrid.set_point_solid(tilemap.local_to_map(global_position),true)
 	tilemap.queue_redraw()
 	
 	
