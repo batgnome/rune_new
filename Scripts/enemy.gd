@@ -29,6 +29,7 @@ var attack_collision_scene = preload("res://scenes/attack_collision.tscn")
 var rune_name
 var fired = false
 var bullet = preload("res://scenes/bullet.tscn")
+
 func _process(_delta):
 	$timer_display.set_value((clock.get_time_left()/clock.wait_time)*100)
 	match CURRENT_STATE:
@@ -94,6 +95,7 @@ func shoot():
 	fire(rotate_bullet)
 		
 func take_turn():
+	get_nearest_rune()
 	playing = true
 	CURRENT_STATE = STATE.MOVE
 	await walk_path()
@@ -127,6 +129,7 @@ func start_attack():
 
 
 func walk_path():
+	print("walk this way")
 	var moved = 0
 	while current_range > 0 and is_instance_valid(target):
 		# Recalculate path each step to follow player movement
@@ -134,6 +137,7 @@ func walk_path():
 			pos_tran(global_position),
 			pos_tran(target.global_position)
 		)
+		print(global_position," ",target.global_position)
 		if raw_path.size() < 3 or get_nearest_rune()[1] <= type.attack_range:
 			
 			start_attack()
@@ -192,6 +196,7 @@ func get_nearest_rune():
 	var distance_to = 10000
 	var current_path = 0
 	var candidates = get_tree().get_nodes_in_group("pl_runes")
+	
 	for i in candidates:
 		if !i.is_in_group("bullets"):
 			if i and tilemap:

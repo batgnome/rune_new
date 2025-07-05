@@ -9,6 +9,7 @@ func _ready():
 func _process(_delta):
 	
 	if is_instance_valid(current_enem) and current_enem:
+		
 		match current_enem.CURRENT_STATE:
 			current_enem.STATE.MOVE:
 				if not current_enem.playing:
