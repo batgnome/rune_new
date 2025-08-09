@@ -754,6 +754,10 @@ type = ExtResource("12_pffxc")
 position = Vector2(410, 110)
 type = ExtResource("12_pffxc")
 
+[node name="Enemy3" parent="ROOT/Entities" instance=ExtResource("9_qdl8y")]
+position = Vector2(170, 210)
+type = ExtResource("12_pffxc")
+
 [node name="Camera2D" type="Camera2D" parent="ROOT"]
 position = Vector2(226, 194)
 zoom = Vector2(2.105, 2.105)

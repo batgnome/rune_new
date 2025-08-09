@@ -45,7 +45,7 @@ func _process(_delta):
 		STATE.WAITING:
 			%state.text = "WAITING"
 	if CURRENT_STATE == STATE.ATTACK:
-		if get_nearest_rune()[1] <= type.attack_range and not fired:
+		if get_nearest_rune()[1] <= type.attack_range:
 			shoot()
 			set_state(STATE.INACTIVE)
 			fired = true
@@ -99,11 +99,13 @@ func shoot():
 func take_turn():
 	get_nearest_rune()
 	playing = true
-	CURRENT_STATE = STATE.MOVE
+	set_state(STATE.MOVE)
+	
 	await walk_path()
 	await start_attack()
 
 func set_state(state):
+	print(state)
 	CURRENT_STATE = state
 		
 func delete_segments(size):
@@ -131,7 +133,7 @@ func start_attack():
 
 
 func walk_path():
-	print("walk this way")
+	#print("walk this way")
 	var moved = 0
 	while current_range > 0 and is_instance_valid(target):
 		# Recalculate path each step to follow player movement
@@ -140,7 +142,7 @@ func walk_path():
 			pos_tran(position),
 			pos_tran(target.position)
 		)
-		print(pos_tran(position)," enem ",pos_tran(target.position))
+		#print(pos_tran(position)," enem ",pos_tran(target.position))
 		if raw_path.size() < 3 or get_nearest_rune()[1] <= type.attack_range:
 			
 			start_attack()
@@ -217,8 +219,10 @@ func get_nearest_rune():
 	
 func _on_timer_timeout():
 	fired = false
-	CURRENT_STATE = STATE.WAITING
+	set_state(STATE.WAITING)
+	#CURRENT_STATE = STATE.WAITING
 	current_range = max_range
+	
 	active = true
 	
 #utils

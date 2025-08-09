@@ -5,7 +5,7 @@ var current_enem
 var parent
 func _ready():
 	parent = get_parent()
-	current_enem = await select_playing_enemy()
+	current_enem =  select_playing_enemy()
 func _process(_delta):
 	
 	if is_instance_valid(current_enem) and current_enem:
@@ -16,15 +16,15 @@ func _process(_delta):
 			current_enem.STATE.ATTACK:
 				current_enem.active = false
 		if current_enem.CURRENT_STATE==current_enem.STATE.INACTIVE:
-			current_enem = await select_playing_enemy()
+			current_enem =  select_playing_enemy()
 	else:
-		current_enem = await select_playing_enemy()
+		current_enem =  select_playing_enemy()
 		
 
 		
 func select_playing_enemy():
-	print("some selected")
-	await wait(3)
+	#print("some selected")
+	#await wait(3)
 	var closest_enem = 10000
 	var enem = null
 	for e in enemies:

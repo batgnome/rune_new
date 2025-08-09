@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://btpe5cb6skwb0"]
+[gd_scene load_steps=29 format=3 uid="uid://btpe5cb6skwb0"]
 
 [ext_resource type="Texture2D" uid="uid://sya66l7vs3uk" path="res://assets/tiles/tile_hd.png" id="1_0ykxa"]
 [ext_resource type="Texture2D" uid="uid://cg51j2dhmlda4" path="res://assets/tiles/tile.png" id="1_1e10i"]
@@ -8,6 +8,16 @@
 [ext_resource type="Script" path="res://Scripts/RunePalette.gd" id="5_4sgvk"]
 [ext_resource type="PackedScene" uid="uid://b6v6imiq16uym" path="res://scenes/rune_button.tscn" id="6_6hpme"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wdmc"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(100, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ohfs"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(0, 0, 100, 100)
+filter_clip = true
+
 [sub_resource type="Resource" id="Resource_g1w1j"]
 script = ExtResource("1_qd653")
 name = "Wheel"
@@ -15,9 +25,21 @@ speed = 4
 attack_range = 1
 attack_power = 1
 max_size = 4
+texture = SubResource("AtlasTexture_8ohfs")
+tail_texture = SubResource("AtlasTexture_7wdmc")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rffos"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(100, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vuymw"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(0, 0, 100, 100)
+filter_clip = true
 
 [sub_resource type="Resource" id="Resource_vtjhx"]
 script = ExtResource("1_qd653")
@@ -26,9 +48,21 @@ speed = 0
 attack_range = 0
 attack_power = 0
 max_size = 0
+texture = SubResource("AtlasTexture_vuymw")
+tail_texture = SubResource("AtlasTexture_rffos")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7bfb"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(100, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xaw83"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(0, 0, 100, 100)
+filter_clip = true
 
 [sub_resource type="Resource" id="Resource_vab01"]
 script = ExtResource("1_qd653")
@@ -37,9 +71,21 @@ speed = 1
 attack_range = 2
 attack_power = 2
 max_size = 2
+texture = SubResource("AtlasTexture_xaw83")
+tail_texture = SubResource("AtlasTexture_k7bfb")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_48twv"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(100, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnfg6"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(0, 0, 100, 100)
+filter_clip = true
 
 [sub_resource type="Resource" id="Resource_0x2me"]
 script = ExtResource("1_qd653")
@@ -48,9 +94,21 @@ speed = 3
 attack_range = 1
 attack_power = 2
 max_size = 1
+texture = SubResource("AtlasTexture_wnfg6")
+tail_texture = SubResource("AtlasTexture_48twv")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8ptr"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(100, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4drn7"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(0, 0, 100, 100)
+filter_clip = true
 
 [sub_resource type="Resource" id="Resource_kt80r"]
 script = ExtResource("1_qd653")
@@ -59,9 +117,21 @@ speed = 2
 attack_range = 1
 attack_power = 2
 max_size = 2
+texture = SubResource("AtlasTexture_4drn7")
+tail_texture = SubResource("AtlasTexture_m8ptr")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q71p4"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(100, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esos6"]
+atlas = ExtResource("1_0ykxa")
+region = Rect2(0, 0, 100, 100)
+filter_clip = true
 
 [sub_resource type="Resource" id="Resource_ocamm"]
 script = ExtResource("1_qd653")
@@ -70,6 +140,8 @@ speed = 4
 attack_range = 1
 attack_power = 3
 max_size = 0
+texture = SubResource("AtlasTexture_esos6")
+tail_texture = SubResource("AtlasTexture_q71p4")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
