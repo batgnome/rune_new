@@ -3,7 +3,7 @@ extends Node2D
 @export var tilemap : TileMap
 @export var type : runeItem
 
-enum STATE {BUILD,INACTIVE,ACTIVE,MOVE,ATTACK}
+enum STATE {BUILD,INACTIVE,WAITING,MOVE,ATTACK}
 var CURRENT_STATE = STATE.BUILD
 
 var path = []  # Full A* path
@@ -42,6 +42,8 @@ func _process(_delta):
 			%state.text = "MOVE"
 		STATE.ATTACK:
 			%state.text = "ATTACK"
+		STATE.WAITING:
+			%state.text = "WAITING"
 	if CURRENT_STATE == STATE.ATTACK:
 		if get_nearest_rune()[1] <= type.attack_range and not fired:
 			shoot()
@@ -124,7 +126,7 @@ func start_attack():
 	$Timer.start(speed)
 	active = false
 	playing = false
-	CURRENT_STATE = STATE.ATTACK
+	CURRENT_STATE = STATE.INACTIVE
 	$draw_layer.queue_redraw()
 
 
@@ -215,7 +217,7 @@ func get_nearest_rune():
 	
 func _on_timer_timeout():
 	fired = false
-	CURRENT_STATE = STATE.MOVE
+	CURRENT_STATE = STATE.WAITING
 	current_range = max_range
 	active = true
 	

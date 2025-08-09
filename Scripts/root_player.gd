@@ -55,7 +55,7 @@ func _on_main_ui_start():
 				i.CURRENT_STATE = i.STATE.PRE
 		for i in Entities.get_children():
 			if i.CURRENT_STATE == i.STATE.BUILD:
-				i.CURRENT_STATE = i.STATE.PRE
+				i.CURRENT_STATE = i.STATE.WAITING
 		current_state = STATES.GAME
 		#tilemap.queue_redraw()
 	else:
