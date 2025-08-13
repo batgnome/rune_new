@@ -19,6 +19,7 @@ var marker_texture = preload("res://assets/runes/marker.png")
 var attack_marker_texture = preload("res://assets/runes/att_marker.png")
 var arrow_marker_texture = preload("res://assets/runes/arrow_marker.png")
 var bullet = preload("res://scenes/bullet.tscn")
+var swipe = preload("res://scenes/swipe.tscn")
 
 var attack_collision_scene = preload("res://scenes/attack_collision.tscn")
 var tail_scene = preload("res://scenes/tail.tscn")
@@ -334,7 +335,12 @@ func delete_segments(size):
 	tilemap.queue_redraw()
 	
 func fire(rotate_bullet):
-	var b = bullet.instantiate()
+	var b = null
+	if attack_range == 1:
+		b = swipe.instantiate()
+	else:
+		b = bullet.instantiate()
+	
 	b.add_to_group("pl_runes")
 	b.speed = 30  # or however fast you want — 3 is probably too slow unless it's pixels/frame
 	b.damage = attack_power

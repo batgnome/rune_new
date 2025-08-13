@@ -29,6 +29,7 @@ var attack_collision_scene = preload("res://scenes/attack_collision.tscn")
 var rune_name
 var fired = false
 var bullet = preload("res://scenes/bullet.tscn")
+var swipe = preload("res://scenes/swipe.tscn")
 
 func _process(_delta):
 	$timer_display.set_value((clock.get_time_left()/clock.wait_time)*100)
@@ -78,8 +79,11 @@ func init():
 
 
 func fire(rotate_bullet):
-
-	var b = bullet.instantiate()
+	var b = null
+	if type.attack_range == 1:
+		b = swipe.instantiate()
+	else:
+		b = bullet.instantiate()
 	b.add_to_group("enemy_runes")
 	b.enemy = true
 	b.speed = 300  
@@ -125,6 +129,7 @@ func delete_segments(size):
 				
 	
 func start_attack():
+	shoot()
 	$Timer.start(speed)
 	active = false
 	playing = false
