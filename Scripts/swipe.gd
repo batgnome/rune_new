@@ -14,10 +14,11 @@ func _ready():
 	add_to_group("bullets")
 	add_to_group("damagable")
 	$sploder.visible = false
-	global_position = pos
+	global_position = pos + (20* Vector2(cos(rota),sin(rota)))
 	start = global_position
 	rotation = (rota)  # sets the actual rotation of the node
-	$Sprite2D.rotation = deg_to_rad(rota)
+	$Sprite2D.rotation = deg_to_rad(rota+90)
+	
 	$Sprite2D.play()
 	
 	

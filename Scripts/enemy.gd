@@ -96,9 +96,10 @@ func fire(rotate_bullet):
 	get_tree().root.get_child(0).add_child(b)
 	
 func shoot():
-	var rotate_bullet = get_angle_to(target.position)
-	wait(0.4)
-	fire(rotate_bullet)
+	if is_instance_valid(target):
+		var rotate_bullet = get_angle_to(target.position)
+		wait(0.4)
+		fire(rotate_bullet)
 		
 func take_turn():
 	get_nearest_rune()
@@ -148,7 +149,7 @@ func walk_path():
 			pos_tran(target.position)
 		)
 		#print(pos_tran(position)," enem ",pos_tran(target.position))
-		if raw_path.size() < 3 or get_nearest_rune()[1] <= type.attack_range:
+		if raw_path.size() < 3 or get_nearest_rune()[1] <= type.attack_range-1:
 			
 			start_attack()
 			break  # No path or already at target
