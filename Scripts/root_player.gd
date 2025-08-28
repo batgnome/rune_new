@@ -16,6 +16,7 @@ var rune
 @onready var fade = %Fade
 @onready var inv_ui = %Main_Ui
 @export var inv: RuneInv
+var temp_inv
 signal get_rune(rune)
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -25,7 +26,6 @@ func get_tilemap():
 	return tilemap
 
 func _ready():
-	
 	inv_ui.connect("rune_chosen", Callable(self, "_on_rune_chosen"))
 	audio_player.volume_db = -40  # Start muted
 	audio_player.play()
@@ -39,6 +39,8 @@ func _ready():
 	_init()
 	
 func _process(_delta):
+	if(is_instance_valid(inv) and !temp_inv):
+		temp_inv = inv
 	if runes.get_children().size() == 0:
 		%lost.popup_centered()
 		pause_bullets()
@@ -49,6 +51,7 @@ func _process(_delta):
 		pass
 		
 func _on_main_ui_start():
+	inv = temp_inv
 	if current_state == STATES.PRE:
 		for i in runes.get_children():
 			if i.CURRENT_STATE == i.STATE.BUILD:

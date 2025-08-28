@@ -8,12 +8,12 @@
 [ext_resource type="Script" path="res://Scripts/RunePalette.gd" id="5_4sgvk"]
 [ext_resource type="PackedScene" uid="uid://b6v6imiq16uym" path="res://scenes/rune_button.tscn" id="6_6hpme"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7wdmc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbqja"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(100, 0, 100, 100)
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8ohfs"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmdtr"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(0, 0, 100, 100)
 filter_clip = true
@@ -25,18 +25,18 @@ speed = 4
 attack_range = 1
 attack_power = 1
 max_size = 4
-texture = SubResource("AtlasTexture_8ohfs")
-tail_texture = SubResource("AtlasTexture_7wdmc")
+texture = SubResource("AtlasTexture_nmdtr")
+tail_texture = SubResource("AtlasTexture_nbqja")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rffos"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cs4e"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(100, 0, 100, 100)
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vuymw"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tqcth"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(0, 0, 100, 100)
 filter_clip = true
@@ -48,18 +48,18 @@ speed = 0
 attack_range = 0
 attack_power = 0
 max_size = 0
-texture = SubResource("AtlasTexture_vuymw")
-tail_texture = SubResource("AtlasTexture_rffos")
+texture = SubResource("AtlasTexture_tqcth")
+tail_texture = SubResource("AtlasTexture_0cs4e")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_k7bfb"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxs26"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(100, 0, 100, 100)
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xaw83"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttee7"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(0, 0, 100, 100)
 filter_clip = true
@@ -71,18 +71,18 @@ speed = 1
 attack_range = 2
 attack_power = 2
 max_size = 2
-texture = SubResource("AtlasTexture_xaw83")
-tail_texture = SubResource("AtlasTexture_k7bfb")
+texture = SubResource("AtlasTexture_ttee7")
+tail_texture = SubResource("AtlasTexture_yxs26")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_48twv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_upv60"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(100, 0, 100, 100)
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wnfg6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8fp1"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(0, 0, 100, 100)
 filter_clip = true
@@ -94,18 +94,18 @@ speed = 3
 attack_range = 1
 attack_power = 2
 max_size = 1
-texture = SubResource("AtlasTexture_wnfg6")
-tail_texture = SubResource("AtlasTexture_48twv")
+texture = SubResource("AtlasTexture_u8fp1")
+tail_texture = SubResource("AtlasTexture_upv60")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_m8ptr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbv0c"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(100, 0, 100, 100)
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4drn7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_imp18"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(0, 0, 100, 100)
 filter_clip = true
@@ -117,18 +117,18 @@ speed = 2
 attack_range = 1
 attack_power = 2
 max_size = 2
-texture = SubResource("AtlasTexture_4drn7")
-tail_texture = SubResource("AtlasTexture_m8ptr")
+texture = SubResource("AtlasTexture_imp18")
+tail_texture = SubResource("AtlasTexture_cbv0c")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q71p4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gcna"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(100, 0, 100, 100)
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_esos6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_octsy"]
 atlas = ExtResource("1_0ykxa")
 region = Rect2(0, 0, 100, 100)
 filter_clip = true
@@ -140,8 +140,8 @@ speed = 4
 attack_range = 1
 attack_power = 3
 max_size = 0
-texture = SubResource("AtlasTexture_esos6")
-tail_texture = SubResource("AtlasTexture_q71p4")
+texture = SubResource("AtlasTexture_octsy")
+tail_texture = SubResource("AtlasTexture_7gcna")
 atlas_texture = ExtResource("1_0ykxa")
 tile_index = Vector2i(0, 0)
 tile_size = 100
