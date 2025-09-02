@@ -35,7 +35,7 @@ func _ready():
 	tilemap = $TileMapPlayer
 	for i in get_child(1).get_children():
 		i.connect("rune_set", Callable(ui, "_on_main_get_rune"))
-		i.current_state = i.STATE.PRE
+		i.set_state(i.STATE.PRE)
 	_init()
 	
 func _process(_delta):
@@ -55,7 +55,7 @@ func _on_main_ui_start():
 	if current_state == STATES.PRE:
 		for i in runes.get_children():
 			if i.CURRENT_STATE == i.STATE.BUILD:
-				i.CURRENT_STATE = i.STATE.PRE
+				i.set_state(i.STATE.PRE)
 		for i in Entities.get_children():
 			if i.CURRENT_STATE == i.STATE.BUILD:
 				i.CURRENT_STATE = i.STATE.WAITING
@@ -74,7 +74,7 @@ func _on_alert_dialogue_confirmed():
 func _start_game():
 	ui._hide_start()
 	for i in runes.get_children():
-		i.current_state = i.STATE.MOVE
+		i.set_state(i.STATE.MOVE)
 		rune.set_rune(rune)
 		if i.rune_name == "blank":
 			i.queue_free()
@@ -99,7 +99,7 @@ func set_enem_first():
 func _on_main_ui_attack_pressed():
 	if is_instance_valid(rune):
 		if rune.current_state == rune.STATE.MOVE:
-			rune.current_state = rune.STATE.ATTACK
+			rune.set_state(rune.STATE.ATTACK)
 			rune.clock.start(rune.TIMER_SPEED)
 
 func _on_win_confirmed():

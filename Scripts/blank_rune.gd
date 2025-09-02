@@ -263,6 +263,10 @@ func set_move():
 		a.set_pickable(true)
 			
 func set_state(new_state):
+	print(current_state)
+	if current_state == STATE.PRE:
+		inv.add(current_rune)
+		print("build")
 	if current_state != new_state:
 		match  new_state:
 			STATE.MOVE:
